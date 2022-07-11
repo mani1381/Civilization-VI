@@ -1,0 +1,36 @@
+.firstVbox {
+    -fx-border-radius: 31 31 31 31;
+    -fx-background-radius: 31 31 31 31;
+    -fx-background-color: rgb(0, 208, 255);
+}
+
+.root {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 15;
+    -fx-background-image: url(../PNG/images/Civ-VI-7.jpeg);
+    -fx-background-size: cover;
+}
+.Button{
+    -fx-background-color: cyan;
+    -fx-border-color: green;
+}
+
+.buttonSecond {
+    -fx-background-color: yellow;
+    -fx-border-color: cyan;
+}
+
+.buttonThird {
+    -fx-background-color: #2b8000;
+    -fx-border-color: purple;
+}
+
+.Check {
+    -fx-border-color: yellow;
+    -fx-background-color: cyan;
+}
+
+.submitButton {
+    -fx-border-color: #22ff00;
+    -fx-background-color: #99ff00;
+}

@@ -1,0 +1,7 @@
+BorderPane {
+    -fx-background-image: url("../PNG/Background/leaderboard.jpg");
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-alignment: center;
+    -fx-font-size: 20
+}

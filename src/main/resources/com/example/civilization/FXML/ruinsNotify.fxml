@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../CSS/Game.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.ruinsNotifyController">
+    <children>
+        <Label alignment="CENTER" layoutX="70.0" layoutY="106.0" prefHeight="31.0" prefWidth="85.0" text="Gold :" textFill="RED">
+            <font>
+                <Font name="Futura Medium" size="13.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER" layoutX="58.0" layoutY="185.0" prefHeight="31.0" prefWidth="109.0" text="NonCombatUnit :" textFill="RED">
+            <font>
+                <Font name="Futura Medium" size="13.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER" layoutX="41.0" layoutY="273.0" prefHeight="31.0" prefWidth="143.0" text="Technology :" textFill="RED">
+            <font>
+                <Font name="Futura Medium" size="13.0" />
+            </font>
+        </Label>
+        <Label fx:id="gold" layoutX="184.0" layoutY="109.0" prefHeight="25.0" prefWidth="330.0" text="You have not created any city!" textFill="RED">
+            <font>
+                <Font name="Futura Medium" size="13.0" />
+            </font>
+        </Label>
+        <Label fx:id="nonCombatUnit" layoutX="184.0" layoutY="188.0" prefHeight="25.0" prefWidth="330.0" text="No Non Combat Added!" textFill="RED">
+            <font>
+                <Font name="Futura Medium" size="13.0" />
+            </font>
+        </Label>
+        <Label fx:id="technology" layoutX="184.0" layoutY="273.0" prefHeight="31.0" prefWidth="341.0" text="You already had the hidden technology!" textFill="RED">
+            <font>
+                <Font name="Futura Medium" size="13.0" />
+            </font>
+        </Label>
+        <ImageView fx:id="goldImage" fitHeight="38.0" fitWidth="41.0" layoutX="38.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="unitImage" fitHeight="56.0" fitWidth="61.0" layoutX="14.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="technologyImage" fitHeight="25.0" fitWidth="41.0" layoutX="21.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true" />
+    </children>
+</AnchorPane>

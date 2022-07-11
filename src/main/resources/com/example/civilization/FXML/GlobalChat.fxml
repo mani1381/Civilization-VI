@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="800.0" prefWidth="1530.0" styleClass="secondPane" stylesheets="@../CSS/GlobalChatStyle.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.GlobalChatMenuController">
+            <HBox id="menuBar" alignment="CENTER" layoutX="382.0" layoutY="33.0" prefHeight="62.0" prefWidth="439.0" spacing="10.0">
+                <Label id="menuTitle" text="Global Chat">
+                    <font>
+                        <Font size="34.0" />
+                    </font>
+                </Label>
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="5.0" top="10.0" />
+                </padding>
+            </HBox>
+    <HBox fx:id="searchPanel" layoutX="350" layoutY="300" prefHeight="50.0" prefWidth="650.0" spacing="20.0" visible="false">
+        <children>
+            <TextField fx:id="searchTextField" onKeyReleased="#checkSecondUserForPrivate" prefHeight="46.0" prefWidth="550.0">
+                <HBox.margin>
+                    <Insets left="20.0" top="2.0" />
+                </HBox.margin></TextField>
+            <ImageView fx:id="searchButton" fitHeight="41.0" fitWidth="38.0" onMouseClicked="#findSecondUser" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../PNG/images/search.png" />
+            </ImageView>
+        </children>
+    </HBox>
+
+
+
+    <HBox fx:id="searchPanelRoom" layoutX="750" layoutY="50" prefHeight="50.0" prefWidth="650.0" spacing="20.0" visible="false">
+        <children>
+            <TextField fx:id="searchTextFieldRoom" onKeyReleased="#checkUserRoom" prefHeight="46.0" prefWidth="550.0">
+                <HBox.margin>
+                    <Insets left="20.0" top="2.0" />
+                </HBox.margin></TextField>
+            <ImageView fx:id="searchButtonRoom" fitHeight="41.0" fitWidth="38.0" onMouseClicked="#findUserForroom" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../PNG/images/search.png" />
+            </ImageView>
+        </children>
+    </HBox>
+
+
+
+
+
+
+        <VBox fx:id="VboxPublic" layoutX="382.0" layoutY="103.0" prefHeight="635.0" prefWidth="722.0" visible="true">
+            <children>
+                <ScrollPane fx:id="scrollPane" prefHeight="635.0" prefWidth="759.0">
+                    <content>
+                        <VBox fx:id="allMessages" prefWidth="332.0" styleClass="globalChatVbox" />
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+
+
+    <VBox fx:id="VboxPrivate" layoutX="382.0" layoutY="103.0" prefHeight="635.0" prefWidth="722.0" visible="false">
+        <children>
+            <ScrollPane fx:id="scrollPanePrivate" prefHeight="635.0" prefWidth="759.0" styleClass="privateScrollPane">
+                <content>
+                    <VBox fx:id="allMessagePrivate" prefWidth="332.0" />
+                </content>
+            </ScrollPane>
+        </children>
+    </VBox>
+
+    <VBox fx:id="VboxRoom" layoutX="382.0" layoutY="103.0" prefHeight="635.0" prefWidth="722.0" visible="false">
+        <children>
+            <ScrollPane fx:id="scrollPaneRoom" prefHeight="635.0" prefWidth="759.0" styleClass="RoomScrollPane">
+                <content>
+                    <VBox fx:id="allMessageRoom" prefWidth="332.0" />
+                </content>
+            </ScrollPane>
+        </children>
+    </VBox>
+
+        <HBox layoutX="382.0" layoutY="733.0" prefHeight="100.0" prefWidth="611.0">
+            <children>
+                <TextField fx:id="text" onKeyReleased="#enter" prefHeight="46.0" prefWidth="582.0">
+                </TextField>
+                <ImageView fitHeight="32.0" fitWidth="38.0" onMouseClicked="#send" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../PNG/images/send.png" />
+                </ImageView>
+            </children>
+        </HBox>
+
+
+            <Pane fx:id="deleteMessage" layoutX="1197.0" layoutY="286.0" prefHeight="103.0" prefWidth="183.0" visible="false">
+                <children>
+                    <Button fx:id="deleteForEveryone" layoutX="30.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="123.0" text="Delete for everyone" textFill="#00062b">
+
+                    </Button>
+                    <Button fx:id="deleteForMe" layoutX="40.0" layoutY="53.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="104.0" text="Delete for me" textFill="#00062b">
+                    </Button>
+                </children>
+            </Pane>
+
+            <Pane fx:id="editMessage" layoutX="1197.0" layoutY="418.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+                <children>
+                    <TextField fx:id="editTextField" layoutX="16.0" layoutY="14.0" prefHeight="31.0" prefWidth="170.0" styleClass="changeTextField" />
+                    <Button fx:id="changeMessageButton" layoutX="70.0" layoutY="57.0" mnemonicParsing="false" text="change" textFill="#00062b">
+                    </Button>
+                </children>
+            </Pane>
+            <Pane fx:id="rightBarPane" layoutX="75.0" layoutY="33.0" prefHeight="802.0" prefWidth="76.0">
+                <children>
+                    <Button fx:id="changeToPublicChatButton" layoutX="-87.0" layoutY="123.0" onMouseClicked="#Public" prefHeight="32.0" prefWidth="250.0" rotate="0" text="public chat">
+                    </Button>
+                    <Button fx:id="changeToPrivateChatButton" layoutX="-87.0" layoutY="384.0" onMouseClicked="#Private" prefHeight="32.0" prefWidth="250.0" rotate="0" text="private chat">
+                    </Button>
+                    <Button fx:id="changeToRoomChatButton" layoutX="-87.0" layoutY="646.0" onMouseClicked="#Room" prefHeight="32.0" prefWidth="250.0" rotate="0" text="rooms">
+                    </Button>
+          <ImageView fitHeight="77.0" fitWidth="83.0" layoutY="14.0" onMouseClicked="#back" pickOnBounds="true">
+              <image>
+                  <Image url="@../PNG/images/back.png" />
+              </image>
+          </ImageView>
+                </children>
+            </Pane>
+   <Button fx:id="roomButton" layoutX="1189.0" layoutY="103.0" mnemonicParsing="false" onMouseClicked="#goToRoom" prefHeight="64.0" prefWidth="163.0" text="Make room" visible="false" />
+        <padding>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="25.0" />
+        </padding>
+
+
+</Pane>

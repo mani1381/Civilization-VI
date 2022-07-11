@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<Pane stylesheets="@../CSS/EditMap.css" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.civilization.FXMLcontrollers.EditMap"
+      prefHeight="800.0" prefWidth="1530.0">
+    <children>
+        <VBox  styleClass="firstVbox" layoutX="87.0" layoutY="146.0" prefHeight="579.0" prefWidth="671.0">
+            <MenuButton styleClass="Button"  fx:id="TerrainType" layoutX="113.0" layoutY="225.0" mnemonicParsing="false" text="TerrainType">
+                <items>
+                    <MenuItem fx:id="desert" mnemonicParsing="false" text="desert"/>
+                    <MenuItem fx:id="grassland" mnemonicParsing="false" text="grassland"/>
+                    <MenuItem fx:id="hill" mnemonicParsing="false" text="hill"/>
+                    <MenuItem fx:id="mountain" mnemonicParsing="false" text="mountain"/>
+                    <MenuItem fx:id="ocean" mnemonicParsing="false" text="ocean"/>
+                    <MenuItem fx:id="plains" mnemonicParsing="false" text="plains"/>
+                    <MenuItem fx:id="snow" mnemonicParsing="false" text="snow"/>
+                    <MenuItem fx:id="tundra" mnemonicParsing="false" text="tundra"/>
+                </items>
+            </MenuButton>
+            <MenuButton styleClass="buttonSecond" fx:id="TerrainFeature" layoutX="419.0" layoutY="228.0" mnemonicParsing="false"
+            text="Feature">
+                <items>
+                    <MenuItem fx:id="floodplains" mnemonicParsing="false" text="floodplains" />
+                    <MenuItem fx:id="forest" mnemonicParsing="false" text="forest" />
+                    <MenuItem fx:id="ice" mnemonicParsing="false" text="ice" />
+                    <MenuItem fx:id="jungle" mnemonicParsing="false" text="jungle" />
+                    <MenuItem fx:id="marsh" mnemonicParsing="false" text="marsh" />
+                    <MenuItem fx:id="oasis" mnemonicParsing="false" text="oasis" />
+                    <MenuItem fx:id="NoFeature" mnemonicParsing="false" text="noFeature" />
+                </items>
+            </MenuButton>
+            <MenuButton styleClass="buttonThird" fx:id="TerrainResource" layoutX="265.0" layoutY="353.0" mnemonicParsing="false"
+                        text="Resource">
+                <items>
+                    <MenuItem fx:id="bananas"  text="bananas"/>
+                    <MenuItem fx:id="cattle" text="cattle"/>
+                    <MenuItem fx:id="deer"  text="deer"/>
+                    <MenuItem fx:id="sheep"  text="sheep"/>
+                    <MenuItem fx:id="wheat"  text="wheat"/>
+                    <MenuItem fx:id="coal"  text="coal"/>
+                    <MenuItem fx:id="horse" text="horse"/>
+                    <MenuItem fx:id="iron"  text="iron"/>
+                    <MenuItem fx:id="cotton"  text="cotton"/>
+                    <MenuItem fx:id="fur" text="fur"/>
+                    <MenuItem fx:id="dyes"  text="dyes"/>
+                    <MenuItem fx:id="gems" text="gems"/>
+                    <MenuItem fx:id="gold"  text="gold"/>
+                    <MenuItem fx:id="incense"  text="incense"/>
+                    <MenuItem fx:id="ivory"  text="ivory"/>
+                    <MenuItem fx:id="marble"  text="marble"/>
+                    <MenuItem fx:id="silk"  text="silk"/>
+                    <MenuItem fx:id="silver"  text="silver"/>
+                    <MenuItem fx:id="sugar"  text="sugar"/>
+                    <MenuItem fx:id="noResource"  text="noResource"/>
+                </items>
+
+            </MenuButton>
+            <TextField maxWidth="150" fx:id="iIndex" layoutX="169.0" layoutY="92.0"
+                        prefHeight="31.0" prefWidth="130.0" promptText="iIndex"/>
+
+            <TextField maxWidth="150" fx:id="jIndex"  layoutX="337.0" layoutY="92.0"
+                        prefHeight="31.0" prefWidth="130.0" promptText="jIndex" />
+
+            <CheckBox styleClass="Check" layoutX="300" fx:id="up_up" text="up-up"/>
+            <CheckBox styleClass="Check" layoutX="300" fx:id="up_Left" text="up-left"/>
+            <CheckBox styleClass="Check" layoutX="300" fx:id="up_Right" text="up-right"/>
+            <CheckBox styleClass="Check" layoutX="300" fx:id="down_down" text="down-down"/>
+            <CheckBox styleClass="Check" layoutX="300" fx:id="down_Left" text="down-left"/>
+            <CheckBox styleClass="Check" layoutX="300" fx:id="down_right" text="down-right"/>
+
+
+            <Button styleClass="submitButton" layoutX="271.0" layoutY="484.0" mnemonicParsing="false" onMouseClicked="#submit"
+                    prefHeight="31.0" prefWidth="91.0" text="submit"/>
+
+        </VBox>
+
+        <Button styleClass="submitButton" layoutX="371.0" layoutY="484.0" mnemonicParsing="false" onMouseClicked="#finished"
+                prefHeight="31.0" prefWidth="91.0" text="finished"/>
+
+        <ImageView fitHeight="77.0" fitWidth="83.0" layoutY="14.0" onMouseClicked="#back" pickOnBounds="true">
+            <image>
+                <Image url="@../PNG/images/back.png" />
+            </image>
+        </ImageView>
+    </children>
+</Pane>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<!-- Main Borderpane start -->
+
+<?import java.util.ArrayList?>
+<BorderPane  prefHeight="800.0" prefWidth="1530.0" stylesheets="@../CSS/Leaderboard.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.LeaderboardController">
+    <!-- Ending of the left part of the Borderpane -->
+
+    <!-- Beginning of the bottom part of the Borderpane -->
+    <bottom>
+
+        <!-- Simple Copyright -->
+        <Label prefHeight="16.0" prefWidth="107.0" style="-fx-text-fill: #B9a9a9;" text="Cuphead © 2022" BorderPane.alignment="CENTER" />
+    </bottom>
+   <top>
+        <AnchorPane prefHeight="639.0" prefWidth="960.0" BorderPane.alignment="CENTER">
+            <children>
+                <!-- The End of Logo -->
+
+                <!-- The Beginning of Login form -->
+                <Label alignment="CENTER" layoutX="226.0" layoutY="47.0" prefHeight="40.0" prefWidth="300.0" style="-fx-text-fill: #A9A9A9;" text="Leaderboard">
+                    <font>
+                        <Font name="SansSerif Regular" size="30.0" />
+                    </font>
+                </Label>
+
+                <TextField fx:id="username2" alignment="CENTER" editable="false" layoutX="108.0" layoutY="188.0" prefHeight="25.0" prefWidth="169.0" promptText="Player2" />
+                <Label alignment="CENTER" layoutX="291.0" layoutY="98.0" prefHeight="20.0" prefWidth="164.0" text="Highscore" textFill="#8bf511">
+                    <font>
+                        <Font name="SansSerif Regular" size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="username1" alignment="CENTER" editable="false" layoutX="108.0" layoutY="147.0" prefHeight="24.0" prefWidth="168.0" promptText="Player1" />
+                <TextField fx:id="username3" alignment="CENTER" editable="false" layoutX="108.0" layoutY="229.0" prefHeight="25.0" prefWidth="169.0" promptText="Player3" />
+                <TextField fx:id="username4" alignment="CENTER" editable="false" layoutX="108.0" layoutY="274.0" prefHeight="25.0" prefWidth="169.0" promptText="Player4" />
+                <TextField fx:id="username5" alignment="CENTER" editable="false" layoutX="108.0" layoutY="316.0" prefHeight="25.0" prefWidth="169.0" promptText="Player5" />
+                <TextField fx:id="username6" alignment="CENTER" editable="false" layoutX="108.0" layoutY="361.0" prefHeight="25.0" prefWidth="169.0" promptText="Player6" />
+                <TextField fx:id="username7" alignment="CENTER" editable="false" layoutX="108.0" layoutY="405.0" prefHeight="25.0" prefWidth="169.0" promptText="Player7" />
+                <TextField fx:id="username8" alignment="CENTER" editable="false" layoutX="108.0" layoutY="447.0" prefHeight="14.0" prefWidth="169.0" promptText="Player8" />
+                <TextField fx:id="username10" alignment="CENTER" editable="false" layoutX="108.0" layoutY="533.0" prefHeight="14.0" prefWidth="169.0" promptText="Player10" />
+                <TextField fx:id="username9" alignment="CENTER" editable="false" layoutX="108.0" layoutY="490.0" prefHeight="14.0" prefWidth="169.0" promptText="Player9" />
+                <fx:define>
+                    <ArrayList fx:id="playersUsername">
+                        <fx:reference source="username1" />
+                        <fx:reference source="username2" />
+                        <fx:reference source="username3" />
+                        <fx:reference source="username4" />
+                        <fx:reference source="username5" />
+                        <fx:reference source="username6" />
+                        <fx:reference source="username7" />
+                        <fx:reference source="username8" />
+                        <fx:reference source="username9" />
+                        <fx:reference source="username10" />
+                    </ArrayList>
+                </fx:define>
+                <Label layoutX="480.0" layoutY="101.0" prefHeight="20.0" prefWidth="80.0" text="Last Win" textFill="#ff0101">
+                    <font>
+                        <Font name="SansSerif Regular" size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="time1" editable="false" layoutX="480.0" layoutY="147.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+                <TextField fx:id="time2" editable="false" layoutX="481.0" layoutY="187.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+                <TextField fx:id="time3" editable="false" layoutX="480.0" layoutY="229.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+                <TextField fx:id="time4" editable="false" layoutX="480.0" layoutY="274.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+                <TextField fx:id="time5" editable="false" layoutX="480.0" layoutY="316.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+                <TextField fx:id="time6" editable="false" layoutX="480.0" layoutY="361.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+                <TextField fx:id="time7" editable="false" layoutX="480.0" layoutY="405.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+                <TextField fx:id="time8" editable="false" layoutX="480.0" layoutY="447.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+                <TextField fx:id="time9" editable="false" layoutX="480.0" layoutY="490.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+                <TextField fx:id="time10" editable="false" layoutX="480.0" layoutY="533.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+                <fx:define>
+                    <ArrayList fx:id="playersTime">
+                        <fx:reference source="time1" />
+                        <fx:reference source="time2" />
+                        <fx:reference source="time3" />
+                        <fx:reference source="time4" />
+                        <fx:reference source="time5" />
+                        <fx:reference source="time6" />
+                        <fx:reference source="time7" />
+                        <fx:reference source="time8" />
+                        <fx:reference source="time9" />
+                        <fx:reference source="time10" />
+                    </ArrayList>
+                </fx:define>
+                <TextField fx:id="highscore1" alignment="CENTER" editable="false" layoutX="326.0" layoutY="145.0" prefHeight="29.0" prefWidth="100.0" promptText="0" />
+                <TextField fx:id="highscore3" alignment="CENTER" editable="false" layoutX="326.0" layoutY="228.0" prefHeight="29.0" prefWidth="100.0" promptText="0" />
+                <TextField fx:id="highscore2" alignment="CENTER" editable="false" layoutX="326.0" layoutY="186.0" prefHeight="29.0" prefWidth="100.0" promptText="0" />
+                <TextField fx:id="highscore4" alignment="CENTER" editable="false" layoutX="326.0" layoutY="273.0" prefHeight="29.0" prefWidth="100.0" promptText="0" />
+                <TextField fx:id="highscore5" alignment="CENTER" editable="false" layoutX="326.0" layoutY="315.0" prefHeight="29.0" prefWidth="100.0" promptText="0" />
+                <TextField fx:id="highscore6" alignment="CENTER" editable="false" layoutX="326.0" layoutY="360.0" prefHeight="29.0" prefWidth="100.0" promptText="0" />
+                <TextField fx:id="highscore7" alignment="CENTER" editable="false" layoutX="326.0" layoutY="404.0" prefHeight="29.0" prefWidth="100.0" promptText="0" />
+                <TextField fx:id="highscore8" alignment="CENTER" editable="false" layoutX="326.0" layoutY="446.0" prefHeight="29.0" prefWidth="100.0" promptText="0" />
+                <TextField fx:id="highscore9" alignment="CENTER" editable="false" layoutX="326.0" layoutY="489.0" prefHeight="29.0" prefWidth="100.0" promptText="0" />
+                <TextField fx:id="highscore10" alignment="CENTER" editable="false" layoutX="326.0" layoutY="532.0" prefHeight="29.0" prefWidth="100.0" promptText="0" />
+                <fx:define>
+                    <ArrayList fx:id="playersHighScore">
+                        <fx:reference source="highscore1" />
+                        <fx:reference source="highscore2" />
+                        <fx:reference source="highscore3" />
+                        <fx:reference source="highscore4" />
+                        <fx:reference source="highscore5" />
+                        <fx:reference source="highscore6" />
+                        <fx:reference source="highscore7" />
+                        <fx:reference source="highscore8" />
+                        <fx:reference source="highscore9" />
+                        <fx:reference source="highscore10" />
+                    </ArrayList>
+                </fx:define>
+            <TextField fx:id="Last3" editable="false" layoutX="592.0" layoutY="229.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+            <TextField fx:id="Last1" editable="false" layoutX="592.0" layoutY="147.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+            <TextField fx:id="Last2" editable="false" layoutX="592.0" layoutY="188.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+            <TextField fx:id="Last8" editable="false" layoutX="592.0" layoutY="447.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+            <TextField fx:id="Last7" editable="false" layoutX="592.0" layoutY="405.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+            <TextField fx:id="Last6" editable="false" layoutX="592.0" layoutY="361.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+            <TextField fx:id="Last5" editable="false" layoutX="592.0" layoutY="317.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+            <TextField fx:id="Last4" editable="false" layoutX="592.0" layoutY="274.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+            <TextField fx:id="Last9" editable="false" layoutX="592.0" layoutY="490.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+            <TextField fx:id="Last10" editable="false" layoutX="592.0" layoutY="533.0" prefHeight="39.0" prefWidth="81.0" promptText="00.00" />
+            <Label layoutX="585.0" layoutY="102.0" prefHeight="24.0" prefWidth="96.0" text="Last Login" textFill="#94189a">
+               <font>
+                  <Font name="SansSerif Regular" size="20.0" />
+               </font>
+            </Label>
+                <fx:define>
+                    <ArrayList fx:id="playersLastLogin">
+                        <fx:reference source="Last1" />
+                        <fx:reference source="Last2" />
+                        <fx:reference source="Last3" />
+                        <fx:reference source="Last4" />
+                        <fx:reference source="Last5" />
+                        <fx:reference source="Last6" />
+                        <fx:reference source="Last7" />
+                        <fx:reference source="Last8" />
+                        <fx:reference source="Last9" />
+                        <fx:reference source="Last10" />
+                    </ArrayList>
+                </fx:define>
+            <ImageView fitHeight="37.0" fitWidth="55.0" layoutX="43.0" layoutY="159.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="avatar1" fitHeight="37.0" fitWidth="55.0" layoutX="38.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/Avatars/users.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="avatar3" fitHeight="37.0" fitWidth="55.0" layoutX="38.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/Avatars/users.png" />
+               </image>
+            </ImageView>
+                <Label alignment="CENTER" layoutX="119.0" layoutY="100.0" prefHeight="21.0" prefWidth="158.0" text="Username" textFill="#29e3ff">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label layoutX="34.0" layoutY="101.0" text="Avatar" textFill="#fff200">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+            <ImageView fx:id="avatar2" fitHeight="37.0" fitWidth="55.0" layoutX="38.0" layoutY="189.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/Avatars/users.png" />
+               </image></ImageView>
+            <ImageView fx:id="avatar4" fitHeight="37.0" fitWidth="55.0" layoutX="38.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/Avatars/users.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="avatar5" fitHeight="37.0" fitWidth="55.0" layoutX="37.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/Avatars/users.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="avatar6" fitHeight="37.0" fitWidth="55.0" layoutX="37.0" layoutY="361.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/Avatars/users.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="avatar7" fitHeight="37.0" fitWidth="55.0" layoutX="35.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/Avatars/users.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="avatar8" fitHeight="37.0" fitWidth="55.0" layoutX="35.0" layoutY="447.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/Avatars/users.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="avatar9" fitHeight="37.0" fitWidth="55.0" layoutX="35.0" layoutY="490.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/Avatars/users.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="avatar10" fitHeight="37.0" fitWidth="55.0" layoutX="37.0" layoutY="533.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/Avatars/users.png" />
+               </image>
+            </ImageView>
+
+                <fx:define>
+                    <ArrayList fx:id="playersAvatar">
+                        <fx:reference source="avatar1" />
+                        <fx:reference source="avatar2" />
+                        <fx:reference source="avatar3" />
+                        <fx:reference source="avatar4" />
+                        <fx:reference source="avatar5" />
+                        <fx:reference source="avatar6" />
+                        <fx:reference source="avatar7" />
+                        <fx:reference source="avatar8" />
+                        <fx:reference source="avatar9" />
+                        <fx:reference source="avatar10" />
+                    </ArrayList>
+                </fx:define>
+            <Button layoutX="3.0" layoutY="28.0" mnemonicParsing="false" onAction="#backToMainMenu" text="back" />
+
+
+
+            </children>
+        </AnchorPane>
+   </top>
+
+</BorderPane>

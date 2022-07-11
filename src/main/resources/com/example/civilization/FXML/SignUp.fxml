@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1530.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.LoginMenuController">
+    <children>
+        <ImageView fitHeight="800.0" fitWidth="1530.0" layoutX="-3.0" layoutY="1.0" opacity="0.23" pickOnBounds="true">
+            <image>
+                <Image url="@../PNG/images/sid-meiers-civilization-vi-c.jpg" />
+            </image>
+        </ImageView>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="510.0" layoutY="124.0" prefHeight="85.0" prefWidth="424.0" text="SIGN UP">
+            <font>
+                <Font name="Century Gothic Bold" size="55.0" />
+            </font>
+        </Label>
+      <Label contentDisplay="CENTER" layoutX="601.0" layoutY="271.0" prefHeight="18.0" prefWidth="83.0" text="Username">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="signupUsername" layoutX="601.0" layoutY="289.0" prefHeight="25.0" prefWidth="242.0" />
+      <Label contentDisplay="CENTER" layoutX="601.0" layoutY="353.0" prefHeight="18.0" prefWidth="83.0" text="Password">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="signupPassword" layoutX="601.0" layoutY="371.0" prefHeight="25.0" prefWidth="242.0" />
+      <Button layoutX="661.0" layoutY="535.0" mnemonicParsing="false" onMouseClicked="#signUp" prefHeight="25.0" prefWidth="122.0" text="Create Account" />
+      <Label contentDisplay="CENTER" layoutX="601.0" layoutY="432.0" prefHeight="18.0" prefWidth="83.0" text="Nickname">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="signupNickname" layoutX="601.0" layoutY="450.0" prefHeight="25.0" prefWidth="242.0" />
+        <Label fx:id="warning" contentDisplay="CENTER" layoutX="541.0" layoutY="490.0" prefHeight="18.0" prefWidth="83.0" text="hi" textFill="RED" visible="false">
+            <font>
+                <Font name="Century Gothic" size="14.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="77.0" fitWidth="83.0" layoutX="90.0" layoutY="60.0" onMouseClicked="#back" pickOnBounds="true">
+            <image>
+                <Image url="@../PNG/images/back.png" />
+            </image>
+        </ImageView>
+    </children>
+
+</AnchorPane>

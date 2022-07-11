@@ -1,0 +1,88 @@
+VBox {
+    -fx-border-radius: 30 30 30 30;
+    -fx-background-radius: 30 30 30 30;
+    -fx-background-color: #103188;
+}
+
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    -fx-background-color: cyan;
+    -fx-border-radius: 30 30 30 30;
+    -fx-background-radius: 30 30 30 30;
+}
+
+.globalChatVbox {
+    -fx-background-color: cyan;
+    -fx-border-radius: 30 30 30 30;
+    -fx-background-radius: 30 30 30 30;
+}
+
+.secondPane {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 15;
+    -fx-background-image: url(../PNG/images/Civ-VI-7.jpeg);
+    -fx-background-size: cover;
+}
+
+Button {
+    -fx-background-color: #807e00;
+    -fx-border-radius: 30 30 30 30;
+    -fx-background-radius: 30 30 30 30;
+}
+
+.changeTextField {
+    -fx-background-color: #d4d7dc;
+    -fx-border-radius: 30 30 30 30;
+    -fx-background-radius: 30 30 30 30;
+}
+
+
+.menuTitle {
+    -fx-font-size: 36;
+    -fx-text-fill: #ffd500;
+}
+
+@font-face {
+    font-family: 'Matrix II Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Matrix II'), url('../Font/MatrixIIRegular.otf') format('otf');
+}
+
+#secondPane {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 20;
+    -fx-background-image: url(../PNG/images/Civ-VI-7.jpeg);
+    -fx-background-size: cover;
+}
+
+
+
+#secondBox {
+    -fx-background-color: #00ff80;
+    -fx-background-radius: 15;
+}
+
+
+
+#menuTitle {
+    -fx-font-size: 36;
+    -fx-text-fill: cyan;
+}
+
+.privateScrollPane {
+    -fx-background-color: #d0ff00;
+    -fx-border-radius: 30 30 30 30;
+    -fx-background-radius: 30 30 30 30;
+}
+
+.RoomScrollPane {
+
+    -fx-background-color: #ff00fb;
+    -fx-border-radius: 30 30 30 30;
+    -fx-background-radius: 30 30 30 30;
+}
