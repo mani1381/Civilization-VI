@@ -7,6 +7,7 @@ module com.example.civilization {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
 
+    opens com.example.civilization.Model.GlobalChats to com.google.gson;
     opens com.example.civilization.FXMLcontrollers to javafx.fxml;
     opens com.example.civilization.Model to com.google.gson;
     opens com.example.civilization.Model.Technologies to com.google.gson;

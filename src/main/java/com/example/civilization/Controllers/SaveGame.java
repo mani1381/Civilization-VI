@@ -28,7 +28,7 @@ public class SaveGame {
     public void saveGame() throws IOException {
         Gson gson = new Gson();
         String gsonMap = gson.toJson(database.getMap());
-        FileWriter fileWriter = new FileWriter("src/main/resources/com/example/civilization/Game" + turn + ".json");
+        FileWriter fileWriter = new FileWriter("src/main/resources/com/Game" + turn + ".json");
         fileWriter.write(gsonMap);
         fileWriter.close();
         turn++;
@@ -38,7 +38,7 @@ public class SaveGame {
     }
 
     public void loadGame(int num) throws IOException {
-       String gsonMap = new String(Files.readAllBytes(Paths.get("src/main/resources/com/example/civilization/Game" + num + ".json")));
+       String gsonMap = new String(Files.readAllBytes(Paths.get("src/main/resources/com/Game" + num + ".json")));
        Gson gson = new Gson();
        Map map =  gson.fromJson(gsonMap, Map.class);
        database.setMap(map);

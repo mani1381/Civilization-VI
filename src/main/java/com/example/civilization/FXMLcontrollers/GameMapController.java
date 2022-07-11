@@ -313,6 +313,7 @@ public class GameMapController {
 
     public void save(MouseEvent mouseEvent) throws IOException {
         SaveGame.getInstance().saveGame();
+
     }
 
     public void load(MouseEvent mouseEvent) throws IOException {
