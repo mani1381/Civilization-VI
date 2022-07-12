@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../CSS/CheatCode.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.CheatCodeControllers">
+    <children>
+      <TextField layoutX="65.0" layoutY="83.0" prefHeight="41.0" prefWidth="470.0" promptText="Type your cheat code" />
+      <Label fx:id="resultText" alignment="CENTER" layoutX="68.0" layoutY="157.0" prefHeight="34.0" prefWidth="470.0" textFill="RED" />
+    </children>
+    <ImageView fitHeight="63.0" fitWidth="77.0" layoutX="69.0" layoutY="32.0" onMouseClicked="#backToMap" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@../PNG/images/back.png" />
+        </image>
+    </ImageView>
+</AnchorPane>

@@ -68,7 +68,7 @@ public enum GameEnums {
     }
 
     public static Matcher getMatcher(String input, GameEnums command) {
-        Matcher matcher = Pattern.compile(command.regex).matcher(input);
+        Matcher matcher = Pattern.compile(command.regex, Pattern.CASE_INSENSITIVE).matcher(input);
 
         if (matcher.matches()) {
             return matcher;

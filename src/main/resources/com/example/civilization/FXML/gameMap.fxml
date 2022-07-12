@@ -6,7 +6,7 @@
 
 <Pane fx:id="pane" prefHeight="800.0" prefWidth="1530.0" stylesheets="@../CSS/Game.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.GameMapController">
    <children>
-      <Button layoutX="45.0" layoutY="58.0" mnemonicParsing="false" onAction="#goToChooseResearch" text="Button" />
+      <Button layoutX="45.0" layoutY="58.0" mnemonicParsing="false" onAction="#goToCheatCode" text="Button" />
       <Button layoutX="45.0" layoutY="166.0" mnemonicParsing="false" onMouseClicked="#save" text="Save" />
       <Button layoutX="45.0" layoutY="291.0" mnemonicParsing="false" onMouseClicked="#load" text="Load" />
       <TextField fx:id="text" layoutX="5.0" layoutY="252.0" />

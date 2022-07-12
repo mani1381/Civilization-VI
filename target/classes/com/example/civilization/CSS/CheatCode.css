@@ -1,0 +1,10 @@
+Pane{
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-alignment: center;
+    -fx-font-size: 20
+}
+
+AnchorPane{
+    -fx-background-image: url("../PNG/ARX/Background_A.png");
+}

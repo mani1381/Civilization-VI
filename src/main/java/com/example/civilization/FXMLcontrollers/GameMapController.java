@@ -34,6 +34,8 @@ public class GameMapController {
 
 
 
+
+
     DatabaseController databaseController = DatabaseController.getInstance();
 
     /*
@@ -44,8 +46,8 @@ public class GameMapController {
 
     @FXML
     private Pane pane;
-    int start_X_InShowMap = 0;
-    int start_Y_InShowMap = 0;
+    static int start_X_InShowMap = 0;
+    static int start_Y_InShowMap = 0;
 
 
 
@@ -115,10 +117,12 @@ public class GameMapController {
     }
 
     private void mapForNewCoordinates() {
+        int i = 0;
         try {
             for (Polygon polygon : terrainHexagons) {
                 pane.getChildren().remove(polygon);
             }
+           terrainHexagons.clear();
             setHexagons(start_X_InShowMap, start_Y_InShowMap, 280, 130, 50);
             for (Polygon polygon : terrainHexagons) {
                 pane.getChildren().addAll(polygon);
@@ -310,6 +314,9 @@ public class GameMapController {
 
     }
 
+    public void goToCheatCode() {
+        Main.changeMenu("CheatCode");
+    }
 
     public void save(MouseEvent mouseEvent) throws IOException {
         SaveGame.getInstance().saveGame();
