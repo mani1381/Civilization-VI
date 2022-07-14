@@ -108,6 +108,15 @@ public class DatabaseController {
         return "you do not have access to this unit";
     }
 
+    public void deselectAllUnits(){
+        if(DatabaseController.getInstance().getSelectedNonCombatUnit() != null){
+            DatabaseController.getInstance().getSelectedNonCombatUnit().setIsSelected(false);
+        }
+        if(DatabaseController.getInstance().getSelectedCombatUnit() != null){
+            DatabaseController.getInstance().getSelectedCombatUnit().setIsSelected(false);
+        }
+    }
+
     public String selectAndDeselectNonCombatUnit(User user, int x, int y) {
         Map map = this.getMap();
         int mapRows = map.getROW();
@@ -165,7 +174,7 @@ public class DatabaseController {
             combatUnit.setIsSelected(false);
         }
 
-        return "action completed";
+        return "Unit will " + action;
     }
 
     public String changingTheStateOfANonCombatUnit(NonCombatUnit nonCombatUnit, String action) {
@@ -180,7 +189,7 @@ public class DatabaseController {
             nonCombatUnit.setIsSelected(false);
             nonCombatUnit.getNextTerrain().clear();
         }
-        return "action completed";
+        return "Unit will " + action;
 
     }
 
@@ -599,10 +608,10 @@ public class DatabaseController {
 
     public void createUnitForEachCivilization(User user) {
         ArrayList<Integer> unitsCoordinates = findingEmptyTiles();
-        NonCombatUnit newSettler = new NonCombatUnit(unitsCoordinates.get(0),unitsCoordinates.get(1)+1 , 0, 0, 0, 0, false, false, UnitTypes.SETTLER, true);
+        NonCombatUnit newSettler = new NonCombatUnit(unitsCoordinates.get(0), unitsCoordinates.get(1) + 1, 0, 0, 0, 0, false, false, UnitTypes.SETTLER, false);
         NonRangedCombatUnit newWarrior = new NonRangedCombatUnit(unitsCoordinates.get(0), unitsCoordinates.get(1), 0, 0, 0, 0, false, false, UnitTypes.WARRIOR, false, false, false, false, false);
         getMap().getTerrain()[unitsCoordinates.get(0)][unitsCoordinates.get(1)].setCombatUnit(newWarrior);
-        getMap().getTerrain()[unitsCoordinates.get(0)][unitsCoordinates.get(1)+1].setNonCombatUnit(newSettler);
+        getMap().getTerrain()[unitsCoordinates.get(0)][unitsCoordinates.get(1) + 1].setNonCombatUnit(newSettler);
         user.getCivilization().getUnits().add(newSettler);
         user.getCivilization().getUnits().add(newWarrior);
 
@@ -1760,7 +1769,7 @@ public class DatabaseController {
         NonCombatUnit workers = getSelectedNonCombatUnit();
         if (workers.getUnitType().equals(UnitTypes.WORKER)) {
             Terrain workersTerrain = getTerrainByCoordinates(workers.getX(), workers.getY());
-            if (workersTerrain.getTerrainImprovement() != null && workersTerrain.getTerrainImprovement().isAvailable() &&  (workersTerrain.getTerrainImprovement().getImprovementType().equals(ImprovementTypes.ROAD) || workersTerrain.getTerrainImprovement().getImprovementType().equals(ImprovementTypes.RAILROAD))) {
+            if (workersTerrain.getTerrainImprovement() != null && workersTerrain.getTerrainImprovement().isAvailable() && (workersTerrain.getTerrainImprovement().getImprovementType().equals(ImprovementTypes.ROAD) || workersTerrain.getTerrainImprovement().getImprovementType().equals(ImprovementTypes.RAILROAD))) {
                 return workersTerrain.getTerrainImprovement().getImprovementType();
             }
         }
@@ -1794,9 +1803,6 @@ public class DatabaseController {
         return null;
 
     }
-
-
-
 
 
 }

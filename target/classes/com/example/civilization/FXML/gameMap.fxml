@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <Pane fx:id="pane" prefHeight="800.0" prefWidth="1530.0" stylesheets="@../CSS/Game.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.GameMapController">
    <children>
@@ -10,5 +15,39 @@
       <Button layoutX="45.0" layoutY="166.0" mnemonicParsing="false" onMouseClicked="#save" text="Save" />
       <Button layoutX="45.0" layoutY="291.0" mnemonicParsing="false" onMouseClicked="#load" text="Load" />
       <TextField fx:id="text" layoutX="5.0" layoutY="252.0" />
+      <AnchorPane fx:id="unitPane" layoutY="524.0" prefHeight="276.0" prefWidth="196.0">
+         <children>
+            <ImageView fx:id="unitImage" fitHeight="95.0" fitWidth="115.0" layoutX="18.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/civAsset/units/Units/Archer.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="hp" layoutX="35.0" layoutY="131.0" prefHeight="26.0" prefWidth="121.0" text="CS :  120" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="cs" layoutX="35.0" layoutY="163.0" prefHeight="26.0" prefWidth="114.0" text="RCS : " textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="rcs" layoutX="35.0" layoutY="195.0" prefHeight="26.0" prefWidth="121.0" text="X :  10 Y : 20" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="coordinates" layoutX="35.0" layoutY="105.0" prefHeight="26.0" prefWidth="121.0" text="HP :  120" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="actions" layoutX="39.0" layoutY="228.0" mnemonicParsing="false" onAction="#goToUnitActions" prefHeight="32.0" prefWidth="115.0" text="Actions">
+               <font>
+                  <Font name="Copperplate" size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
    </children>
 </Pane>

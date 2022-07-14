@@ -34,11 +34,11 @@ public class TechnologyPopUpController {
             unlocks.get(i).setFont(Font.font("Copperplate", 15));
             unlocks.get(i).setTextFill(Color.RED);
 
-            unlocks.get(i).setPrefSize(unlockLabel.getPrefWidth() + 100,unlockLabel.getPrefHeight());
+            unlocks.get(i).setPrefSize(unlockLabel.getPrefWidth() + 100, unlockLabel.getPrefHeight());
             unlocks.get(i).setText("Technology : " + technologyTypes1.name());
             unlocks.get(i).setVisible(true);
             unlocks.get(i).setLayoutX(unlockLabel.getLayoutX());
-            unlocks.get(i).setLayoutY(unlockLabel.getLayoutY() +50*(i+1));
+            unlocks.get(i).setLayoutY(unlockLabel.getLayoutY() + 50 * (i + 1));
             anchorPane.getChildren().add(unlocks.get(i));
             i++;
         }
@@ -48,23 +48,20 @@ public class TechnologyPopUpController {
             unlocks.add(new Label());
             unlocks.get(i).setFont(Font.font("Copperplate", 15));
             unlocks.get(i).setTextFill(Color.RED);
-            unlocks.get(i).setPrefSize(unlockLabel.getPrefWidth() + 100,unlockLabel.getPrefHeight());
-            if(objects instanceof ImprovementTypes){
+            unlocks.get(i).setPrefSize(unlockLabel.getPrefWidth() + 100, unlockLabel.getPrefHeight());
+            if (objects instanceof ImprovementTypes) {
                 unlocks.get(i).setText("Improvement : " + ((ImprovementTypes) objects).name());
-            }
-            else if(objects instanceof BuildingTypes){
+            } else if (objects instanceof BuildingTypes) {
                 unlocks.get(i).setText("Building : " + ((BuildingTypes) objects).name());
-            }
-            else if(objects instanceof ResourceTypes){
+            } else if (objects instanceof ResourceTypes) {
                 unlocks.get(i).setText("Resource : " + ((ResourceTypes) objects).name());
-            }
-            else if(objects instanceof UnitTypes){
+            } else if (objects instanceof UnitTypes) {
                 unlocks.get(i).setText("Unit : " + ((UnitTypes) objects).name());
             }
 
             unlocks.get(i).setVisible(true);
             unlocks.get(i).setLayoutX(unlockLabel.getLayoutX());
-            unlocks.get(i).setLayoutY(unlockLabel.getLayoutY() +50*(i+1));
+            unlocks.get(i).setLayoutY(unlockLabel.getLayoutY() + 50 * (i + 1));
             anchorPane.getChildren().add(unlocks.get(i));
             i++;
         }

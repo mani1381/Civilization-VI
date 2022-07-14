@@ -36,7 +36,7 @@ public class WorkersOptionsPopUpController {
                 int total = DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainImprovement().getImprovementType().getTurn();
                 int passed = DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainImprovement().getPassedTurns();
                 remainingTurns.setText(DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainImprovement().getImprovementType().name() + " will be constructed in " + (total - passed) + " turns");
-                progressBar.setProgress((double) passed/total);
+                progressBar.setProgress((double) passed / total);
             }
 
 
@@ -45,19 +45,19 @@ public class WorkersOptionsPopUpController {
             int total = DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainImprovement().getImprovementType().getTurn();
             int passed = DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainImprovement().getPassedTurns();
             remainingTurns.setText(DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainImprovement().getImprovementType().name() + " will be deleted in " + (total - passed) + " turns");
-            progressBar.setProgress((double) passed/total);
+            progressBar.setProgress((double) passed / total);
 
         } else if (text.toUpperCase().startsWith("Delete feature".toUpperCase())) {
             int total = 6;
             int passed = DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getPassedTurns();
             remainingTurns.setText(DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainImprovement().getImprovementType().name() + " feature will be deleted in " + (total - passed) + " turns");
-            progressBar.setProgress((double) passed/total);
+            progressBar.setProgress((double) passed / total);
 
         } else if (text.toUpperCase().startsWith("repair improvement".toUpperCase())) {
             int total = DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainImprovement().getImprovementType().getTurn();
             int passed = DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainImprovement().getPassedTurns();
             remainingTurns.setText(DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainImprovement().getImprovementType().name() + " will be repaired in " + (total - passed) + " turns");
-            progressBar.setProgress((double) passed/total);
+            progressBar.setProgress((double) passed / total);
         }
 
     }

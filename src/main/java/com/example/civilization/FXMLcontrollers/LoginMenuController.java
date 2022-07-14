@@ -26,23 +26,21 @@ public class LoginMenuController {
     private Label warning;
 
 
-    public void moveToLogin()
-    {
+    public void moveToLogin() {
         Main.changeMenu("Login");
 
     }
-    public void moveToSignUp()
-    {
+
+    public void moveToSignUp() {
         Main.changeMenu("SignUp");
 
     }
-    public void login ()
-    {
+
+    public void login() {
         String u = username.getText();
         String p = password.getText();
         User user = databaseController.userLogin(u, p);
-        if ( user != null)
-        {
+        if (user != null) {
             Database.getInstance().setActiveUser(user);
             ProfileMenuController.databaseController = DatabaseController.getInstance();
             Main.changeMenu("ProfileMenu");
@@ -55,18 +53,15 @@ public class LoginMenuController {
 
 
     }
-    public void signUp()
-    {
+
+    public void signUp() {
         String u = signupUsername.getText();
         String p = signupPassword.getText();
         String n = signupNickname.getText();
         String temp = databaseController.createUser(u, p, n);
-        if ( temp.equals("user created successfully!"))
-        {
+        if (temp.equals("user created successfully!")) {
             Main.changeMenu("Login");
-        }
-        else
-        {
+        } else {
             warning.setText(temp);
             warning.setVisible(true);
             signupNickname.setText("");
@@ -76,11 +71,9 @@ public class LoginMenuController {
 
     }
 
-    public void back ()
-    {
+    public void back() {
         Main.changeMenu("LoginMenu");
     }
-
 
 
 }

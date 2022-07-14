@@ -10,9 +10,9 @@ import javafx.scene.input.MouseEvent;
 
 public class EditMap {
 
-    private EditMapController editMap = EditMapController.getInstance();
     public TextField iIndex;
     public TextField jIndex;
+    private EditMapController editMap = EditMapController.getInstance();
     @FXML
     private MenuItem bananas;
     @FXML
@@ -106,18 +106,18 @@ public class EditMap {
     private MenuButton TerrainType;
 
 
-    public void initialize(){
-         MenuItem[] terrainType = {desert,grassland,hill,mountain,ocean,plains,snow,tundra};
-         for(MenuItem item : terrainType){
-             item.setOnAction(new EventHandler<ActionEvent>() {
-                 @Override
-                 public void handle(ActionEvent actionEvent) {
-                     TerrainType.setText(item.getText());
-                 }
-             });
-         }
-         MenuItem[] terrainFeature = {floodplains,forest,ice,jungle,marsh,oasis,NoFeature};
-        for (MenuItem item: terrainFeature) {
+    public void initialize() {
+        MenuItem[] terrainType = {desert, grassland, hill, mountain, ocean, plains, snow, tundra};
+        for (MenuItem item : terrainType) {
+            item.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    TerrainType.setText(item.getText());
+                }
+            });
+        }
+        MenuItem[] terrainFeature = {floodplains, forest, ice, jungle, marsh, oasis, NoFeature};
+        for (MenuItem item : terrainFeature) {
             item.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
@@ -125,14 +125,14 @@ public class EditMap {
                 }
             });
         }
-        MenuItem[] terrainResource ={bananas,cattle,deer,sheep,wheat,coal,horse,iron,cotton,fur,dyes,gems,gold,incense,ivory,marble,silk,silver,sugar,noResource};
-        for (MenuItem item: terrainResource) {
-           item.setOnAction(new EventHandler<ActionEvent>() {
-               @Override
-               public void handle(ActionEvent actionEvent) {
-                   TerrainResource.setText(item.getText());
-               }
-           });
+        MenuItem[] terrainResource = {bananas, cattle, deer, sheep, wheat, coal, horse, iron, cotton, fur, dyes, gems, gold, incense, ivory, marble, silk, silver, sugar, noResource};
+        for (MenuItem item : terrainResource) {
+            item.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    TerrainResource.setText(item.getText());
+                }
+            });
         }
     }
 
@@ -140,25 +140,24 @@ public class EditMap {
     public void submit(MouseEvent mouseEvent) {
         String iCoordinate = iIndex.getText();
         String jCoordinate = jIndex.getText();
-        if(iCoordinate.length() == 0 || jCoordinate.length() == 0){
+        if (iCoordinate.length() == 0 || jCoordinate.length() == 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("empty index");
             alert.show();
-        }else if(editMap.haveDigits(iCoordinate) == false || editMap.haveDigits(jCoordinate) == false){
+        } else if (editMap.haveDigits(iCoordinate) == false || editMap.haveDigits(jCoordinate) == false) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("wrong index");
             alert.show();
-        }
-        else{
+        } else {
             int i = Integer.parseInt(iCoordinate);
             int j = Integer.parseInt(jCoordinate);
-            if(i > 31 || j > 15){
+            if (i > 31 || j > 15) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("wrong index");
                 alert.show();
-            }else{
-                editMap.changeCheckBoxState(up_up,up_Left,up_Right,down_down,down_Left,down_right);
-                editMap.setTileInMap(i,j,TerrainType.getText(),TerrainFeature.getText(),TerrainResource.getText());
+            } else {
+                editMap.changeCheckBoxState(up_up, up_Left, up_Right, down_down, down_Left, down_right);
+                editMap.setTileInMap(i, j, TerrainType.getText(), TerrainFeature.getText(), TerrainResource.getText());
                 iIndex.clear();
                 jIndex.clear();
             }
@@ -168,7 +167,7 @@ public class EditMap {
     }
 
     public void finished(MouseEvent mouseEvent) {
-       Main.changeMenu("GameMap");
+        Main.changeMenu("GameMap");
     }
 
     public void back(MouseEvent mouseEvent) {

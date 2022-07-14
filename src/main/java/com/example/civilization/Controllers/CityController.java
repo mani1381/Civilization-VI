@@ -24,33 +24,28 @@ public class CityController {
     private DatabaseController databaseController;
     private Map map;
 
-    public void setDatabaseController(DatabaseController databaseController){
+    public void setDatabaseController(DatabaseController databaseController) {
         this.databaseController = databaseController;
     }
-    public void setMap(Map map){
+
+    public void setMap(Map map) {
         this.map = map;
     }
+
     public String garrisonCity(CombatUnit combatUnit) {
         Terrain unitTerrain = this.databaseController.getTerrainByCoordinates(combatUnit.getX(), combatUnit.getY());
         City city = unitTerrain.getCity();
-        if( city == null || !city.getMainTerrains().contains(unitTerrain))
-        {
+        if (city == null || !city.getMainTerrains().contains(unitTerrain)) {
             return "The unit has to enter a city first.";
-        }
-        else if ( !city.getOwner().containsCombatUnit(combatUnit.getX(), combatUnit.getY()))
-        {
+        } else if (!city.getOwner().containsCombatUnit(combatUnit.getX(), combatUnit.getY())) {
             return "This city doesn't belong to you. Go garrison your own cities.";
 
-        }
-        else if ( city.getGarrisoned())
-        {
+        } else if (city.getGarrisoned()) {
             return "This city has already been garrisoned";
-        }
-        else
-        {
+        } else {
             city.getCentralTerrain().setCombatUnit(combatUnit);
             city.getCentralTerrain().setCombatUnit(combatUnit); //not sure
-            city.setCombatStrength( city.getCombatStrength() + combatUnit.getCombatStrength());
+            city.setCombatStrength(city.getCombatStrength() + combatUnit.getCombatStrength());
             city.setGarrisoned(true);
             combatUnit.setIsFinished(true);
             combatUnit.setIsSelected(false);
@@ -58,44 +53,33 @@ public class CityController {
         }
     }
 
-    public String ungarrisonCity( CombatUnit combatUnit)
-    {
+    public String ungarrisonCity(CombatUnit combatUnit) {
         Terrain unitTerrain = this.databaseController.getTerrainByCoordinates(combatUnit.getX(), combatUnit.getY());
         City city = unitTerrain.getCity();
-        if( city == null || !city.getMainTerrains().contains(unitTerrain))
-        {
+        if (city == null || !city.getMainTerrains().contains(unitTerrain)) {
             return "The unit is not in any cities";
-        }
-        else if ( !city.getOwner().containsCombatUnit(combatUnit.getX(), combatUnit.getY()))
-        {
+        } else if (!city.getOwner().containsCombatUnit(combatUnit.getX(), combatUnit.getY())) {
             return "This city doesn't belong to you.";
 
-        }
-        else if ( !city.getGarrisoned())
-        {
+        } else if (!city.getGarrisoned()) {
             return "This city has never been garrisoned";
-        }
-        else
-        {
+        } else {
             city.setGarrisoned(false);
             city.getCentralTerrain().setCombatUnit(null);
-            city.setCombatStrength( city.getCombatStrength() - combatUnit.getCombatStrength());
+            city.setCombatStrength(city.getCombatStrength() - combatUnit.getCombatStrength());
             return "You successfully ungarrisoned your city";
         }
 
 
     }
 
-    public void foundCity(Civilization civilization, NonCombatUnit unit, Terrain tile)
-    {
-        if ( unit == null)
-        {
+    public void foundCity(Civilization civilization, NonCombatUnit unit, Terrain tile) {
+        if (unit == null) {
             System.out.println("please select a unit first");
             return;
         }
         if (unit.getUnitType().equals(UnitTypes.SETTLER)) {
-            if (tile.getCity() != null)
-            {
+            if (tile.getCity() != null) {
                 System.out.println("error : city already exists");
                 return;
             }
@@ -109,14 +93,16 @@ public class CityController {
 
     public void playTurn(City city) {
 
-        city.setNeighbors( NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(city.getMainTerrains(), databaseController.getMap()));
+        city.setNeighbors(NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(city.getMainTerrains(), databaseController.getMap()));
         int foodIncrease = 0;
         int goldIncrease = 0;
         int productionIncrease = 0;
         for (Terrain tile : city.getNeighbors()) {
-            if (tile.getResource() != null) {foodIncrease += tile.getResource().getFood();
-            goldIncrease += tile.getResource().getGold();
-                productionIncrease += tile.getResource().getProduction(); }
+            if (tile.getResource() != null) {
+                foodIncrease += tile.getResource().getFood();
+                goldIncrease += tile.getResource().getGold();
+                productionIncrease += tile.getResource().getProduction();
+            }
             goldIncrease += tile.getGold();
         }
         goldIncrease += calculateCityGold(city);
@@ -128,11 +114,10 @@ public class CityController {
         foodIncrease -= city.getPopulation() * 2;
         if (foodIncrease > 0) // creating Citizens
         {
-            if(city.getCentralTerrain().getNonCombatUnit() != null && city.getCentralTerrain().getNonCombatUnit().getUnitType().equals(UnitTypes.SETTLER)) {
+            if (city.getCentralTerrain().getNonCombatUnit() != null && city.getCentralTerrain().getNonCombatUnit().getUnitType().equals(UnitTypes.SETTLER)) {
                 foodIncrease = 0;
             }
-            if(city.getOwner().getHappiness()<0)
-            {
+            if (city.getOwner().getHappiness() < 0) {
                 foodIncrease /= 3;
             }
             city.setFood(city.getFood() + foodIncrease);
@@ -143,7 +128,7 @@ public class CityController {
             }
         } else if (foodIncrease < 0) // Killing Citizens
         {
-            foodIncrease = - foodIncrease;
+            foodIncrease = -foodIncrease;
             int numberOfDyingCitizens = foodIncrease / 2;
             for (int i = 0; i < numberOfDyingCitizens; i++) {
                 city.removeCitiZen(i);
@@ -151,73 +136,58 @@ public class CityController {
             city.setFood(Math.max(city.getFood() - foodIncrease, 0));
 
         }
-        city.setGold( city.getGold() + goldIncrease);
+        city.setGold(city.getGold() + goldIncrease);
         city.setProduction(city.getProduction() + productionIncrease);
         city.setScience(city.getScience() + city.getCitizens().size());
 
         // update constructions
     }
 
-    private int calculateCityFood( City city)
-    {
+    private int calculateCityFood(City city) {
         int foodIncrease = 0;
-        for (Terrain terrain : city.getMainTerrains())
-        {
+        for (Terrain terrain : city.getMainTerrains()) {
             foodIncrease += terrain.getTerrainTypes().getFood();
-            if ( terrain.getTerrainFeatureTypes() != null)
-            {
-                for ( TerrainFeatureTypes terrainFeatureTypes : terrain.getTerrainFeatureTypes())
-                {
+            if (terrain.getTerrainFeatureTypes() != null) {
+                for (TerrainFeatureTypes terrainFeatureTypes : terrain.getTerrainFeatureTypes()) {
                     foodIncrease += terrainFeatureTypes.getFood();
 
                 }
             }
-            if ( terrain.getTerrainImprovement() != null)
-            {
-               foodIncrease += terrain.getTerrainImprovement().getImprovementType().getFood();
+            if (terrain.getTerrainImprovement() != null) {
+                foodIncrease += terrain.getTerrainImprovement().getImprovementType().getFood();
             }
         }
         return foodIncrease;
     }
 
-    private int calculateCityGold( City city)
-    {
+    private int calculateCityGold(City city) {
         int goldIncrease = 0;
-        for (Terrain terrain : city.getMainTerrains())
-        {
+        for (Terrain terrain : city.getMainTerrains()) {
             goldIncrease += terrain.getTerrainTypes().getGold();
-            if ( terrain.getTerrainFeatureTypes() != null)
-            {
-                for ( TerrainFeatureTypes terrainFeatureTypes : terrain.getTerrainFeatureTypes())
-                {
+            if (terrain.getTerrainFeatureTypes() != null) {
+                for (TerrainFeatureTypes terrainFeatureTypes : terrain.getTerrainFeatureTypes()) {
                     goldIncrease += terrainFeatureTypes.getGold();
 
                 }
             }
-            if ( terrain.getTerrainImprovement() != null)
-            {
+            if (terrain.getTerrainImprovement() != null) {
                 goldIncrease += terrain.getTerrainImprovement().getImprovementType().getGold();
             }
         }
         return goldIncrease;
     }
 
-    private int calculateCityProduction( City city)
-    {
+    private int calculateCityProduction(City city) {
         int productionIncrease = 0;
-        for (Terrain terrain : city.getMainTerrains())
-        {
+        for (Terrain terrain : city.getMainTerrains()) {
             productionIncrease += terrain.getTerrainTypes().getProduct();
-            if ( terrain.getTerrainFeatureTypes() != null)
-            {
-                for ( TerrainFeatureTypes terrainFeatureTypes : terrain.getTerrainFeatureTypes())
-                {
+            if (terrain.getTerrainFeatureTypes() != null) {
+                for (TerrainFeatureTypes terrainFeatureTypes : terrain.getTerrainFeatureTypes()) {
                     productionIncrease += terrainFeatureTypes.getProduct();
 
                 }
             }
-            if ( terrain.getTerrainImprovement() != null)
-            {
+            if (terrain.getTerrainImprovement() != null) {
                 productionIncrease += terrain.getTerrainImprovement().getImprovementType().getProduction();
             }
         }
@@ -253,18 +223,14 @@ public class CityController {
     }
 
 
-
-    public boolean containUnit(ArrayList<Technology> tech,TechnologyTypes technologyType){
-        for(int i = 0; i < tech.size();i++){
-            if(tech.get(i).getTechnologyType() == technologyType){
+    public boolean containUnit(ArrayList<Technology> tech, TechnologyTypes technologyType) {
+        for (int i = 0; i < tech.size(); i++) {
+            if (tech.get(i).getTechnologyType() == technologyType) {
                 return true;
             }
         }
         return false;
     }
-
-
-
 
 
     public String createUnitWithTurn(Matcher matcher, City city) {
@@ -288,7 +254,7 @@ public class CityController {
                 }
                 RangedCombatUnit newUnit = new RangedCombatUnit(city.getCentralTerrain().getX(), city.getCentralTerrain().getY(), 0, 0, 0, 0, false, false, unitTypes, false, false, false, false, false, false);
                 city.getConstructionWaitList().add(newUnit);
-                return unitTypes.name() + " will be constructed in " + unitTypes.getTurn()+" turns";
+                return unitTypes.name() + " will be constructed in " + unitTypes.getTurn() + " turns";
             }
         }
 
@@ -303,7 +269,7 @@ public class CityController {
                 }
                 NonRangedCombatUnit newUnit = new NonRangedCombatUnit(city.getCentralTerrain().getX(), city.getCentralTerrain().getY(), 0, 0, 0, 0, false, false, unitTypes, false, false, false, false, false);
                 city.getConstructionWaitList().add(newUnit);
-                return unitTypes.name() + " will be constructed in " + unitTypes.getTurn()+" turns";
+                return unitTypes.name() + " will be constructed in " + unitTypes.getTurn() + " turns";
             }
 
         }
@@ -321,13 +287,13 @@ public class CityController {
                     if (civilization.getBooleanSettlerBuy()) {
                         NonCombatUnit newSettler = new NonCombatUnit(city.getCentralTerrain().getX(), city.getCentralTerrain().getY(), 0, 0, 0, 0, false, false, UnitTypes.SETTLER, false);
                         city.getConstructionWaitList().add(newSettler);
-                        return unitTypes.name() + " will be constructed in " + unitTypes.getTurn()+" turns";
+                        return unitTypes.name() + " will be constructed in " + unitTypes.getTurn() + " turns";
                     }
 
                 } else {
                     NonCombatUnit newUnit = new NonCombatUnit(city.getCentralTerrain().getX(), city.getCentralTerrain().getY(), 0, 0, 0, 0, false, false, unitTypes, false);
                     city.getConstructionWaitList().add(newUnit);
-                    return unitTypes.name() + " will be constructed in " + unitTypes.getTurn()+" turns";
+                    return unitTypes.name() + " will be constructed in " + unitTypes.getTurn() + " turns";
                 }
             }
 
@@ -338,8 +304,7 @@ public class CityController {
     }
 
 
-    public String createBuildingWithTurn(Matcher matcher,City city)
-    {
+    public String createBuildingWithTurn(Matcher matcher, City city) {
         Civilization civilization = city.getOwner();
         String buildingName = matcher.group("buildingName");
         String lackBuilding = "You lack the required buildings to construct this building";
@@ -347,11 +312,11 @@ public class CityController {
         String buildingAlreadyExists = "You have constructed this building before";
         ArrayList<BuildingTypes> allBuildingTypes = new ArrayList<>(Arrays.asList(BuildingTypes.values()));
         ArrayList<BuildingTypes> allBuildingTypesOfCity = new ArrayList<>();
-        for(Building building : city.getBuildings()){
+        for (Building building : city.getBuildings()) {
             allBuildingTypesOfCity.add(building.getBuildingType());
         }
 
-        for(BuildingTypes buildingType : allBuildingTypes){
+        for (BuildingTypes buildingType : allBuildingTypes) {
             if (buildingType.name().equals(buildingName)) {
                 if (buildingType.getBuildingRequirements() != null && allBuildingTypes.containsAll(buildingType.getBuildingRequirements())) {
                     return lackBuilding;
@@ -360,9 +325,9 @@ public class CityController {
                 } else if (allBuildingTypes.contains(buildingType)) {
                     return buildingAlreadyExists;
                 }
-                Building building = new Building(city.getCentralTerrain().getX(),city.getCentralTerrain().getY(),buildingType);
+                Building building = new Building(city.getCentralTerrain().getX(), city.getCentralTerrain().getY(), buildingType);
                 city.getBuildingWaitlist().add(building);
-                return buildingType.name() + " will be constructed in " + buildingType.getTurn()+" turns";
+                return buildingType.name() + " will be constructed in " + buildingType.getTurn() + " turns";
             }
 
         }
@@ -371,7 +336,7 @@ public class CityController {
 
     }
 
-    public String createBuildingWithGold(Matcher matcher, City city){
+    public String createBuildingWithGold(Matcher matcher, City city) {
         Civilization civilization = city.getOwner();
         int money = city.getGold();
         String notEnoughMoney = "You do not have enough gold to construct this unit";
@@ -382,24 +347,23 @@ public class CityController {
         String unitPurchasedSuccessfully = "Unit purchase was successful";
         ArrayList<BuildingTypes> allBuildingTypes = new ArrayList<>(Arrays.asList(BuildingTypes.values()));
         ArrayList<BuildingTypes> allBuildingTypesOfCity = new ArrayList<>();
-        for(Building building : city.getBuildings()){
+        for (Building building : city.getBuildings()) {
             allBuildingTypesOfCity.add(building.getBuildingType());
         }
 
-        for(BuildingTypes buildingType : allBuildingTypes){
+        for (BuildingTypes buildingType : allBuildingTypes) {
             if (buildingType.name().equals(buildingName)) {
                 if (money < buildingType.getCost()) {
                     return notEnoughMoney;
-                }
-                else if (buildingType.getBuildingRequirements() != null && allBuildingTypes.containsAll(buildingType.getBuildingRequirements())) {
+                } else if (buildingType.getBuildingRequirements() != null && allBuildingTypes.containsAll(buildingType.getBuildingRequirements())) {
                     return lackBuilding;
                 } else if (city.getCentralTerrain().getResource() != null && buildingType.getResourceRequirements() != null && !city.getCentralTerrain().getResource().getResourceType().equals(buildingType.getResourceRequirements().get(0))) {
                     return lackResources;
                 } else if (allBuildingTypes.contains(buildingType)) {
                     return buildingAlreadyExists;
                 }
-                Building building = new Building(city.getCentralTerrain().getX(),city.getCentralTerrain().getY(),buildingType);
-                city.setGold(city.getGold()-buildingType.getCost());
+                Building building = new Building(city.getCentralTerrain().getX(), city.getCentralTerrain().getY(), buildingType);
+                city.setGold(city.getGold() - buildingType.getCost());
                 city.getBuildings().add(building);
                 return unitPurchasedSuccessfully;
             }
@@ -424,7 +388,7 @@ public class CityController {
             case "ARCHER":
                 if (money < UnitTypes.ARCHER.getCost()) {
                     return notEnoughMoney;
-                } else if (!containUnit(civilization.getTechnologies(),UnitTypes.ARCHER.getTechnologyRequirements())) {
+                } else if (!containUnit(civilization.getTechnologies(), UnitTypes.ARCHER.getTechnologyRequirements())) {
                     return lackTechnology;
                 } else if (city.getCentralTerrain().getCombatUnit() != null) {
                     return unitAlreadyExists;
@@ -439,7 +403,7 @@ public class CityController {
             case "CHARIOT_ARCHER":
                 if (money < UnitTypes.CHARIOT_ARCHER.getCost()) {
                     return notEnoughMoney;
-                } else if (!containUnit(civilization.getTechnologies(),UnitTypes.CHARIOT_ARCHER.getTechnologyRequirements())) {
+                } else if (!containUnit(civilization.getTechnologies(), UnitTypes.CHARIOT_ARCHER.getTechnologyRequirements())) {
                     return lackTechnology;
                 } else if (!city.getCentralTerrain().getResource().getResourceType().equals(ResourceTypes.HORSES)) {
                     return lackResources;
@@ -452,7 +416,6 @@ public class CityController {
                     city.getCentralTerrain().setCombatUnit(newChariotArcher);
                     return unitPurchasedSuccessfully;
                 }
-
 
 
             case "SCOUT":
@@ -855,18 +818,15 @@ public class CityController {
     }
 
 
-    public void buyTile( int x, int y, City city)
-    {
+    public void buyTile(int x, int y, City city) {
         Terrain tile = this.databaseController.getTerrainByCoordinates(x, y);
-        ArrayList< Terrain> mainTerrains = city.getMainTerrains();
-        if ( NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(mainTerrains, this.map).contains(tile))
-        {
-            if ( city.getGold()< tile.getGold())
-            {
+        ArrayList<Terrain> mainTerrains = city.getMainTerrains();
+        if (NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(mainTerrains, this.map).contains(tile)) {
+            if (city.getGold() < tile.getGold()) {
                 System.out.println("Not enough money");
                 return;
             }
-            city.setGold( city.getGold() - tile.getGold());
+            city.setGold(city.getGold() - tile.getGold());
             mainTerrains.add(tile);
             city.setMainTerrains(mainTerrains);
             return;
@@ -874,7 +834,6 @@ public class CityController {
         System.out.println("You cannot buy this tile");
 
     }
-
 
 
     public ArrayList<Terrain> getNeighborTerrainsOfOneTerrain(Terrain terrain, Map map) {
@@ -955,48 +914,39 @@ public class CityController {
         return null;
     }
 
-    public void removeCitizenFromWork( Citizen citizen)
-    {
-        if ( citizen != null && citizen.getHasWork())
-        {
+    public void removeCitizenFromWork(Citizen citizen) {
+        if (citizen != null && citizen.getHasWork()) {
             citizen.setHasWork(false);
             citizen.deleteWork();
         }
         System.out.println("error");
     }
 
-    public Boolean oneCombatTurn (City city, CombatUnit attacker)
-    {
+    public Boolean oneCombatTurn(City city, CombatUnit attacker) {
         double cityCombatStrength = city.getCombatStrength();
         int attackerCombatStrength = attacker.getCombatStrength();
         Terrain terrain = this.databaseController.getTerrainByCoordinates(attacker.getX(), attacker.getY());
         int modifier = terrain.getTerrainTypes().getCombatModifier();
-        if ( terrain.getTerrainFeatureTypes() != null)
-        {
-            for ( TerrainFeatureTypes terrainFeatureTypes : terrain.getTerrainFeatureTypes())
-            {
+        if (terrain.getTerrainFeatureTypes() != null) {
+            for (TerrainFeatureTypes terrainFeatureTypes : terrain.getTerrainFeatureTypes()) {
                 modifier += terrainFeatureTypes.getCombatModifier();
             }
         }
-        if ( attacker.getUnitType().equals(UnitTypes.CATAPULT) || attacker.getUnitType().equals(UnitTypes.TREBUCHET)
-           || attacker.getUnitType().equals(UnitTypes.ARTILLERY) || attacker.getUnitType().equals(UnitTypes.CANNON))
-        {
+        if (attacker.getUnitType().equals(UnitTypes.CATAPULT) || attacker.getUnitType().equals(UnitTypes.TREBUCHET) || attacker.getUnitType().equals(UnitTypes.ARTILLERY) || attacker.getUnitType().equals(UnitTypes.CANNON)) {
             modifier += 10;
         }
-        attackerCombatStrength = attackerCombatStrength * ( 1 + ( modifier / 100 ));
-        city.setHP( city.getHP() - attackerCombatStrength + 1);
-        attacker.setHP( attacker.getHP() - cityCombatStrength);
-        if ( attacker.getHP() <= 0)
-        {
+        attackerCombatStrength = attackerCombatStrength * (1 + (modifier / 100));
+        city.setHP(city.getHP() - attackerCombatStrength + 1);
+        attacker.setHP(attacker.getHP() - cityCombatStrength);
+        if (attacker.getHP() <= 0) {
             Civilization unitOwner = this.databaseController.getContainerCivilization(attacker);
             unitOwner.removeUnit(attacker);
             Terrain tile = this.databaseController.getTerrainByCoordinates(attacker.getX(), attacker.getY());
             tile.setCombatUnit(null);
-            System.out.println( "The city won.");
+            System.out.println("The city won.");
             return false;
         }
-        if ( city.getHP() <= 0)
-        {
+        if (city.getHP() <= 0) {
             System.out.println("The city lost.");
             return true;
             /*Civilization civilization = city.getOwner();
@@ -1008,30 +958,23 @@ public class CityController {
         return false;
     }
 
-    public void whatToDoWithTheCity( String input, City city, Civilization civilization)
-    {
-        if ( civilization.getUnits().contains(city.getCentralTerrain().getCombatUnit()) && city.getHP() <= 0)
-        {
-            if (input.equals("ATTACH CITY"))
-            {
+    public void whatToDoWithTheCity(String input, City city, Civilization civilization) {
+        if (civilization.getUnits().contains(city.getCentralTerrain().getCombatUnit()) && city.getHP() <= 0) {
+            if (input.equals("ATTACH CITY")) {
                 this.attachCity(civilization, city);
-            } else
-            {
+            } else {
                 this.destroyCity(civilization, city.getOwner(), city);
             }
         }
     }
 
-    public boolean rangedAttackToCityForOneTurn( RangedCombatUnit attacker, City city)
-    {
+    public boolean rangedAttackToCityForOneTurn(RangedCombatUnit attacker, City city) {
         int combatStrength = attacker.getUnitType().getRangedCombatStrengh();
         int combatRange = attacker.getUnitType().getRange();
-        city.setHP( city.getHP() - combatStrength + 1);
+        city.setHP(city.getHP() - combatStrength + 1);
         return city.getHP() <= 0;
 
     }
-
-
 
 
 }

@@ -36,6 +36,31 @@ public class WorkersOptionsController {
     @FXML
     ArrayList<Button> unlockable = new ArrayList<>();
 
+    static void pressingMouseForMoreThanTwoSeconds(Button button, Parent root) {
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+
+        button.addEventFilter(MouseEvent.ANY, new EventHandler<>() {
+
+            long startTime;
+
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
+                    startTime = System.currentTimeMillis();
+                } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
+                    if (System.currentTimeMillis() - startTime > 1000) {
+                        stage.show();
+                    }
+                } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
+                    if (stage.isShowing()) {
+                        stage.close();
+                    }
+
+                }
+            }
+        });
+    }
 
     @FXML
     public void initialize() {
@@ -181,7 +206,6 @@ public class WorkersOptionsController {
 
     }
 
-
     public void backToGameMap() {
         Main.changeMenu("GameMap");
     }
@@ -198,31 +222,5 @@ public class WorkersOptionsController {
             e.printStackTrace();
         }
 
-    }
-
-    static void pressingMouseForMoreThanTwoSeconds(Button button, Parent root) {
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-
-        button.addEventFilter(MouseEvent.ANY, new EventHandler<>() {
-
-            long startTime;
-
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
-                    startTime = System.currentTimeMillis();
-                } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
-                    if (System.currentTimeMillis() - startTime > 1000) {
-                        stage.show();
-                    }
-                } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                    if (stage.isShowing()) {
-                        stage.close();
-                    }
-
-                }
-            }
-        });
     }
 }

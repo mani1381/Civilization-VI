@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -53,8 +54,6 @@ public class ProfileMenuController {
     private Label nicknameWarning;
     @FXML
     private Label passwordWarning;
-
-
 
 
     public void setTexts() throws FileNotFoundException {
@@ -212,6 +211,7 @@ public class ProfileMenuController {
     public void goToChatMenu(ActionEvent event) throws IOException {
         Main.changeMenu("GlobalChat");
     }
+
     public void EditMap(MouseEvent mouseEvent) {
         DatabaseController.getInstance().getMap().generateMap();
         Main.changeMenu("EditMap");

@@ -71,7 +71,7 @@ public class TerrainPopUpController {
 
         x.setText("x : " + terrain.getX());
         y.setText("y : " + terrain.getY());
-        if(terrain.getType().equals("visible")) {
+        if (terrain.getType().equals("visible")) {
 
             setTerrainTypeAndFeatureType(terrain, terrain.getTerrainTypes(), terrain.getTerrainFeatureTypes());
             if (terrain.getResource() != null) {
@@ -82,10 +82,9 @@ public class TerrainPopUpController {
                 ResourceImage.setImage((new Image(new FileInputStream(getImagePatternOfTiles(terrain.getResource().getResourceType().name())))));
             }
             setImprovement(terrain.getTerrainImprovement(), terrain);
-        }
-        else if(terrain.getType().equals("revealed")){
-            for(Revealed revealed : terrain.getReveals()){
-                if(revealed.getUser().equals(DatabaseController.getInstance().getDatabase().getActiveUser())){
+        } else if (terrain.getType().equals("revealed")) {
+            for (Revealed revealed : terrain.getReveals()) {
+                if (revealed.getUser().equals(DatabaseController.getInstance().getDatabase().getActiveUser())) {
                     setTerrainTypeAndFeatureType(terrain, revealed.getTerrainTypes(), revealed.getTerrainFeatureTypes());
                     if (revealed.getTerrainResource() != null) {
                         ResourceType.setText(revealed.getTerrainResource().getResourceType().name());

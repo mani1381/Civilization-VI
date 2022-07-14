@@ -64,7 +64,8 @@ public class ruinsNotifyController {
 
         for (TechnologyTypes technologyTypes : TechnologyTypes.values()) {
             if (technologyTypes.name().equalsIgnoreCase(name)) {
-                // return " src/main/resources/com/example/civilization/PNG/civAsset/units/Units/" + name + ".png";
+                // suspicious
+                return " src/main/resources/com/example/civilization/PNG/civAsset/units/Units/" + name + ".png";
             }
         }
 

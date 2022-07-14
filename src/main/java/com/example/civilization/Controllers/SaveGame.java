@@ -10,21 +10,22 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class SaveGame {
+    private static SaveGame instance;
     private Database database;
     private int turn;
-    private static SaveGame instance;
 
-    public static SaveGame getInstance(){
-        if(instance == null){
+    public SaveGame(int turn) {
+        this.database = Database.getInstance();
+        this.turn = 1;
+    }
+
+    public static SaveGame getInstance() {
+        if (instance == null) {
             instance = new SaveGame(1);
         }
         return instance;
     }
 
-    public SaveGame(int turn){
-        this.database = Database.getInstance();
-        this.turn = 1;
-    }
     public void saveGame() throws IOException {
         Gson gson = new Gson();
         String gsonMap = gson.toJson(database.getMap());
@@ -32,15 +33,15 @@ public class SaveGame {
         fileWriter.write(gsonMap);
         fileWriter.close();
         turn++;
-        if(turn > 5){
+        if (turn > 5) {
             turn = 1;
         }
     }
 
     public void loadGame(int num) throws IOException {
-       String gsonMap = new String(Files.readAllBytes(Paths.get("src/main/resources/com/Game" + num + ".json")));
-       Gson gson = new Gson();
-       Map map =  gson.fromJson(gsonMap, Map.class);
-       database.setMap(map);
+        String gsonMap = new String(Files.readAllBytes(Paths.get("src/main/resources/com/Game" + num + ".json")));
+        Gson gson = new Gson();
+        Map map = gson.fromJson(gsonMap, Map.class);
+        database.setMap(map);
     }
 }
