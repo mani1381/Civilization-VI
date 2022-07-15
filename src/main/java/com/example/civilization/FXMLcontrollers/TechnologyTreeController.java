@@ -142,7 +142,7 @@ public class TechnologyTreeController {
         }
     }
 
-    public void showingPopUp(TechnologyTypes technologyTypes, StackPane stackPane) {
+    public static void showingPopUp(TechnologyTypes technologyTypes, StackPane stackPane) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/TechnologyPopUp.fxml"));
             Parent root = loader.load();

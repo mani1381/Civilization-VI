@@ -648,10 +648,7 @@ public class Map {
                 toBeRemoved.add(tile);
             }
         }
-        if ( toBeRemoved != null)
-        {
-            user.getCivilization().getRevealedTerrains().removeAll(toBeRemoved);
-        }
+        user.getCivilization().getRevealedTerrains().removeAll(toBeRemoved);
 
         user.getCivilization().setVisibleTerrains(visibleTerrains);
 

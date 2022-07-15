@@ -315,9 +315,6 @@ public class DatabaseController {
         ArrayList<ArrayList<Terrain>> allPaths = new ArrayList<>();
         addingAllPath(0, combatUnit.getX(), combatUnit.getY(), x_final, y_final, map, path, allPaths);
         combatUnit.setNextTerrain(findingTheShortestPath(combatUnit, allPaths));
-        for (Terrain terrain : combatUnit.getNextTerrain()) {
-            System.out.println(terrain.getX() + " " + terrain.getY());
-        }
         if (combatUnit.getNextTerrain().isEmpty()) {
             return "You're unable to go to your destination";
         }
@@ -420,10 +417,10 @@ public class DatabaseController {
             allPaths.add(path);
             return;
         }
-        if ((turn >= 10 && turn <= 20) && allPaths.size() > 0) {
+        if ((turn >= 6 && turn <= 10) && allPaths.size() > 0) {
             return;
         }
-        if (turn == 20) {
+        if (turn == 10) {
             return;
         }
         for (int i = -1; i < 2; i++) {

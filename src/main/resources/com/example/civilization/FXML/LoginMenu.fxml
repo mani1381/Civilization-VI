@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1530.0" stylesheets="@../CSS/LoginMenu.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.LoginMenuController">
+<AnchorPane prefHeight="800.0" prefWidth="1486.0" stylesheets="@../CSS/LoginMenu.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.LoginMenuController">
    <children>
-      <ImageView fitHeight="800.0" fitWidth="1530.0" layoutX="-3.0" layoutY="1.0" opacity="0.23" pickOnBounds="true">
+      <ImageView fitHeight="800.0" fitWidth="1486.0" layoutX="-3.0" layoutY="1.0" opacity="0.23" pickOnBounds="true">
          <image>
             <Image url="@../PNG/images/sid-meiers-civilization-vi-c.jpg" />
          </image>

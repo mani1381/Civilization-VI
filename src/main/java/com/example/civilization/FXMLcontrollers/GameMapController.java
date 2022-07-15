@@ -4,6 +4,8 @@ package com.example.civilization.FXMLcontrollers;
 import com.example.civilization.Controllers.DatabaseController;
 import com.example.civilization.Controllers.SaveGame;
 import com.example.civilization.Main;
+import com.example.civilization.Model.Technologies.Technology;
+import com.example.civilization.Model.Technologies.TechnologyTypes;
 import com.example.civilization.Model.TerrainFeatures.TerrainFeatureTypes;
 import com.example.civilization.Model.Terrains.TerrainTypes;
 import com.example.civilization.Model.Units.CombatUnit;
@@ -41,6 +43,13 @@ public class GameMapController {
 
     static int start_X_InShowMap = 0;
     static int start_Y_InShowMap = 0;
+
+    static int start_X_Coordinates = 280;
+
+    static int start_Y_Coordinates = 200;
+
+    static int radius = 50;
+
     public TextField text;
     public Label coordinates;
     public Label hp;
@@ -48,6 +57,23 @@ public class GameMapController {
     public Label rcs;
     public Button actions;
     public ImageView unitImage;
+    public Label happiness;
+    public Label science;
+    public Label turns;
+    public ImageView underResearchTechnologyImage;
+    public Label underResearchName;
+    public Label leftTurns;
+    public AnchorPane researchPanel;
+    public Label gold;
+    public Button cheat;
+    public Button unitsPanel;
+    public Button citiesPanel;
+    public Button demographicPanel;
+    public Button notificationHistory;
+    public Button militaryOverview;
+    public Button economicOverview;
+    public Label selectedPanel;
+    public Button chooseResearch;
     DatabaseController databaseController = DatabaseController.getInstance();
     @FXML
     private ArrayList<Polygon> terrainHexagons = new ArrayList<>();
@@ -56,6 +82,7 @@ public class GameMapController {
 
     @FXML
     private AnchorPane unitPane;
+
 
     static boolean terrainTypeAndFeatureAddress(String name) {
         for (TerrainTypes terrainTypes : TerrainTypes.values()) {
@@ -79,9 +106,10 @@ public class GameMapController {
 //        DatabaseController.getInstance().setCivilizations(DatabaseController.getInstance().getDatabase().getUsers());
         this.databaseController.getMap().initializeMapUser(DatabaseController.getInstance().getDatabase().getActiveUser());
 
+
         pane.setMaxSize(1300, 700);
 
-        setHexagons(start_X_InShowMap, start_Y_InShowMap, 280, 130, 50);
+        setHexagons(start_X_InShowMap, start_Y_InShowMap, start_X_Coordinates, start_Y_Coordinates, radius);
 
         for (Polygon polygon : terrainHexagons) {
             pane.getChildren().add(polygon);
@@ -94,7 +122,10 @@ public class GameMapController {
                 throw new RuntimeException(e);
             }
             try {
+                setSelectedPanelAndButtons();
                 setSelectedUnitData();
+                setCurrentResearch();
+                setGoldHappinessScience();
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -110,26 +141,26 @@ public class GameMapController {
             switch (e.getCode()) {
                 case UP -> {
                     if (start_X_InShowMap > 0) {
-                        start_X_InShowMap--;
+                        start_X_InShowMap -= 2;
                         mapForNewCoordinates();
                     }
                 }
                 case DOWN -> {
-                    if (start_X_InShowMap + 6 < databaseController.getMap().getROW() - 1) {
-                        start_X_InShowMap++;
+                    if (start_X_InShowMap + 8 < databaseController.getMap().getROW()) {
+                        start_X_InShowMap += 2;
                         mapForNewCoordinates();
                     }
                 }
                 case LEFT -> {
                     if (start_Y_InShowMap > 0) {
-                        start_Y_InShowMap--;
+                        start_Y_InShowMap -= 2;
                         mapForNewCoordinates();
                     }
 
                 }
                 case RIGHT -> {
-                    if (start_Y_InShowMap + 12 < databaseController.getMap().getCOL() - 1) {
-                        start_Y_InShowMap++;
+                    if (start_Y_InShowMap + 14 < databaseController.getMap().getCOL()) {
+                        start_Y_InShowMap += 2;
                         mapForNewCoordinates();
                     }
 
@@ -137,6 +168,57 @@ public class GameMapController {
             }
         });
 
+    }
+
+    private void setSelectedPanelAndButtons() {
+        unitsPanel.addEventFilter(MouseEvent.ANY, event -> {
+            if (event.getEventType().equals(MouseEvent.MOUSE_ENTERED)) {
+                selectedPanel.setText("Units Panel");
+
+            } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
+                selectedPanel.setText("");
+            }
+        });
+        citiesPanel.addEventFilter(MouseEvent.ANY, event -> {
+            if (event.getEventType().equals(MouseEvent.MOUSE_ENTERED)) {
+                selectedPanel.setText("Cities Panel");
+
+            } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
+                selectedPanel.setText("");
+            }
+        });
+        demographicPanel.addEventFilter(MouseEvent.ANY, event -> {
+            if (event.getEventType().equals(MouseEvent.MOUSE_ENTERED)) {
+                selectedPanel.setText("Demographic Panel");
+
+            } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
+                selectedPanel.setText("");
+            }
+        });
+        notificationHistory.addEventFilter(MouseEvent.ANY, event -> {
+            if (event.getEventType().equals(MouseEvent.MOUSE_ENTERED)) {
+                selectedPanel.setText("Notification History");
+
+            } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
+                selectedPanel.setText("");
+            }
+        });
+        militaryOverview.addEventFilter(MouseEvent.ANY, event -> {
+            if (event.getEventType().equals(MouseEvent.MOUSE_ENTERED)) {
+                selectedPanel.setText("Military Overview");
+
+            } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
+                selectedPanel.setText("");
+            }
+        });
+        economicOverview.addEventFilter(MouseEvent.ANY, event -> {
+            if (event.getEventType().equals(MouseEvent.MOUSE_ENTERED)) {
+                selectedPanel.setText("Economic Overview");
+
+            } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
+                selectedPanel.setText("");
+            }
+        });
     }
 
     private void setSelectedUnitData() throws FileNotFoundException {
@@ -169,6 +251,56 @@ public class GameMapController {
 
     }
 
+    private void setCurrentResearch() throws FileNotFoundException {
+        Technology underResearchTechnology = DatabaseController.getInstance().getUnderResearchTechnology(DatabaseController.getInstance().getDatabase().getActiveUser());
+        if (underResearchTechnology != null) {
+            underResearchTechnologyImage.setImage(new Image(new FileInputStream(getImagePatternOfTiles(underResearchTechnology.getTechnologyType().name()))));
+            underResearchName.setText(underResearchTechnology.getTechnologyType().name());
+            int neededScience = underResearchTechnology.getTechnologyType().getCost() - underResearchTechnology.getCostsForResearch();
+            leftTurns.setText(Integer.toString(neededScience));
+            showingTechnologyPopUp(DatabaseController.getInstance().getTechnologyTypeByName(underResearchTechnology.getTechnologyType().name()), researchPanel);
+
+
+        } else {
+            underResearchName.setText("???");
+            leftTurns.setText("???");
+        }
+
+
+    }
+
+    private void setGoldHappinessScience() {
+        gold.setText(Integer.toString(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getGold()));
+        science.setText(Integer.toString(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getScience()));
+        happiness.setText(Integer.toString(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getHappiness()));
+        turns.setText(Integer.toString(DatabaseController.getInstance().getDatabase().getTurn()));
+    }
+
+    private void showingTechnologyPopUp(TechnologyTypes technologyTypes, AnchorPane anchorPane) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/TechnologyPopUp.fxml"));
+            Parent root = loader.load();
+            TechnologyPopUpController secController = loader.getController();
+            secController.setData(technologyTypes);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+
+            anchorPane.addEventFilter(MouseEvent.ANY, event -> {
+                if (event.getEventType().equals(MouseEvent.MOUSE_ENTERED)) {
+                    stage.show();
+
+                } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
+                    if (stage.isShowing()) {
+                        stage.close();
+                    }
+
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void mapForNewCoordinates() {
         int i = 0;
@@ -177,7 +309,7 @@ public class GameMapController {
                 pane.getChildren().remove(polygon);
             }
             terrainHexagons.clear();
-            setHexagons(start_X_InShowMap, start_Y_InShowMap, 280, 130, 50);
+            setHexagons(start_X_InShowMap, start_Y_InShowMap, start_X_Coordinates, start_Y_Coordinates, radius);
             for (Polygon polygon : terrainHexagons) {
                 pane.getChildren().addAll(polygon);
             }
@@ -247,8 +379,8 @@ public class GameMapController {
         Polygon rivers = addingRivers(radius, i, j, x, y);
         terrainHexagons.add(rivers);
         if (databaseController.getTerrainByCoordinates(i, j).getType().equals("revealed")) {
-            polygonTerrainType.setOpacity(0.2);
-            polygonTerrainFeatureType.setOpacity(0.2);
+            polygonTerrainType.setOpacity(0.5);
+            polygonTerrainFeatureType.setOpacity(0.5);
         } else if (databaseController.getTerrainByCoordinates(i, j).getType().equals("fog of war")) {
             polygonTerrainFeatureType.setFill(new ImagePattern(new Image(new FileInputStream("src/main/resources/com/example/civilization/PNG/civAsset/map/CrosshatchHexagon.png"))));
             polygonTerrainType.setFill(new ImagePattern(new Image(new FileInputStream("src/main/resources/com/example/civilization/PNG/civAsset/map/CrosshatchHexagon.png"))));
@@ -308,7 +440,6 @@ public class GameMapController {
                 });
 
 
-
             }
 
         } catch (IOException e) {
@@ -321,10 +452,10 @@ public class GameMapController {
     public void helloselectingUnits(ArrayList<Polygon> polygons, int i, int j) {
         for (Polygon polygon : polygons) {
             polygon.setOnMousePressed(mouseEvent -> {
-                if(DatabaseController.getInstance().getSelectedNonCombatUnit() != null || DatabaseController.getInstance().getSelectedCombatUnit() != null){
-                    System.out.println(DatabaseController.getInstance().unitMovement(i,j,DatabaseController.getInstance().getDatabase().getActiveUser()));
+                if (DatabaseController.getInstance().getSelectedNonCombatUnit() != null || DatabaseController.getInstance().getSelectedCombatUnit() != null) {
+                    System.out.println(DatabaseController.getInstance().unitMovement(i, j, DatabaseController.getInstance().getDatabase().getActiveUser()));
                     DatabaseController.getInstance().movementOfAllUnits(DatabaseController.getInstance().getDatabase().getActiveUser());
-             //       DatabaseController.getInstance().setTerrainsOfEachCivilization(DatabaseController.getInstance().getDatabase().getActiveUser());
+                    DatabaseController.getInstance().setTerrainsOfEachCivilization(DatabaseController.getInstance().getDatabase().getActiveUser());
                     this.databaseController.getMap().initializeMapUser(DatabaseController.getInstance().getDatabase().getActiveUser());
                     try {
                         setSelectedUnitData();
@@ -365,7 +496,6 @@ public class GameMapController {
     }
 
 
-
     public Polygon addingRivers(int radius, int i, int j, double x, double y) throws FileNotFoundException {
         Polygon rivers = new Polygon();
         for (int a = -1; a < 2; a++) {
@@ -374,7 +504,6 @@ public class GameMapController {
                     if (databaseController.getMap().hasRiver(databaseController.getMap().getTerrain()[i + a][j + b], databaseController.getMap().getTerrain()[i][j]) != null) {
 
                         if (a == 1 && b == 0) {
-                            //       System.out.println(i + " " + j + " " + a + " " + b);
                             rivers.getPoints().addAll(drawingPolygonWithCenterAndRadius(x, y, radius));
                             rivers.setFill(new ImagePattern(new Image(new FileInputStream("src/main/resources/com/example/civilization/PNG/civAsset/map/Tiles/River-Bottom.png"))));
                         } else {
@@ -415,6 +544,12 @@ public class GameMapController {
         for (UnitTypes unitTypes : UnitTypes.values()) {
             if (unitTypes.name().equalsIgnoreCase(name)) {
                 return "src/main/resources/com/example/civilization/PNG/civAsset/units/Units/" + name + ".png";
+            }
+        }
+        for (TechnologyTypes technologyTypes : TechnologyTypes.values()) {
+            if (technologyTypes.name().equalsIgnoreCase(name)) {
+
+                return "src/main/resources/com/example/civilization/PNG/civAsset/icons/technology/" + name + ".png";
             }
         }
         return null;

@@ -9,12 +9,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pane" prefHeight="800.0" prefWidth="1530.0" stylesheets="@../CSS/Game.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.GameMapController">
+<Pane fx:id="pane" prefHeight="800.0" prefWidth="1470.0" stylesheets="@../CSS/Game.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.GameMapController">
    <children>
-      <Button layoutX="45.0" layoutY="58.0" mnemonicParsing="false" onAction="#goToCheatCode" text="Button" />
-      <Button layoutX="45.0" layoutY="166.0" mnemonicParsing="false" onMouseClicked="#save" text="Save" />
-      <Button layoutX="45.0" layoutY="291.0" mnemonicParsing="false" onMouseClicked="#load" text="Load" />
-      <TextField fx:id="text" layoutX="5.0" layoutY="252.0" />
+      <Button layoutX="44.0" layoutY="286.0" mnemonicParsing="false" onMouseClicked="#save" text="Save" />
+      <Button layoutX="43.0" layoutY="408.0" mnemonicParsing="false" onMouseClicked="#load" text="Load" />
+      <TextField fx:id="text" layoutX="14.0" layoutY="352.0" />
       <AnchorPane fx:id="unitPane" layoutY="524.0" prefHeight="276.0" prefWidth="196.0">
          <children>
             <ImageView fx:id="unitImage" fitHeight="95.0" fitWidth="115.0" layoutX="18.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -45,6 +44,108 @@
             <Button fx:id="actions" layoutX="39.0" layoutY="228.0" mnemonicParsing="false" onAction="#goToUnitActions" prefHeight="32.0" prefWidth="115.0" text="Actions">
                <font>
                   <Font name="Copperplate" size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="-2.0" prefHeight="51.0" prefWidth="1470.0">
+         <children>
+            <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="14.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/civAsset/icons/main/Gold.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="gold" alignment="CENTER" layoutX="61.0" layoutY="19.0" prefHeight="16.0" prefWidth="50.0" text="10000" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="123.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/civAsset/icons/main/Happiness.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="happiness" alignment="CENTER" layoutX="172.0" layoutY="19.0" prefHeight="16.0" prefWidth="50.0" text="10000" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="236.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/civAsset/icons/main/Science.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="science" alignment="CENTER" layoutX="287.0" layoutY="20.0" prefHeight="16.0" prefWidth="50.0" text="10000" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="352.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/civAsset/icons/main/Turn.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="turns" alignment="CENTER" layoutX="407.0" layoutY="20.0" prefHeight="16.0" prefWidth="50.0" text="10000" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="setting" fitHeight="39.0" fitWidth="44.0" layoutX="1385.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PNG/Avatars/setting-icon-transparent-2.jpeg" />
+               </image>
+            </ImageView>
+            <Button fx:id="cheatPanel" layoutX="1198.0" layoutY="9.0" mnemonicParsing="false" onAction="#goToCheatCode" prefHeight="39.0" prefWidth="140.0" style="-fx-background-radius: 100;" text="Cheat Code" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="chooseResearch" layoutX="944.0" layoutY="9.0" mnemonicParsing="false" onAction="#goToCheatCode" prefHeight="39.0" prefWidth="196.0" style="-fx-background-radius: 100;" text="Choose Research" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="18.0" />
+               </font>
+            </Button>
+            <Label fx:id="selectedPanel" alignment="CENTER" layoutX="522.0" layoutY="12.0" prefHeight="26.0" prefWidth="372.0" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="49.0" prefHeight="39.0" prefWidth="1470.0">
+         <children>
+            <AnchorPane fx:id="researchPanel" layoutX="6.0" layoutY="6.0" prefHeight="32.0" prefWidth="224.0">
+               <children>
+                  <ImageView fx:id="underResearchTechnologyImage" fitHeight="39.0" fitWidth="69.0" layoutX="1.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true" />
+                  <AnchorPane layoutX="35.0" layoutY="3.0" prefHeight="22.0" prefWidth="176.0">
+                     <children>
+                        <Label fx:id="underResearchName" alignment="CENTER" layoutX="14.0" layoutY="6.0" prefHeight="16.0" prefWidth="140.0" text="ANIMAL_HUSBANDRY" textFill="RED">
+                           <font>
+                              <Font name="Copperplate" size="11.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="leftTurns" alignment="CENTER" layoutX="154.0" layoutY="6.0" prefHeight="16.0" prefWidth="50.0" text="10000" textFill="RED">
+                           <font>
+                              <Font name="Copperplate" size="11.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <Button fx:id="unitsPanel" layoutX="320.0" layoutY="5.0" maxHeight="32.0" minHeight="39.0" mnemonicParsing="false" onAction="#goToCheatCode" prefHeight="39.0" prefWidth="30.0" style="-fx-background-radius: 100; -fx-min-height: 30; -fx-max-width: 30; -fx-min-width: 30; -fx-max-height: 30;" />
+            <Button fx:id="citiesPanel" layoutX="424.0" layoutY="5.0" maxHeight="32.0" minHeight="39.0" mnemonicParsing="false" onAction="#goToCheatCode" prefHeight="39.0" prefWidth="30.0" style="-fx-background-radius: 100; -fx-min-height: 30; -fx-max-width: 30; -fx-min-width: 30; -fx-max-height: 30;" />
+            <Button fx:id="demographicPanel" layoutX="531.0" layoutY="5.0" maxHeight="32.0" minHeight="39.0" mnemonicParsing="false" onAction="#goToCheatCode" prefHeight="39.0" prefWidth="30.0" style="-fx-background-radius: 100; -fx-min-height: 30; -fx-max-width: 30; -fx-min-width: 30; -fx-max-height: 30;" />
+            <Button fx:id="notificationHistory" layoutX="636.0" layoutY="5.0" maxHeight="32.0" minHeight="39.0" mnemonicParsing="false" onAction="#goToCheatCode" prefHeight="39.0" prefWidth="30.0" style="-fx-background-radius: 100; -fx-min-height: 30; -fx-max-width: 30; -fx-min-width: 30; -fx-max-height: 30;" />
+            <Button fx:id="militaryOverview" layoutX="750.0" layoutY="5.0" maxHeight="32.0" minHeight="39.0" mnemonicParsing="false" onAction="#goToCheatCode" prefHeight="39.0" prefWidth="30.0" style="-fx-background-radius: 100; -fx-min-height: 30; -fx-max-width: 30; -fx-min-width: 30; -fx-max-height: 30;" />
+            <Button fx:id="economicOverview" layoutX="860.0" layoutY="5.0" maxHeight="32.0" minHeight="39.0" mnemonicParsing="false" onAction="#goToCheatCode" prefHeight="39.0" prefWidth="30.0" style="-fx-background-radius: 100; -fx-min-height: 30; -fx-max-width: 30; -fx-min-width: 30; -fx-max-height: 30;" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="1183.0" layoutY="717.0" prefHeight="85.0" prefWidth="287.0">
+         <children>
+            <Button fx:id="nextTurn" layoutX="42.0" layoutY="14.0" mnemonicParsing="false" onAction="#goToCheatCode" prefHeight="39.0" prefWidth="204.0" style="-fx-background-radius: 100;" text="Next Turn" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="18.0" />
                </font>
             </Button>
          </children>
