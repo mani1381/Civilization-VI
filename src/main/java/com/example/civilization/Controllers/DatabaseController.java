@@ -108,11 +108,11 @@ public class DatabaseController {
         return "you do not have access to this unit";
     }
 
-    public void deselectAllUnits(){
-        if(DatabaseController.getInstance().getSelectedNonCombatUnit() != null){
+    public void deselectAllUnits() {
+        if (DatabaseController.getInstance().getSelectedNonCombatUnit() != null) {
             DatabaseController.getInstance().getSelectedNonCombatUnit().setIsSelected(false);
         }
-        if(DatabaseController.getInstance().getSelectedCombatUnit() != null){
+        if (DatabaseController.getInstance().getSelectedCombatUnit() != null) {
             DatabaseController.getInstance().getSelectedCombatUnit().setIsSelected(false);
         }
     }
@@ -606,9 +606,17 @@ public class DatabaseController {
     public void createUnitForEachCivilization(User user) {
         ArrayList<Integer> unitsCoordinates = findingEmptyTiles();
         NonCombatUnit newSettler = new NonCombatUnit(unitsCoordinates.get(0), unitsCoordinates.get(1) + 1, 0, 0, 0, 0, false, false, UnitTypes.SETTLER, false);
+
         NonRangedCombatUnit newWarrior = new NonRangedCombatUnit(unitsCoordinates.get(0), unitsCoordinates.get(1), 0, 0, 0, 0, false, false, UnitTypes.WARRIOR, false, false, false, false, false);
         getMap().getTerrain()[unitsCoordinates.get(0)][unitsCoordinates.get(1)].setCombatUnit(newWarrior);
         getMap().getTerrain()[unitsCoordinates.get(0)][unitsCoordinates.get(1) + 1].setNonCombatUnit(newSettler);
+        //user.getCivilization().addCity(new City(user.getCivilization(),user.getCivilization(),getTerrainByCoordinates(10,12),10,null,10,10));
+        //user.getCivilization().addCity(new City(user.getCivilization(),user.getCivilization(),getTerrainByCoordinates(10,12),10,null,10,10));
+
+
+
+
+
         user.getCivilization().getUnits().add(newSettler);
         user.getCivilization().getUnits().add(newWarrior);
 
@@ -793,10 +801,19 @@ public class DatabaseController {
     public String choosingATechnologyToStudy(User user, TechnologyTypes technologyType) {
         for (TechnologyTypes technologyType2 : technologyType.getRequirements()) {
             if (!isContainTechnology(user, technologyType2)) {
-                notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " you do not have required prerequisites" + "\n");
+                if (notificationHistory.get(user) != null) {
+                    notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " you do not have required prerequisites" + "\n");
+                } else {
+                    notificationHistory.put(user, this.database.getTurn() + " you do not have required prerequisites" + "\n");
+                }
+
                 return "you do not have required prerequisites";
             } else if (isContainTechnology(user, technologyType2) && !getTechnologyByTechnologyType(user, technologyType2).getIsAvailable()) {
-                notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " you do not have required prerequisites" + "\n");
+                if (notificationHistory.get(user) != null) {
+                    notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " you do not have required prerequisites" + "\n");
+                } else {
+                    notificationHistory.put(user, this.database.getTurn() + " you do not have required prerequisites" + "\n");
+                }
                 return "you do not have required prerequisites";
             }
         }
@@ -805,12 +822,22 @@ public class DatabaseController {
         }
         if (isContainTechnology(user, technologyType)) {
             getTechnologyByTechnologyType(user, technologyType).setUnderResearch(true);
-            notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " Technology is under research again" + "\n");
+            if (notificationHistory.get(user) != null) {
+                notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " Technology " + technologyType.name() + " is under research again" + "\n");
+            } else {
+                notificationHistory.put(user, this.database.getTurn() + " Technology " + technologyType.name() + " is under research again" + "\n");
+            }
+
             return "Technology is under research again";
         } else {
             user.getCivilization().getTechnologies().add(new Technology(true, 0, technologyType, false));
         }
-        notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " Technology is under research" + "\n");
+        if (notificationHistory.get(user) != null) {
+            notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " Technology " + technologyType.name() + " is under research" + "\n");
+        } else {
+            notificationHistory.put(user, this.database.getTurn() + " Technology " + technologyType.name() + " is under research" + "\n");
+        }
+
         return "Technology is under research";
     }
 
@@ -972,20 +999,35 @@ public class DatabaseController {
 
     public String increaseGoldCheat(User user, int amount) {
         user.getCivilization().setGold(user.getCivilization().getGold() + amount);
-        notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " user's gold increased" + "\n");
+        if (notificationHistory.get(user) != null) {
+            notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " user's gold increased" + "\n");
+        } else {
+            notificationHistory.put(user, this.database.getTurn() + " user's gold increased" + "\n");
+        }
+
         return "user's gold increased";
     }
 
 
     public String increaseHappinessCheat(User user, int amount) {
         user.getCivilization().setHappiness(user.getCivilization().getHappiness() + amount);
-        notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " user's happiness increased" + "\n");
+        if (notificationHistory.get(user) != null) {
+            notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " user's happiness increased" + "\n");
+        } else {
+            notificationHistory.put(user, this.database.getTurn() + " user's happiness increased" + "\n");
+        }
+
         return "user's happiness increased";
     }
 
     public String increaseScienceCheat(User user, int amount) {
         user.getCivilization().setScience(user.getCivilization().getScience() + amount);
-        notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " user's sceince increased" + "\n");
+        if (notificationHistory.get(user) != null) {
+            notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " user's science increased" + "\n");
+        } else {
+            notificationHistory.put(user, this.database.getTurn() + " user's science increased" + "\n");
+        }
+
         return "user's science increased";
     }
 
@@ -995,7 +1037,13 @@ public class DatabaseController {
         } else {
             user.getCivilization().getTechnologies().add(new Technology(false, 0, technologyType, true));
         }
-        notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " Technology was added illegally!" + "\n");
+
+        if (notificationHistory.get(user) != null) {
+            notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " Technology was added illegally!" + "\n");
+        } else {
+            notificationHistory.put(user, this.database.getTurn() + " Technology was added illegally!" + "\n");
+        }
+
         return "Technology was added illegally!";
     }
 
@@ -1050,7 +1098,11 @@ public class DatabaseController {
             return "you already own this tile";
         }
         user.getCivilization().getOwnedTerrains().add(this.getMap().getTerrain()[x][y]);
-        notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " you bought tile illegally!" + "\n");
+        if (notificationHistory.get(user) != null) {
+            notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " you bought tile illegally!" + "\n");
+        } else {
+            notificationHistory.put(user, this.database.getTurn() + " you bought tile illegally!" + "\n");
+        }
         return "you bought tile illegally!";
 
     }
@@ -1398,7 +1450,7 @@ public class DatabaseController {
 
     public Unit getUnitByCoordinatesAndName(User user, String name, int x, int y) {
         for (Unit unit : user.getCivilization().getUnits()) {
-            if (unit.getUnitType().name().equals(name) && unit.getX() == x && unit.getY() == y) {
+            if (unit.getUnitType().name().equalsIgnoreCase(name) && unit.getX() == x && unit.getY() == y) {
                 return unit;
             }
         }
@@ -1610,7 +1662,12 @@ public class DatabaseController {
             }
 
         }
-        notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " improvement will be built successfully" + "\n");
+        if (notificationHistory.get(user) != null) {
+            notificationHistory.put(user, notificationHistory.get(user) + this.database.getTurn() + " improvement will be built successfully" + "\n");
+        } else {
+            notificationHistory.put(user, this.database.getTurn() + " improvement will be built successfully" + "\n");
+        }
+
         return "improvement will be built successfully";
     }
 

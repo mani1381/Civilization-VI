@@ -49,7 +49,7 @@ public class GameMenu {
                     // input = input.trim().replaceAll("\\s+", " ");
                     if(input.equals("EXIT")){
                         saveData saveData = new saveData();
-                        saveData.saveUsers(DatabaseController.getInstance().getDatabase());
+                        saveData.saveUsers();
                         System.exit(0);
                     }
                     if ((matcher = GameEnums.getMatcher(input, GameEnums.SELECT_UNIT)) != null) {

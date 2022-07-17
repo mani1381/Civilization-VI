@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="1530.0" stylesheets="@../CSS/Game.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.DemographicPanel">
+    <children>
+        <Separator layoutX="415.0" layoutY="176.0" prefHeight="3.0" prefWidth="685.0" />
+      <Label alignment="CENTER" layoutX="422.0" layoutY="142.0" prefHeight="17.0" prefWidth="100.0" text="Demographic" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="558.0" layoutY="142.0" prefHeight="17.0" prefWidth="72.0" text="Rank" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="673.0" layoutY="142.0" prefHeight="17.0" prefWidth="72.0" text="value" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="779.0" layoutY="142.0" prefHeight="17.0" prefWidth="72.0" text="best" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="891.0" layoutY="142.0" prefHeight="17.0" prefWidth="72.0" text="average" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="1008.0" layoutY="142.0" prefHeight="17.0" prefWidth="72.0" text="worst" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="425.0" layoutY="207.0" prefHeight="17.0" prefWidth="90.0" text="Cities" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="425.0" layoutY="288.0" prefHeight="17.0" prefWidth="90.0" text="Gold" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="423.0" layoutY="363.0" prefHeight="17.0" prefWidth="90.0" text="Science" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="427.0" layoutY="447.0" prefHeight="17.0" prefWidth="90.0" text="Happiness" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="427.0" layoutY="515.0" prefHeight="17.0" prefWidth="90.0" text="Technology" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="428.0" layoutY="586.0" prefHeight="17.0" prefWidth="90.0" text="Units" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="14.0" />
+         </font>
+      </Label>
+        <ImageView fitHeight="63.0" fitWidth="77.0" layoutX="69.0" layoutY="32.0" onMouseClicked="#backToGameMap" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../PNG/images/back.png" />
+            </image>
+        </ImageView>
+      <Separator layoutX="415.0" layoutY="252.0" prefHeight="3.0" prefWidth="685.0" />
+      <Separator layoutX="415.0" layoutY="330.0" prefHeight="3.0" prefWidth="685.0" />
+      <Separator layoutX="415.0" layoutY="411.0" prefHeight="3.0" prefWidth="685.0" />
+      <Separator layoutX="532.0" layoutY="126.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="6.0" />
+      <Separator layoutX="652.0" layoutY="128.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="6.0" />
+      <Separator layoutX="762.0" layoutY="126.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="6.0" />
+      <Separator layoutX="872.0" layoutY="127.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="6.0" />
+      <Separator layoutX="978.0" layoutY="128.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="6.0" />
+      <Separator layoutX="415.0" layoutY="487.0" prefHeight="3.0" prefWidth="685.0" />
+      <Separator layoutX="415.0" layoutY="556.0" prefHeight="3.0" prefWidth="685.0" />
+    </children>
+</AnchorPane>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="1400.0" stylesheets="@../CSS/CheatCode.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.EconomicOverview">
+
+    <ImageView fitHeight="63.0" fitWidth="77.0" layoutX="58.0" layoutY="32.0" onMouseClicked="#backToMap" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@../PNG/images/back.png" />
+        </image>
+    </ImageView>
+    <Label fx:id="result" alignment="CENTER" layoutX="149.0" layoutY="39.0" prefHeight="49.0" prefWidth="408.0" textFill="RED">
+        <font>
+            <Font name="Copperplate" size="18.0" />
+        </font>
+    </Label>
+</AnchorPane>

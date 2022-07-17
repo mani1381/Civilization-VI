@@ -436,7 +436,7 @@ public class Map {
 
 
 
-    // initialize Map Before Print For Speciall User
+    // initialize Map Before Print For Special User
     private boolean isBlock(int i, int j) {
         if (i < 0 || i >= ROW) {
             return false;

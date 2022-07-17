@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="1530.0" stylesheets="@../CSS/Game.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.NotificationHistory">
+    <children>
+        <ImageView fitHeight="63.0" fitWidth="77.0" layoutX="69.0" layoutY="32.0" onMouseClicked="#backToGameMap" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../PNG/images/back.png" />
+            </image>
+        </ImageView>
+      <Label fx:id="result" alignment="TOP_LEFT" layoutX="79.0" layoutY="154.0" prefHeight="529.0" prefWidth="1258.0" text="Label" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="16.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>

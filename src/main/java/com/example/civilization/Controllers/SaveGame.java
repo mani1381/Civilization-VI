@@ -11,19 +11,19 @@ import java.nio.file.Paths;
 
 public class SaveGame {
     private static SaveGame instance;
-    private Database database;
-    private int turn;
-
-    public SaveGame(int turn) {
-        this.database = Database.getInstance();
-        this.turn = 1;
-    }
 
     public static SaveGame getInstance() {
         if (instance == null) {
             instance = new SaveGame(1);
         }
         return instance;
+    }
+    private Database database;
+    private int turn;
+
+    public SaveGame(int turn) {
+        this.database = Database.getInstance();
+        this.turn = 1;
     }
 
     public void saveGame() throws IOException {

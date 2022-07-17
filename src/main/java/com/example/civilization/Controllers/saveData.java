@@ -12,20 +12,35 @@ import java.util.List;
 
 public class saveData {
 
-    public void saveUsers(Database database) {
+    private static saveData instance;
+
+    public static saveData getInstance() {
+        if (instance == null) {
+            instance = new saveData();
+        }
+        return instance;
+    }
+
+    private Database database;
+
+    public saveData() {
+        this.database = Database.getInstance();
+    }
+
+    public void saveUsers() {
         try {
             FileWriter Writer = new FileWriter("src/main/resources/Users.json");
-            Writer.write(new Gson().toJson(database.getUsers()));
+            Writer.write(new Gson().toJson(this.database.getUsers()));
             Writer.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void loadUsers(Database database) {
+    public void loadUsers() {
         try {
             String Users = new String(Files.readAllBytes(Paths.get("src/main/resources/com/example/civilization/Users.json")));
-            database.setUsers(new Gson().fromJson(Users, new TypeToken<List<User>>() {
+            this.database.setUsers(new Gson().fromJson(Users, new TypeToken<List<User>>() {
             }.getType()));
         } catch (Exception e) {
             e.printStackTrace();

@@ -3,6 +3,7 @@ package com.example.civilization.FXMLcontrollers;
 
 import com.example.civilization.Controllers.DatabaseController;
 import com.example.civilization.Controllers.SaveGame;
+import com.example.civilization.Controllers.saveData;
 import com.example.civilization.Main;
 import com.example.civilization.Model.Technologies.Technology;
 import com.example.civilization.Model.Technologies.TechnologyTypes;
@@ -399,7 +400,7 @@ public class GameMapController {
 
         selectingUnits(new ArrayList<>(Arrays.asList(rivers, polygonTerrainType, polygonTerrainFeatureType, polygonNonCombatUnit, polygonCombatUnit)), i, j);
         showingPopUp(new ArrayList<>(Arrays.asList(rivers, polygonTerrainType, polygonTerrainFeatureType, polygonNonCombatUnit, polygonCombatUnit)), i, j);
-        helloselectingUnits(new ArrayList<>(Arrays.asList(rivers, polygonTerrainType, polygonTerrainFeatureType, polygonNonCombatUnit, polygonCombatUnit)), i, j);
+        movementUnits(new ArrayList<>(Arrays.asList(rivers, polygonTerrainType, polygonTerrainFeatureType, polygonNonCombatUnit, polygonCombatUnit)), i, j);
 
 
         i++;
@@ -449,7 +450,7 @@ public class GameMapController {
     }
 
 
-    public void helloselectingUnits(ArrayList<Polygon> polygons, int i, int j) {
+    public void movementUnits(ArrayList<Polygon> polygons, int i, int j) {
         for (Polygon polygon : polygons) {
             polygon.setOnMousePressed(mouseEvent -> {
                 if (DatabaseController.getInstance().getSelectedNonCombatUnit() != null || DatabaseController.getInstance().getSelectedCombatUnit() != null) {
@@ -568,7 +569,16 @@ public class GameMapController {
         Main.changeMenu("UnitActions");
     }
 
+    public void goToUnitsPanel() {
+        Main.changeMenu("UnitsPanel");
+    }
+
+    public void goToCitiesPanel() {
+        Main.changeMenu("CitiesPanel");
+    }
+
     public void save(MouseEvent mouseEvent) throws IOException {
+        saveData.getInstance().saveUsers();
         SaveGame.getInstance().saveGame();
 
     }
@@ -576,7 +586,24 @@ public class GameMapController {
     public void load(MouseEvent mouseEvent) throws IOException {
         String t = text.getText();
         int num = Integer.parseInt(t);
+        saveData.getInstance().loadUsers();
         SaveGame.getInstance().loadGame(num);
+    }
+
+    public void goToDemographicPanel() {
+        Main.changeMenu("DemographicPanel");
+    }
+
+    public void goToNotificationHistory() {
+        Main.changeMenu("notificationHistory");
+    }
+
+    public void goToMilitaryOverview() {
+        Main.changeMenu("militaryOverview");
+    }
+
+    public void goToEconomicOverview() {
+        Main.changeMenu("EconomicOverview");
     }
 }
 
