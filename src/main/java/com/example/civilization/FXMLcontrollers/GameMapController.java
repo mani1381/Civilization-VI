@@ -5,6 +5,7 @@ import com.example.civilization.Controllers.DatabaseController;
 import com.example.civilization.Controllers.SaveGame;
 import com.example.civilization.Controllers.saveData;
 import com.example.civilization.Main;
+import com.example.civilization.Model.Ruins;
 import com.example.civilization.Model.Technologies.Technology;
 import com.example.civilization.Model.Technologies.TechnologyTypes;
 import com.example.civilization.Model.TerrainFeatures.TerrainFeatureTypes;
@@ -12,6 +13,7 @@ import com.example.civilization.Model.Terrains.TerrainTypes;
 import com.example.civilization.Model.Units.CombatUnit;
 import com.example.civilization.Model.Units.NonCombatUnit;
 import com.example.civilization.Model.Units.UnitTypes;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,6 +35,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -384,12 +387,12 @@ public class GameMapController {
 
         }
 
-        if (databaseController.getTerrainByCoordinates(i, j).getCombatUnit() != null && databaseController.getTerrainByCoordinates(i, j).getType().equals("visible")) {
+        if (databaseController.getTerrainByCoordinates(i, j).getCombatUnit() != null && databaseController.getTerrainByCoordinates(i, j).getType().equals("visible") && !databaseController.getTerrainByCoordinates(i, j).isRuin()) {
             polygonCombatUnit.setFill(new ImagePattern(new Image(new FileInputStream(getImagePatternOfTiles(databaseController.getTerrainByCoordinates(i, j).getCombatUnit().getUnitType().name())))));
             terrainHexagons.add(polygonCombatUnit);
 
         }
-        if (databaseController.getTerrainByCoordinates(i, j).getNonCombatUnit() != null && databaseController.getTerrainByCoordinates(i, j).getType().equals("visible")) {
+        if (databaseController.getTerrainByCoordinates(i, j).getNonCombatUnit() != null && databaseController.getTerrainByCoordinates(i, j).getType().equals("visible") && !databaseController.getTerrainByCoordinates(i, j).isRuin()) {
             polygonNonCombatUnit.setFill(new ImagePattern(new Image(new FileInputStream(getImagePatternOfTiles(databaseController.getTerrainByCoordinates(i, j).getNonCombatUnit().getUnitType().name())))));
             terrainHexagons.add(polygonNonCombatUnit);
         }
@@ -399,12 +402,11 @@ public class GameMapController {
         if (databaseController.getTerrainByCoordinates(i, j).getType().equals("revealed")) {
             polygonTerrainType.setOpacity(0.5);
             polygonTerrainFeatureType.setOpacity(0.5);
-        } else if (databaseController.getTerrainByCoordinates(i, j).getType().equals("fog of war")) {
+        } else if (databaseController.getTerrainByCoordinates(i, j).getType().equals("fog of war") || databaseController.getTerrainByCoordinates(i, j).isRuin()) {
             polygonTerrainFeatureType.setFill(new ImagePattern(new Image(new FileInputStream("src/main/resources/com/example/civilization/PNG/civAsset/map/CrosshatchHexagon.png"))));
             polygonTerrainType.setFill(new ImagePattern(new Image(new FileInputStream("src/main/resources/com/example/civilization/PNG/civAsset/map/CrosshatchHexagon.png"))));
             rivers.setFill(new ImagePattern(new Image(new FileInputStream("src/main/resources/com/example/civilization/PNG/civAsset/map/CrosshatchHexagon.png"))));
         }
-
 
 
         selectingUnits(new ArrayList<>(Arrays.asList(rivers, polygonTerrainType, polygonTerrainFeatureType, polygonNonCombatUnit, polygonCombatUnit)), i, j);
@@ -451,6 +453,28 @@ public class GameMapController {
 
 
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public static void showingRuinsPopUp(Ruins ruins, int i, int j) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/ruinsNotify.fxml"));
+            Parent root = loader.load();
+
+            ruinsNotifyController secController = loader.getController();
+            secController.setData(ruins);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+            PauseTransition delay = new PauseTransition(Duration.seconds(5));
+            delay.setOnFinished(event -> stage.close());
+            delay.play();
+
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,10 +1,12 @@
 package com.example.civilization.Controllers;
 
+import com.example.civilization.FXMLcontrollers.GameMapController;
 import com.example.civilization.Model.Buildings.Building;
 import com.example.civilization.Model.City.City;
 import com.example.civilization.Model.*;
 import com.example.civilization.Model.Improvements.Improvement;
 import com.example.civilization.Model.Improvements.ImprovementTypes;
+import com.example.civilization.Model.Map;
 import com.example.civilization.Model.Resources.Resource;
 import com.example.civilization.Model.Resources.ResourceTypes;
 import com.example.civilization.Model.Technologies.Technology;
@@ -13,10 +15,7 @@ import com.example.civilization.Model.TerrainFeatures.TerrainFeatureTypes;
 import com.example.civilization.Model.Terrains.TerrainTypes;
 import com.example.civilization.Model.Units.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static java.util.Comparator.naturalOrder;
 
@@ -343,9 +342,10 @@ public class DatabaseController {
     }
 
     public void movementOfAllUnits(User user) {
-        for (Unit unit : user.getCivilization().getUnits()) {
+        for (Unit unit :   new ArrayList<>(user.getCivilization().getUnits())) {
             movementAsLongAsItHasMP(unit);
         }
+
     }
 
     public void movementAsLongAsItHasMP(Unit unit) {
@@ -368,6 +368,7 @@ public class DatabaseController {
             unit.setXAndY(unit.getNextTerrain().get(indexOfLastTerrain).getX(), unit.getNextTerrain().get(indexOfLastTerrain).getY());
             if (unit.getNextTerrain().get(indexOfLastTerrain).isRuin()) {
                 Ruins ruins = new Ruins(unit.getNextTerrain().get(indexOfLastTerrain).getX(), unit.getNextTerrain().get(indexOfLastTerrain).getY(), getContainerCivilization(unit), getMap());
+                GameMapController.showingRuinsPopUp(ruins,unit.getNextTerrain().get(indexOfLastTerrain).getX(),unit.getNextTerrain().get(indexOfLastTerrain).getY());
                 unit.getNextTerrain().get(indexOfLastTerrain).setRuin(false);
             }
             movementCost += unit.getNextTerrain().get(indexOfLastTerrain).getTerrainTypes().getMovementCost();
@@ -380,11 +381,11 @@ public class DatabaseController {
 
         }
 
-        ArrayList<Terrain> needToRemove = new ArrayList<>();
-        for (int i = 0; i < indexOfLastTerrain; i++) {
-            needToRemove.add(unit.getNextTerrain().get(i));
-        }
-        unit.getNextTerrain().removeAll(needToRemove);
+//        ArrayList<Terrain> needToRemove = new ArrayList<>();
+//        for (int i = 0; i < indexOfLastTerrain; i++) {
+//            needToRemove.add(unit.getNextTerrain().get(i));
+//        }
+        unit.getNextTerrain().clear();
 
     }
 
