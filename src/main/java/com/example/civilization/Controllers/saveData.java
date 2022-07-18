@@ -30,7 +30,7 @@ public class saveData {
     public void saveUsers() {
         try {
             FileWriter Writer = new FileWriter("src/main/resources/Users.json");
-            Writer.write(new Gson().toJson(this.database.getUsers()));
+            Writer.write(new Gson().toJson(this.database.getAllUsers()));
             Writer.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,7 +40,7 @@ public class saveData {
     public void loadUsers() {
         try {
             String Users = new String(Files.readAllBytes(Paths.get("src/main/resources/com/example/civilization/Users.json")));
-            this.database.setUsers(new Gson().fromJson(Users, new TypeToken<List<User>>() {
+            this.database.setAllUsers(new Gson().fromJson(Users, new TypeToken<List<User>>() {
             }.getType()));
         } catch (Exception e) {
             e.printStackTrace();

@@ -47,7 +47,7 @@ public class DatabaseController {
 
     public String createUser(String u, String p, String n) {
 
-        ArrayList<User> users = this.database.getUsers();
+        ArrayList<User> users = this.database.getAllUsers();
 
         for (User user : users) {
             if (user.getUsername().equals(u)) {
@@ -60,7 +60,7 @@ public class DatabaseController {
         }
 
         User newUser = new User(u, p, n, null);
-        this.database.addUser(newUser);
+        this.database.      addToAllUser(newUser);
         return "user created successfully!";
     }
 

@@ -28,7 +28,7 @@ public class LeaderboardController {
     public void initialize() {
 
 
-        ArrayList<User> users = Database.getInstance().getUsers();
+        ArrayList<User> users = Database.getInstance().getAllUsers();
         users.sort(Comparator.comparing(User::getScore).reversed().thenComparing(User::getLastWin).thenComparing(User::getUsername));
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).equals(Database.getInstance().getActiveUser())) {

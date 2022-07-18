@@ -394,7 +394,7 @@ public class GlobalChatMenuController {
 
 
     public User findUser(String username) {
-        ArrayList<User> users = Database.getInstance().getUsers();
+        ArrayList<User> users = Database.getInstance().getAllUsers();
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equals(username)) {
                 return users.get(i);

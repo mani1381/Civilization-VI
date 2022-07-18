@@ -33,6 +33,7 @@ public class GameMenu {
         this.combatController = new CombatController(DatabaseController.getInstance(), this.cityController);
     }
 
+
     public void run(Scanner scanner) {
 
         DatabaseController.getInstance().getMap().generateMap();
