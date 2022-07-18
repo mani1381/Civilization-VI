@@ -75,6 +75,7 @@ public class GameMapController {
     public Button economicOverview;
     public Label selectedPanel;
     public Button chooseResearch;
+    public Button nextTurn;
     DatabaseController databaseController = DatabaseController.getInstance();
     @FXML
     private ArrayList<Polygon> terrainHexagons = new ArrayList<>();
@@ -250,6 +251,12 @@ public class GameMapController {
             }
         }
 
+        if (databaseController.isAllTasksFinished(DatabaseController.getInstance().getDatabase().getActiveUser())) {
+            nextTurn.setText("Next Turn");
+        } else {
+            nextTurn.setText("units need order");
+        }
+
     }
 
     private void setCurrentResearch() throws FileNotFoundException {
@@ -377,6 +384,16 @@ public class GameMapController {
 
         }
 
+        if (databaseController.getTerrainByCoordinates(i, j).getCombatUnit() != null && databaseController.getTerrainByCoordinates(i, j).getType().equals("visible")) {
+            polygonCombatUnit.setFill(new ImagePattern(new Image(new FileInputStream(getImagePatternOfTiles(databaseController.getTerrainByCoordinates(i, j).getCombatUnit().getUnitType().name())))));
+            terrainHexagons.add(polygonCombatUnit);
+
+        }
+        if (databaseController.getTerrainByCoordinates(i, j).getNonCombatUnit() != null && databaseController.getTerrainByCoordinates(i, j).getType().equals("visible")) {
+            polygonNonCombatUnit.setFill(new ImagePattern(new Image(new FileInputStream(getImagePatternOfTiles(databaseController.getTerrainByCoordinates(i, j).getNonCombatUnit().getUnitType().name())))));
+            terrainHexagons.add(polygonNonCombatUnit);
+        }
+
         Polygon rivers = addingRivers(radius, i, j, x, y);
         terrainHexagons.add(rivers);
         if (databaseController.getTerrainByCoordinates(i, j).getType().equals("revealed")) {
@@ -388,15 +405,7 @@ public class GameMapController {
             rivers.setFill(new ImagePattern(new Image(new FileInputStream("src/main/resources/com/example/civilization/PNG/civAsset/map/CrosshatchHexagon.png"))));
         }
 
-        if (databaseController.getTerrainByCoordinates(i, j).getCombatUnit() != null) {
-            polygonCombatUnit.setFill(new ImagePattern(new Image(new FileInputStream(getImagePatternOfTiles(databaseController.getTerrainByCoordinates(i, j).getCombatUnit().getUnitType().name())))));
-            terrainHexagons.add(polygonCombatUnit);
 
-        }
-        if (databaseController.getTerrainByCoordinates(i, j).getNonCombatUnit() != null) {
-            polygonNonCombatUnit.setFill(new ImagePattern(new Image(new FileInputStream(getImagePatternOfTiles(databaseController.getTerrainByCoordinates(i, j).getNonCombatUnit().getUnitType().name())))));
-            terrainHexagons.add(polygonNonCombatUnit);
-        }
 
         selectingUnits(new ArrayList<>(Arrays.asList(rivers, polygonTerrainType, polygonTerrainFeatureType, polygonNonCombatUnit, polygonCombatUnit)), i, j);
         showingPopUp(new ArrayList<>(Arrays.asList(rivers, polygonTerrainType, polygonTerrainFeatureType, polygonNonCombatUnit, polygonCombatUnit)), i, j);
@@ -476,10 +485,10 @@ public class GameMapController {
             polygon.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     if (mouseEvent.getClickCount() == 2) {
-                        if (DatabaseController.getInstance().getMap().getTerrain()[i][j].getCombatUnit() != null) {
+                        if (DatabaseController.getInstance().getMap().getTerrain()[i][j].getCombatUnit() != null && !DatabaseController.getInstance().getMap().getTerrain()[i][j].getCombatUnit().getIsFinished() && DatabaseController.getInstance().getContainerCivilization(DatabaseController.getInstance().getMap().getTerrain()[i][j].getCombatUnit()).equals(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization())) {
                             DatabaseController.getInstance().deselectAllUnits();
                             DatabaseController.getInstance().getMap().getTerrain()[i][j].getCombatUnit().setIsSelected(true);
-                        } else if (DatabaseController.getInstance().getMap().getTerrain()[i][j].getNonCombatUnit() != null) {
+                        } else if (DatabaseController.getInstance().getMap().getTerrain()[i][j].getNonCombatUnit() != null && !DatabaseController.getInstance().getMap().getTerrain()[i][j].getNonCombatUnit().getIsFinished() && DatabaseController.getInstance().getContainerCivilization(DatabaseController.getInstance().getMap().getTerrain()[i][j].getNonCombatUnit()).equals(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization())) {
                             DatabaseController.getInstance().deselectAllUnits();
                             DatabaseController.getInstance().getMap().getTerrain()[i][j].getNonCombatUnit().setIsSelected(true);
                         }
@@ -493,6 +502,24 @@ public class GameMapController {
             });
         }
 
+
+    }
+
+    public void deselectAllAndUpdate() {
+        DatabaseController.getInstance().deselectAllUnits();
+        try {
+            setSelectedUnitData();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goToNextTurn() {
+        if (nextTurn.getText().equalsIgnoreCase("next turn")) {
+            DatabaseController.getInstance().getDatabase().setActiveUser(DatabaseController.getInstance().getNextTurnUser());
+            DatabaseController.getInstance().setAllUnitsUnfinished(DatabaseController.getInstance().getDatabase().getActiveUser());
+            Main.changeMenu("gameMap");
+        }
 
     }
 

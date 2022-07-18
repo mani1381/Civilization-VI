@@ -13,7 +13,7 @@
    <children>
       <AnchorPane layoutX="-5.0" layoutY="714.0" prefHeight="86.0" prefWidth="1478.0">
          <children>
-            <Button fx:id="nextTurn" layoutX="1220.0" layoutY="24.0" mnemonicParsing="false" onAction="#goToCheatCode" prefHeight="39.0" prefWidth="204.0" style="-fx-background-radius: 100;" text="Next Turn" textFill="RED">
+            <Button fx:id="nextTurn" layoutX="1220.0" layoutY="24.0" mnemonicParsing="false" onAction="#goToNextTurn" prefHeight="39.0" prefWidth="204.0" style="-fx-background-radius: 100;" text="units need order" textFill="RED">
                <font>
                   <Font name="Copperplate" size="18.0" />
                </font>
@@ -63,6 +63,11 @@
                </font>
             </Label>
             <Button fx:id="actions" layoutX="39.0" layoutY="228.0" mnemonicParsing="false" onAction="#goToUnitActions" prefHeight="32.0" prefWidth="115.0" text="Actions">
+               <font>
+                  <Font name="Copperplate" size="13.0" />
+               </font>
+            </Button>
+            <Button layoutX="132.0" layoutY="14.0" mnemonicParsing="false" onAction="#deselectAllAndUpdate" prefHeight="30.0" prefWidth="50.0" style="-fx-background-radius: 100;" text="Back">
                <font>
                   <Font name="Copperplate" size="13.0" />
                </font>

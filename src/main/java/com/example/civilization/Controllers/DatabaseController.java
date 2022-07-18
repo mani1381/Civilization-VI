@@ -1858,5 +1858,15 @@ public class DatabaseController {
 
     }
 
+    public User getNextTurnUser(){
+        int i = DatabaseController.getInstance().getDatabase().getUsers().indexOf(DatabaseController.getInstance().getDatabase().getActiveUser());
+        if(i ==  DatabaseController.getInstance().getDatabase().getUsers().size() -1){
+            return DatabaseController.getInstance().getDatabase().getUsers().get(0);
+        }
+        else{
+            return DatabaseController.getInstance().getDatabase().getUsers().get(i+1);
+        }
+    }
+
 
 }
