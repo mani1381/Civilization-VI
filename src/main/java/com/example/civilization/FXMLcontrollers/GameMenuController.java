@@ -47,7 +47,7 @@ public class GameMenuController {
 
     @FXML
     public void initialize() {
-        if(!DatabaseController.getInstance().getDatabase().getUsers().contains(DatabaseController.getInstance().getDatabase().getActiveUser())){
+        if (!DatabaseController.getInstance().getDatabase().getUsers().contains(DatabaseController.getInstance().getDatabase().getActiveUser())) {
             DatabaseController.getInstance().getDatabase().addUser(DatabaseController.getInstance().getDatabase().getActiveUser());
         }
 
@@ -145,13 +145,13 @@ public class GameMenuController {
 
                 }
             }
-        }else {
+        } else {
             result.setText("you have not selected number of players");
         }
 
     }
 
-    public void showingTooltip(String result){
+    public void showingTooltip(String result) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/tooltip.fxml"));
             Parent root = loader.load();

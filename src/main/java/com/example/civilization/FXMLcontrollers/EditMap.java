@@ -2,11 +2,8 @@ package com.example.civilization.FXMLcontrollers;
 
 import com.example.civilization.Controllers.EditMapController;
 import com.example.civilization.Main;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 
 public class EditMap {
 
@@ -109,42 +106,27 @@ public class EditMap {
     public void initialize() {
         MenuItem[] terrainType = {desert, grassland, hill, mountain, ocean, plains, snow, tundra};
         for (MenuItem item : terrainType) {
-            item.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    TerrainType.setText(item.getText());
-                }
-            });
+            item.setOnAction(actionEvent -> TerrainType.setText(item.getText()));
         }
         MenuItem[] terrainFeature = {floodplains, forest, ice, jungle, marsh, oasis, NoFeature};
         for (MenuItem item : terrainFeature) {
-            item.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    TerrainFeature.setText(item.getText());
-                }
-            });
+            item.setOnAction(actionEvent -> TerrainFeature.setText(item.getText()));
         }
         MenuItem[] terrainResource = {bananas, cattle, deer, sheep, wheat, coal, horse, iron, cotton, fur, dyes, gems, gold, incense, ivory, marble, silk, silver, sugar, noResource};
         for (MenuItem item : terrainResource) {
-            item.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    TerrainResource.setText(item.getText());
-                }
-            });
+            item.setOnAction(actionEvent -> TerrainResource.setText(item.getText()));
         }
     }
 
 
-    public void submit(MouseEvent mouseEvent) {
+    public void submit() {
         String iCoordinate = iIndex.getText();
         String jCoordinate = jIndex.getText();
         if (iCoordinate.length() == 0 || jCoordinate.length() == 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("empty index");
             alert.show();
-        } else if (editMap.haveDigits(iCoordinate) == false || editMap.haveDigits(jCoordinate) == false) {
+        } else if (!editMap.haveDigits(iCoordinate) || !editMap.haveDigits(jCoordinate)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("wrong index");
             alert.show();
@@ -166,11 +148,11 @@ public class EditMap {
 
     }
 
-    public void finished(MouseEvent mouseEvent) {
+    public void finished() {
         Main.changeMenu("GameMap");
     }
 
-    public void back(MouseEvent mouseEvent) {
+    public void back() {
         Main.changeMenu("ProfileMenu");
     }
 }

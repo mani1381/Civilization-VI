@@ -111,7 +111,7 @@
                   <Image url="@../PNG/civAsset/icons/main/Turn.png" />
                </image>
             </ImageView>
-            <Label fx:id="turns" alignment="CENTER" layoutX="407.0" layoutY="20.0" prefHeight="16.0" prefWidth="50.0" text="10000" textFill="RED">
+            <Label fx:id="turns" alignment="CENTER" layoutX="391.0" layoutY="21.0" prefHeight="16.0" prefWidth="50.0" text="10000" textFill="RED">
                <font>
                   <Font name="Copperplate" size="14.0" />
                </font>
@@ -134,6 +134,11 @@
             <Label fx:id="selectedPanel" alignment="CENTER" layoutX="522.0" layoutY="12.0" prefHeight="26.0" prefWidth="372.0" textFill="RED">
                <font>
                   <Font name="Copperplate" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="year" alignment="CENTER" layoutX="441.0" layoutY="21.0" prefHeight="16.0" prefWidth="88.0" textFill="RED">
+               <font>
+                  <Font name="Copperplate" size="14.0" />
                </font>
             </Label>
          </children>

@@ -13,18 +13,17 @@ import java.util.List;
 public class saveData {
 
     private static saveData instance;
+    private Database database;
+
+    public saveData() {
+        this.database = Database.getInstance();
+    }
 
     public static saveData getInstance() {
         if (instance == null) {
             instance = new saveData();
         }
         return instance;
-    }
-
-    private Database database;
-
-    public saveData() {
-        this.database = Database.getInstance();
     }
 
     public void saveUsers() {

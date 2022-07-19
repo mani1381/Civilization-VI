@@ -55,7 +55,7 @@ public class UnitsPanel {
                         setAllRedColor(units);
                         button.setTextFill(Color.BLUE);
                         String[] parts = button.getText().split(" ");
-                        DatabaseController.getInstance().activateUnit(DatabaseController.getInstance().getDatabase().getActiveUser(),parts[0],Integer.parseInt(parts[1].substring(2)),Integer.parseInt(parts[2].substring(2)));
+                        DatabaseController.getInstance().activateUnit(DatabaseController.getInstance().getDatabase().getActiveUser(), parts[0], Integer.parseInt(parts[1].substring(2)), Integer.parseInt(parts[2].substring(2)));
                         result.setText(parts[0] + " unit activated");
                         result.setAlignment(Pos.CENTER);
 

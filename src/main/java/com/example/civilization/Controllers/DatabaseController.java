@@ -59,7 +59,7 @@ public class DatabaseController {
         }
 
         User newUser = new User(u, p, n, null);
-        this.database.      addToAllUser(newUser);
+        this.database.addToAllUser(newUser);
         return "user created successfully!";
     }
 
@@ -342,7 +342,7 @@ public class DatabaseController {
     }
 
     public void movementOfAllUnits(User user) {
-        for (Unit unit :   new ArrayList<>(user.getCivilization().getUnits())) {
+        for (Unit unit : new ArrayList<>(user.getCivilization().getUnits())) {
             movementAsLongAsItHasMP(unit);
         }
 
@@ -368,7 +368,7 @@ public class DatabaseController {
             unit.setXAndY(unit.getNextTerrain().get(indexOfLastTerrain).getX(), unit.getNextTerrain().get(indexOfLastTerrain).getY());
             if (unit.getNextTerrain().get(indexOfLastTerrain).isRuin()) {
                 Ruins ruins = new Ruins(unit.getNextTerrain().get(indexOfLastTerrain).getX(), unit.getNextTerrain().get(indexOfLastTerrain).getY(), getContainerCivilization(unit), getMap());
-                GameMapController.showingRuinsPopUp(ruins,unit.getNextTerrain().get(indexOfLastTerrain).getX(),unit.getNextTerrain().get(indexOfLastTerrain).getY());
+                GameMapController.showingRuinsPopUp(ruins);
                 unit.getNextTerrain().get(indexOfLastTerrain).setRuin(false);
             }
             movementCost += unit.getNextTerrain().get(indexOfLastTerrain).getTerrainTypes().getMovementCost();
@@ -615,9 +615,6 @@ public class DatabaseController {
         //user.getCivilization().addCity(new City(user.getCivilization(),user.getCivilization(),getTerrainByCoordinates(10,12),10,null,10,10));
 
 
-
-
-
         user.getCivilization().getUnits().add(newSettler);
         user.getCivilization().getUnits().add(newWarrior);
 
@@ -640,7 +637,7 @@ public class DatabaseController {
 
     public boolean isTerrainEmpty(int x, int y) {
 
-        return this.getMap().getTerrain()[x][y].getCombatUnit() == null && this.getMap().getTerrain()[x][y + 1].getNonCombatUnit() == null && !this.getMap().getTerrain()[x][y].isRuin() && !this.getMap().getTerrain()[x][y+1].isRuin() ;
+        return this.getMap().getTerrain()[x][y].getCombatUnit() == null && this.getMap().getTerrain()[x][y + 1].getNonCombatUnit() == null && !this.getMap().getTerrain()[x][y].isRuin() && !this.getMap().getTerrain()[x][y + 1].isRuin();
     }
 
     public void addGoldToUser(User user) {
@@ -1859,15 +1856,84 @@ public class DatabaseController {
 
     }
 
-    public User getNextTurnUser(){
+    public User getNextTurnUser() {
         int i = DatabaseController.getInstance().getDatabase().getUsers().indexOf(DatabaseController.getInstance().getDatabase().getActiveUser());
-        if(i ==  DatabaseController.getInstance().getDatabase().getUsers().size() -1){
+        if (i == DatabaseController.getInstance().getDatabase().getUsers().size() - 1) {
             return DatabaseController.getInstance().getDatabase().getUsers().get(0);
-        }
-        else{
-            return DatabaseController.getInstance().getDatabase().getUsers().get(i+1);
+        } else {
+            return DatabaseController.getInstance().getDatabase().getUsers().get(i + 1);
         }
     }
+
+    public Civilization theWinnerCivilization(){
+        int count = 0;
+        for(User user : database.getUsers()){
+            if(user.getCivilization().getCurrentCapital().equals(user.getCivilization().getFirstCapital())){
+                count++;
+            }
+        }
+        if(count ==1){
+            for(User user : database.getUsers()){
+                if(user.getCivilization().getCurrentCapital().equals(user.getCivilization().getFirstCapital())){
+                   return user.getCivilization();
+                }
+            }
+        }
+        return null;
+    }
+
+    public Civilization theWinnerAfterYear2050(){
+        int max = -1;
+        for(User user : database.getUsers()){
+            if(user.getCivilization().getScore()>max){
+                max = user.getCivilization().getScore();
+            }
+        }
+        for(User user : database.getUsers()){
+            if(max ==user.getCivilization().getScore()){
+                return user.getCivilization();
+            }
+        }
+        return null;
+    }
+
+    public int calculatingScoreForEachCivilizationAfterEachRound(Civilization civilization){
+        if(civilization.isHasEverHadCity() && civilization.getCities().size()==0){
+            return 0;
+        }
+        return civilization.getTerrains().size()*50 + civilization.getTechnologies().size()*500+ civilization.getCities().size()*150;
+
+    }
+
+    public void increasingYearPerTurn(){
+        if(database.getYear()>= -4000 && database.getYear()<1000){
+            database.setYear(database.getYear()+40);
+        }
+        if(database.getYear()>= -1000 && database.getYear()<500){
+            database.setYear(database.getYear()+25);
+        }
+        if(database.getYear()>= 500 && database.getYear()<1000){
+            database.setYear(database.getYear()+20);
+        }
+        if(database.getYear()>= 1000 && database.getYear()<1500){
+            database.setYear(database.getYear()+10);
+        }
+        if(database.getYear()>= 1500 && database.getYear()<1800){
+            database.setYear(database.getYear()+5);
+        }
+        if(database.getYear()>= 1800 && database.getYear()<1900){
+            database.setYear(database.getYear()+2);
+        }
+        if(database.getYear()>= 1900 && database.getYear()<2020){
+            database.setYear(database.getYear()+1);
+        }
+        if(database.getYear()>= 2020 && database.getYear()<2050){
+            database.setYear(database.getYear()+0.5);
+        }
+
+    }
+
+
 
 
 }

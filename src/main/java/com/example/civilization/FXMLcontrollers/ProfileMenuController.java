@@ -202,7 +202,7 @@ public class ProfileMenuController {
 
     @FXML
     public void goToGameMenu(ActionEvent event) throws IOException {
-       // DatabaseController.getInstance().getMap().generateMap();
+        // DatabaseController.getInstance().getMap().generateMap();
         // DatabaseController.getInstance().setCivilizations(DatabaseController.getInstance().getDatabase().getUsers());
         Main.changeMenu("gameMenu");
     }

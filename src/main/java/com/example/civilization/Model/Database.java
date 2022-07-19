@@ -20,6 +20,8 @@ public class Database {
     private Map map = new Map();
     private int turn;
 
+    private double year = -4000;
+
     public Database() {
         this.Users = new ArrayList<>();
     }
@@ -117,5 +119,13 @@ public class Database {
 
     public void setAllUsers(ArrayList<User> allUsers) {
         this.allUsers = allUsers;
+    }
+
+    public double getYear() {
+        return year;
+    }
+
+    public void setYear(double year) {
+        this.year = year;
     }
 }

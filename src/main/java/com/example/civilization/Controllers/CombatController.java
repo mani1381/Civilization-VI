@@ -80,8 +80,7 @@ public class CombatController {
             }
         }
 
-        if (!(this.cityController.NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(city.getMainTerrains(), this.databaseController.getMap()).contains(unitTerrain)
-                || this.cityController.NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(city.getMainTerrains(), this.databaseController.getMap()).contains(unitTerrain))) {
+        if (!(this.cityController.NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(city.getMainTerrains(), this.databaseController.getMap()).contains(unitTerrain) || this.cityController.NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(city.getMainTerrains(), this.databaseController.getMap()).contains(unitTerrain))) {
             return "Your unit is not close enough for a ranged attack";
         }
 

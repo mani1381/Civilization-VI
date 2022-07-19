@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane prefHeight="800.0" prefWidth="1530.0" stylesheets="@../CSS/Game.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.WinnerMenuController">
+   <children>
+      <Label fx:id="result" alignment="CENTER" layoutX="73.0" layoutY="340.0" prefHeight="76.0" prefWidth="1285.0" text="result" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="24.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="50.0" fitWidth="68.0" layoutX="33.0" layoutY="19.0" onMouseClicked="#backToMap" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../PNG/images/back.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

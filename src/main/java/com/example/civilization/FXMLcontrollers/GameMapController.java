@@ -13,6 +13,7 @@ import com.example.civilization.Model.Terrains.TerrainTypes;
 import com.example.civilization.Model.Units.CombatUnit;
 import com.example.civilization.Model.Units.NonCombatUnit;
 import com.example.civilization.Model.Units.UnitTypes;
+import com.example.civilization.Model.User;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -79,6 +80,7 @@ public class GameMapController {
     public Label selectedPanel;
     public Button chooseResearch;
     public Button nextTurn;
+    public Label year;
     DatabaseController databaseController = DatabaseController.getInstance();
     @FXML
     private ArrayList<Polygon> terrainHexagons = new ArrayList<>();
@@ -104,7 +106,7 @@ public class GameMapController {
         return false;
     }
 
-    public static void showingRuinsPopUp(Ruins ruins, int i, int j) {
+    public static void showingRuinsPopUp(Ruins ruins) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/ruinsNotify.fxml"));
             Parent root = loader.load();
@@ -132,7 +134,7 @@ public class GameMapController {
 //        DatabaseController.getInstance().setCivilizations(DatabaseController.getInstance().getDatabase().getUsers());
         this.databaseController.getMap().initializeMapUser(DatabaseController.getInstance().getDatabase().getActiveUser());
 
-        selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
+        selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName() + " turn");
 
         pane.setMaxSize(1300, 700);
 
@@ -203,7 +205,7 @@ public class GameMapController {
                 selectedPanel.setText("Units Panel");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName() +" turn");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName() + " turn");
             }
         });
         citiesPanel.addEventFilter(MouseEvent.ANY, event -> {
@@ -211,7 +213,7 @@ public class GameMapController {
                 selectedPanel.setText("Cities Panel");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName() + " turn");
             }
         });
         demographicPanel.addEventFilter(MouseEvent.ANY, event -> {
@@ -219,7 +221,7 @@ public class GameMapController {
                 selectedPanel.setText("Demographic Panel");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName() + " turn");
             }
         });
         notificationHistory.addEventFilter(MouseEvent.ANY, event -> {
@@ -227,7 +229,7 @@ public class GameMapController {
                 selectedPanel.setText("Notification History");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName() + " turn");
             }
         });
         militaryOverview.addEventFilter(MouseEvent.ANY, event -> {
@@ -235,7 +237,7 @@ public class GameMapController {
                 selectedPanel.setText("Military Overview");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName() + " turn");
             }
         });
         economicOverview.addEventFilter(MouseEvent.ANY, event -> {
@@ -243,7 +245,7 @@ public class GameMapController {
                 selectedPanel.setText("Economic Overview");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName() + " turn");
             }
         });
     }
@@ -307,6 +309,12 @@ public class GameMapController {
         science.setText(Integer.toString(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getScience()));
         happiness.setText(Integer.toString(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getHappiness()));
         turns.setText(Integer.toString(DatabaseController.getInstance().getDatabase().getTurn()));
+        double yearDouble = DatabaseController.getInstance().getDatabase().getYear();
+        if (yearDouble < 0) {
+            year.setText(Math.abs(yearDouble) + " BC");
+        } else {
+            year.setText(Math.abs(yearDouble) + " AD");
+        }
     }
 
     private void showingTechnologyPopUp(TechnologyTypes technologyTypes, AnchorPane anchorPane) {
@@ -539,6 +547,21 @@ public class GameMapController {
 
     public void goToNextTurn() {
         if (nextTurn.getText().equalsIgnoreCase("next turn")) {
+            if (DatabaseController.getInstance().theWinnerCivilization() != null) {
+                Main.changeMenu("WinnerMenu");
+                return;
+            }
+            for (User user : new ArrayList<>(DatabaseController.getInstance().getDatabase().getUsers())) {
+                user.getCivilization().setScore(DatabaseController.getInstance().calculatingScoreForEachCivilizationAfterEachRound(user.getCivilization()));
+                if (DatabaseController.getInstance().calculatingScoreForEachCivilizationAfterEachRound(user.getCivilization()) == 0) {
+                    DatabaseController.getInstance().getDatabase().getUsers().remove(user);
+                }
+            }
+            DatabaseController.getInstance().increasingYearPerTurn();
+            if (DatabaseController.getInstance().getDatabase().getYear() == 2050) {
+                Main.changeMenu("WinnerMenu");
+                return;
+            }
             DatabaseController.getInstance().getDatabase().setTurn(DatabaseController.getInstance().getDatabase().getTurn() + 1);
             DatabaseController.getInstance().setHappinessUser(DatabaseController.getInstance().getDatabase().getActiveUser());
             DatabaseController.getInstance().setScience(DatabaseController.getInstance().getDatabase().getActiveUser());
@@ -632,13 +655,13 @@ public class GameMapController {
         Main.changeMenu("CitiesPanel");
     }
 
-    public void save(MouseEvent mouseEvent) throws IOException {
+    public void save() throws IOException {
         saveData.getInstance().saveUsers();
         SaveGame.getInstance().saveGame();
 
     }
 
-    public void load(MouseEvent mouseEvent) throws IOException {
+    public void load() throws IOException {
         String t = text.getText();
         int num = Integer.parseInt(t);
         saveData.getInstance().loadUsers();

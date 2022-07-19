@@ -25,7 +25,13 @@ public class Civilization {
     private ArrayList<TechnologyTypes> technologyTypes = new ArrayList<>();
     private String name;
     private int science = 500;
+    private int score = 0;
     private boolean canBuySettler;
+
+    private boolean hasEverHadCity = false;
+
+    private City currentCapital;
+    private City firstCapital;
 
     public Civilization(int gold, int happiness, String name) {
 
@@ -226,5 +232,35 @@ public class Civilization {
         this.technologyTypes = technologyTypes;
     }
 
+    public City getCurrentCapital() {
+        return currentCapital;
+    }
 
+    public void setCurrentCapital(City currentCapital) {
+        this.currentCapital = currentCapital;
+    }
+
+    public City getFirstCapital() {
+        return firstCapital;
+    }
+
+    public void setFirstCapital(City firstCapital) {
+        this.firstCapital = firstCapital;
+    }
+
+    public boolean isHasEverHadCity() {
+        return hasEverHadCity;
+    }
+
+    public void setHasEverHadCity(boolean hasEverHadCity) {
+        this.hasEverHadCity = hasEverHadCity;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 }

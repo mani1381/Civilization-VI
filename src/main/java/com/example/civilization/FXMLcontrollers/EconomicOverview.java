@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
-public class EconomicOverview{
+public class EconomicOverview {
 
     @FXML
     AnchorPane anchorPane;
