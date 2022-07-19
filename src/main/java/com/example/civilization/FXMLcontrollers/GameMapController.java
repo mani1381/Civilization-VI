@@ -104,6 +104,27 @@ public class GameMapController {
         return false;
     }
 
+    public static void showingRuinsPopUp(Ruins ruins, int i, int j) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/ruinsNotify.fxml"));
+            Parent root = loader.load();
+
+            ruinsNotifyController secController = loader.getController();
+            secController.setData(ruins);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+            PauseTransition delay = new PauseTransition(Duration.seconds(10));
+            delay.setOnFinished(event -> stage.close());
+            delay.play();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @FXML
     public void initialize() throws IOException {
         unitPane.setVisible(false);
@@ -111,6 +132,7 @@ public class GameMapController {
 //        DatabaseController.getInstance().setCivilizations(DatabaseController.getInstance().getDatabase().getUsers());
         this.databaseController.getMap().initializeMapUser(DatabaseController.getInstance().getDatabase().getActiveUser());
 
+        selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
 
         pane.setMaxSize(1300, 700);
 
@@ -181,7 +203,7 @@ public class GameMapController {
                 selectedPanel.setText("Units Panel");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText("");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName() +" turn");
             }
         });
         citiesPanel.addEventFilter(MouseEvent.ANY, event -> {
@@ -189,7 +211,7 @@ public class GameMapController {
                 selectedPanel.setText("Cities Panel");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText("");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
             }
         });
         demographicPanel.addEventFilter(MouseEvent.ANY, event -> {
@@ -197,7 +219,7 @@ public class GameMapController {
                 selectedPanel.setText("Demographic Panel");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText("");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
             }
         });
         notificationHistory.addEventFilter(MouseEvent.ANY, event -> {
@@ -205,7 +227,7 @@ public class GameMapController {
                 selectedPanel.setText("Notification History");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText("");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
             }
         });
         militaryOverview.addEventFilter(MouseEvent.ANY, event -> {
@@ -213,7 +235,7 @@ public class GameMapController {
                 selectedPanel.setText("Military Overview");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText("");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
             }
         });
         economicOverview.addEventFilter(MouseEvent.ANY, event -> {
@@ -221,7 +243,7 @@ public class GameMapController {
                 selectedPanel.setText("Economic Overview");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                selectedPanel.setText("");
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName()+" turn");
             }
         });
     }
@@ -460,29 +482,6 @@ public class GameMapController {
 
     }
 
-
-    public static void showingRuinsPopUp(Ruins ruins, int i, int j) {
-        try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/ruinsNotify.fxml"));
-            Parent root = loader.load();
-
-            ruinsNotifyController secController = loader.getController();
-            secController.setData(ruins);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-            PauseTransition delay = new PauseTransition(Duration.seconds(5));
-            delay.setOnFinished(event -> stage.close());
-            delay.play();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
     public void movementUnits(ArrayList<Polygon> polygons, int i, int j) {
         for (Polygon polygon : polygons) {
             polygon.setOnMousePressed(mouseEvent -> {
@@ -540,6 +539,11 @@ public class GameMapController {
 
     public void goToNextTurn() {
         if (nextTurn.getText().equalsIgnoreCase("next turn")) {
+            DatabaseController.getInstance().getDatabase().setTurn(DatabaseController.getInstance().getDatabase().getTurn() + 1);
+            DatabaseController.getInstance().setHappinessUser(DatabaseController.getInstance().getDatabase().getActiveUser());
+            DatabaseController.getInstance().setScience(DatabaseController.getInstance().getDatabase().getActiveUser());
+            DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().setAvailability();
+            DatabaseController.getInstance().setUnitsParametersAfterEachTurn(DatabaseController.getInstance().getDatabase().getUsers());
             DatabaseController.getInstance().getDatabase().setActiveUser(DatabaseController.getInstance().getNextTurnUser());
             DatabaseController.getInstance().setAllUnitsUnfinished(DatabaseController.getInstance().getDatabase().getActiveUser());
             Main.changeMenu("gameMap");

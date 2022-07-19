@@ -640,7 +640,7 @@ public class DatabaseController {
 
     public boolean isTerrainEmpty(int x, int y) {
 
-        return this.getMap().getTerrain()[x][y].getCombatUnit() == null && this.getMap().getTerrain()[x][y + 1].getNonCombatUnit() == null;
+        return this.getMap().getTerrain()[x][y].getCombatUnit() == null && this.getMap().getTerrain()[x][y + 1].getNonCombatUnit() == null && !this.getMap().getTerrain()[x][y].isRuin() && !this.getMap().getTerrain()[x][y+1].isRuin() ;
     }
 
     public void addGoldToUser(User user) {

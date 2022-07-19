@@ -3,8 +3,12 @@ package com.example.civilization.FXMLcontrollers;
 import com.example.civilization.Controllers.DatabaseController;
 import com.example.civilization.Main;
 import com.example.civilization.Model.User;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -12,7 +16,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameMenuController {
@@ -21,6 +29,8 @@ public class GameMenuController {
     public Label result;
     public TextField opponentsName;
     public TextField opponentsCount;
+    public Button load;
+    public Button newGame;
     @FXML
     ArrayList<Button> suggestions = new ArrayList<>();
     @FXML
@@ -46,6 +56,10 @@ public class GameMenuController {
     }
 
     public void setOpponentsName() {
+        newGame.setOnMouseEntered(mouseEvent -> showingTooltip("new game"));
+        load.setOnMouseEntered(mouseEvent -> showingTooltip("load"));
+        opponentsCount.setOnMouseEntered(mouseEvent -> showingTooltip("number of players"));
+        opponentsName.setOnMouseEntered(mouseEvent -> showingTooltip("search name"));
 
         opponentsName.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
@@ -55,6 +69,7 @@ public class GameMenuController {
                 for (User user : DatabaseController.getInstance().getDatabase().getAllUsers()) {
                     if (user.getUsername().equalsIgnoreCase(opponentsName.getText().toUpperCase()) && !user.equals(DatabaseController.getInstance().getDatabase().getActiveUser())) {
                         suggestions.add(new Button());
+                        suggestions.get(i).setFont(Font.font("Copperplate", 15));
                         suggestions.get(i).setStyle("-fx-background-radius: 100em");
                         suggestions.get(i).setPrefSize(opponentsName.getPrefWidth(), opponentsName.getPrefHeight());
                         suggestions.get(i).setText(user.getUsername());
@@ -136,6 +151,25 @@ public class GameMenuController {
 
     }
 
+    public void showingTooltip(String result){
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/tooltip.fxml"));
+            Parent root = loader.load();
+
+            tooltipController secController = loader.getController();
+            secController.setData(result);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+            PauseTransition delay = new PauseTransition(Duration.seconds(3));
+            delay.setOnFinished(event -> stage.close());
+            delay.play();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void back() {
         Main.changeMenu("ProfileMenu");
