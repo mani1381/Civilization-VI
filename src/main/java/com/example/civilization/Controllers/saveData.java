@@ -3,9 +3,11 @@ package com.example.civilization.Controllers;
 import com.example.civilization.Model.Database;
 import com.example.civilization.Model.User;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -38,11 +40,11 @@ public class saveData {
 
     public void loadUsers() {
         try {
-            String Users = new String(Files.readAllBytes(Paths.get("src/main/resources/com/example/civilization/Users.json")));
+            String Users = new String(Files.readAllBytes(Paths.get("src/main/resources/Users.json")));
             this.database.setAllUsers(new Gson().fromJson(Users, new TypeToken<List<User>>() {
             }.getType()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IllegalStateException | JsonSyntaxException | IOException exception) {
+
         }
     }
 }

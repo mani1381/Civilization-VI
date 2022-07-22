@@ -22,6 +22,8 @@ public class Database {
 
     private double year = -4000;
 
+    private boolean isAutoSaveOn = false;
+
     public Database() {
         this.Users = new ArrayList<>();
     }
@@ -127,5 +129,13 @@ public class Database {
 
     public void setYear(double year) {
         this.year = year;
+    }
+
+    public boolean isAutoSaveOn() {
+        return isAutoSaveOn;
+    }
+
+    public void setAutoSaveOn(boolean autoSaveOn) {
+        isAutoSaveOn = autoSaveOn;
     }
 }

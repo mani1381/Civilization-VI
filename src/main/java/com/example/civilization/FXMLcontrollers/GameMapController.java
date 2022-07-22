@@ -5,6 +5,7 @@ import com.example.civilization.Controllers.DatabaseController;
 import com.example.civilization.Controllers.SaveGame;
 import com.example.civilization.Controllers.saveData;
 import com.example.civilization.Main;
+import com.example.civilization.Model.Database;
 import com.example.civilization.Model.Ruins;
 import com.example.civilization.Model.Technologies.Technology;
 import com.example.civilization.Model.Technologies.TechnologyTypes;
@@ -580,6 +581,15 @@ public class GameMapController {
             DatabaseController.getInstance().setUnitsParametersAfterEachTurn(DatabaseController.getInstance().getDatabase().getUsers());
             DatabaseController.getInstance().getDatabase().setActiveUser(DatabaseController.getInstance().getNextTurnUser());
             DatabaseController.getInstance().setAllUnitsUnfinished(DatabaseController.getInstance().getDatabase().getActiveUser());
+            DatabaseController.getInstance().setStatusOfEachCivilizationWithOthersAfterEachRound();
+            if(DatabaseController.getInstance().getDatabase().isAutoSaveOn()){
+                try {
+                    saveData.getInstance().saveUsers();
+                    SaveGame.getInstance().saveGame();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             Main.changeMenu("gameMap");
         }
 
@@ -672,12 +682,12 @@ public class GameMapController {
 
     }
 
-    public void load() throws IOException {
-        String t = text.getText();
-        int num = Integer.parseInt(t);
-        saveData.getInstance().loadUsers();
-        SaveGame.getInstance().loadGame(num);
-    }
+//    public void load() throws IOException {
+//        String t = text.getText();
+//        int num = Integer.parseInt(t);
+//        saveData.getInstance().loadUsers();
+//        SaveGame.getInstance().loadGame(num);
+//    }
 
     public void goToDemographicPanel() {
         Main.changeMenu("DemographicPanel");
@@ -697,6 +707,10 @@ public class GameMapController {
 
     public void goToDiplomacyPanel() {
         Main.changeMenu("DiplomacyPanel");
+    }
+
+    public void goToSetting() {
+        Main.changeMenu("Setting");
     }
 }
 

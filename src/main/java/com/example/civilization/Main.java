@@ -1,5 +1,6 @@
 package com.example.civilization;
 
+import com.example.civilization.Controllers.saveData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -44,8 +45,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-
-
         Parent root = loadFXML("LoginMenu");
         Scene scene = new Scene(root);
         Main.scene = scene;

@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,17 +17,7 @@
                   <Font name="Copperplate" size="18.0" />
                </font>
             </Button>
-            <Button layoutX="1089.0" layoutY="24.0" mnemonicParsing="false" onMouseClicked="#load" prefHeight="39.0" prefWidth="97.0" style="-fx-background-radius: 100;" text="Load" textFill="RED">
-               <font>
-                  <Font name="Copperplate" size="18.0" />
-               </font>
-            </Button>
-            <TextField fx:id="text" alignment="CENTER" layoutX="945.0" layoutY="24.0" prefHeight="39.0" prefWidth="97.0" promptText="number" style="-fx-background-radius: 100;">
-               <font>
-                  <Font name="Copperplate" size="18.0" />
-               </font>
-            </TextField>
-            <Button layoutX="804.0" layoutY="24.0" mnemonicParsing="false" onMouseClicked="#save" prefHeight="39.0" prefWidth="97.0" style="-fx-background-radius: 100;" text="Save" textFill="RED">
+            <Button layoutX="1059.0" layoutY="24.0" mnemonicParsing="false" onMouseClicked="#save" prefHeight="39.0" prefWidth="97.0" style="-fx-background-radius: 100;" text="Save" textFill="RED">
                <font>
                   <Font name="Copperplate" size="18.0" />
                </font>
@@ -116,7 +105,7 @@
                   <Font name="Copperplate" size="14.0" />
                </font>
             </Label>
-            <ImageView fx:id="setting" fitHeight="39.0" fitWidth="44.0" layoutX="1385.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="setting" fitHeight="39.0" fitWidth="44.0" layoutX="1385.0" layoutY="6.0" onMouseClicked="#goToSetting" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PNG/Avatars/setting-icon-transparent-2.jpeg" />
                </image>
