@@ -1,6 +1,6 @@
 package com.example.civilization.Model;
 
-import com.example.civilization.Model.Buildings.BuildingTypes;
+import com.example.civilization.Controllers.DatabaseController;
 import com.example.civilization.Model.City.City;
 import com.example.civilization.Model.Technologies.Technology;
 import com.example.civilization.Model.Technologies.TechnologyTypes;
@@ -9,7 +9,7 @@ import com.example.civilization.Model.Units.NonCombatUnit;
 import com.example.civilization.Model.Units.Unit;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class Civilization {
 
@@ -19,10 +19,16 @@ public class Civilization {
     private ArrayList<Terrain> terrains = new ArrayList<>();
     private ArrayList<Terrain> visibleTerrains = new ArrayList<>();
     private ArrayList<Terrain> revealedTerrains = new ArrayList<>();
+
+    private HashMap<Civilization,Boolean> statusWithOtherCivilizations = new HashMap<>();
     private int gold;
     private int happiness;
     private ArrayList<Technology> technologies = new ArrayList<>();
     private ArrayList<TechnologyTypes> technologyTypes = new ArrayList<>();
+
+    private HashMap<Civilization,String> tradeRequests = new HashMap<>();
+
+    private HashMap<Civilization,String> demandRequests = new HashMap<>();
     private String name;
     private int science = 500;
     private int score = 0;
@@ -41,13 +47,12 @@ public class Civilization {
         technologies.add(technology);
         technologies.add(technology1);
         technologies.add(technology2);
-
-
-
         this.gold = gold;
         this.happiness = happiness;
         this.name = name;
     }
+
+
 
     public boolean getBooleanSettlerBuy() {
         return this.canBuySettler;
@@ -262,5 +267,21 @@ public class Civilization {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public HashMap<Civilization, Boolean> getStatusWithOtherCivilizations() {
+        return statusWithOtherCivilizations;
+    }
+
+    public void setStatusWithOtherCivilizations(HashMap<Civilization, Boolean> statusWithOtherCivilizations) {
+        this.statusWithOtherCivilizations = statusWithOtherCivilizations;
+    }
+
+    public HashMap<Civilization, String> getTradeRequests() {
+        return tradeRequests;
+    }
+
+    public HashMap<Civilization, String> getDemandRequests() {
+        return demandRequests;
     }
 }

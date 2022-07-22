@@ -81,6 +81,7 @@ public class GameMapController {
     public Button chooseResearch;
     public Button nextTurn;
     public Label year;
+    public Button diplomacyPanel;
     DatabaseController databaseController = DatabaseController.getInstance();
     @FXML
     private ArrayList<Polygon> terrainHexagons = new ArrayList<>();
@@ -243,6 +244,14 @@ public class GameMapController {
         economicOverview.addEventFilter(MouseEvent.ANY, event -> {
             if (event.getEventType().equals(MouseEvent.MOUSE_ENTERED)) {
                 selectedPanel.setText("Economic Overview");
+
+            } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
+                selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName() + " turn");
+            }
+        });
+        diplomacyPanel.addEventFilter(MouseEvent.ANY, event -> {
+            if (event.getEventType().equals(MouseEvent.MOUSE_ENTERED)) {
+                selectedPanel.setText("Diplomacy Panel");
 
             } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
                 selectedPanel.setText(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getName() + " turn");
@@ -682,6 +691,10 @@ public class GameMapController {
 
     public void goToEconomicOverview() {
         Main.changeMenu("EconomicOverview");
+    }
+
+    public void goToDiplomacyPanel() {
+        Main.changeMenu("DiplomacyPanel");
     }
 }
 

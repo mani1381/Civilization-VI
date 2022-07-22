@@ -170,6 +170,7 @@
             <Button fx:id="notificationHistory" layoutX="636.0" layoutY="5.0" maxHeight="32.0" minHeight="39.0" mnemonicParsing="false" onAction="#goToNotificationHistory" prefHeight="39.0" prefWidth="30.0" style="-fx-background-radius: 100; -fx-min-height: 30; -fx-max-width: 30; -fx-min-width: 30; -fx-max-height: 30;" />
             <Button fx:id="militaryOverview" layoutX="750.0" layoutY="5.0" maxHeight="32.0" minHeight="39.0" mnemonicParsing="false" onAction="#goToMilitaryOverview" prefHeight="39.0" prefWidth="30.0" style="-fx-background-radius: 100; -fx-min-height: 30; -fx-max-width: 30; -fx-min-width: 30; -fx-max-height: 30;" />
             <Button fx:id="economicOverview" layoutX="860.0" layoutY="5.0" maxHeight="32.0" minHeight="39.0" mnemonicParsing="false" onAction="#goToEconomicOverview" prefHeight="39.0" prefWidth="30.0" style="-fx-background-radius: 100; -fx-min-height: 30; -fx-max-width: 30; -fx-min-width: 30; -fx-max-height: 30;" />
+            <Button fx:id="diplomacyPanel" layoutX="958.0" layoutY="5.0" maxHeight="32.0" minHeight="39.0" mnemonicParsing="false" onAction="#goToDiplomacyPanel" prefHeight="39.0" prefWidth="30.0" style="-fx-background-radius: 100; -fx-min-height: 30; -fx-max-width: 30; -fx-min-width: 30; -fx-max-height: 30;" />
          </children>
       </AnchorPane>
    </children>

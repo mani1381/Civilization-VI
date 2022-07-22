@@ -563,7 +563,7 @@ public class DatabaseController {
 
     public void setCivilizations(ArrayList<User> users) {
 
-        this.database.setCivilizationsName(new ArrayList<>(List.of("Incan", "Aztec", "Roman", "Ancient Greek", "Chinese", "Maya", "Ancient Egyptian", "Indus Valley", "Mesopotamian", "Persian")));
+        this.database.setCivilizationsName(new ArrayList<>(List.of("Incan", "Aztec", "Roman", "AncientGreek", "Chinese", "Maya", "AncientEgyptian", "IndusValley", "Mesopotamian", "Persian")));
         ArrayList<Integer> indices = setIndices(users);
         int i = 0;
         for (User user : users) {
@@ -575,6 +575,8 @@ public class DatabaseController {
             setTerrainsOfEachCivilization(user);
             i++;
         }
+
+        setInitialDiplomacy();
     }
 
     public ArrayList<Integer> setIndices(ArrayList<User> users) {
@@ -1868,15 +1870,21 @@ public class DatabaseController {
     public Civilization theWinnerCivilization(){
         int count = 0;
         for(User user : database.getUsers()){
-            if(user.getCivilization().getCurrentCapital().equals(user.getCivilization().getFirstCapital())){
-                count++;
+            if(user.getCivilization().getCurrentCapital() != null){
+                if(user.getCivilization().getCurrentCapital().equals(user.getCivilization().getFirstCapital())){
+                    count++;
+                }
             }
+
         }
         if(count ==1){
             for(User user : database.getUsers()){
-                if(user.getCivilization().getCurrentCapital().equals(user.getCivilization().getFirstCapital())){
-                   return user.getCivilization();
+                if(user.getCivilization().getCurrentCapital() != null){
+                    if(user.getCivilization().getCurrentCapital().equals(user.getCivilization().getFirstCapital())){
+                        return user.getCivilization();
+                    }
                 }
+
             }
         }
         return null;
@@ -1931,6 +1939,38 @@ public class DatabaseController {
             database.setYear(database.getYear()+0.5);
         }
 
+    }
+
+    public void setStatusOfEachCivilizationWithOthersAfterEachRound(){
+        for(User user : database.getUsers()){
+            HashMap<Civilization,Boolean> statusOfCivilization = new HashMap<>();
+            for(User user1 : database.getUsers()){
+                if(user.getCivilization().getStatusWithOtherCivilizations().containsKey(user1.getCivilization())){
+                    statusOfCivilization.put(user1.getCivilization(), user.getCivilization().getStatusWithOtherCivilizations().get(user1.getCivilization()));
+                }
+            }
+            user.getCivilization().setStatusWithOtherCivilizations(statusOfCivilization);
+        }
+    }
+
+    public void setInitialDiplomacy(){
+        for(User user1: DatabaseController.getInstance().getDatabase().getUsers()){
+            for(User user : DatabaseController.getInstance().getDatabase().getUsers()){
+                if(!user.equals(DatabaseController.getInstance().getUserByCivilization(user1.getCivilization()))){
+                    user1.getCivilization().getStatusWithOtherCivilizations().put(user.getCivilization(),false);
+                }
+            }
+        }
+
+    }
+
+    public Civilization getCivilizationByName(String name){
+        for(User user : database.getUsers()){
+            if(user.getCivilization().getName().equalsIgnoreCase(name)){
+                return user.getCivilization();
+            }
+        }
+        return null;
     }
 
 
