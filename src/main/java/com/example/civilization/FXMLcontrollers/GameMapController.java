@@ -27,8 +27,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -152,6 +151,9 @@ public class GameMapController {
                 throw new RuntimeException(e);
             }
             try {
+                //Insert conditions here
+                pane.getScene().getAccelerators().put(new KeyCodeCombination(
+                        KeyCode.C, KeyCombination.CONTROL_ANY), this::goToCheatCode);
                 setSelectedPanelAndButtons();
                 setSelectedUnitData();
                 setCurrentResearch();
