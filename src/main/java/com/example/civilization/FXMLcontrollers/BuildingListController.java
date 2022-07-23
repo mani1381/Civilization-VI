@@ -39,7 +39,7 @@ public class BuildingListController {
             canBeBuiltWithTurn.get(i).setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     if (mouseEvent.getClickCount() == 2) {
-                        CityController.createBuildingWithTurn(canBeBuiltWithGold.get(i).getText(), city);
+                        CityController.createBuildingWithTurn(button.getText(), city);
                     }
 
                 }
@@ -65,7 +65,7 @@ public class BuildingListController {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     if (mouseEvent.getClickCount() == 2) {
 
-                        CityController.createBuildingWithGold(canBeBuiltWithGold.get(i).getText(), city);
+                        CityController.createBuildingWithGold(button.getText(), city);
                     }
 
                 }
