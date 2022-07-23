@@ -20,6 +20,8 @@ public class Database {
     private Map map = new Map();
     private int turn;
 
+    private String speed = "standard";
+
     private double year = -4000;
 
     private boolean isAutoSaveOn = false;
@@ -137,5 +139,13 @@ public class Database {
 
     public void setAutoSaveOn(boolean autoSaveOn) {
         isAutoSaveOn = autoSaveOn;
+    }
+
+    public String getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(String speed) {
+        this.speed = speed;
     }
 }

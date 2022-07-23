@@ -6,7 +6,6 @@ import com.example.civilization.Model.City.City;
 import com.example.civilization.Model.*;
 import com.example.civilization.Model.Improvements.Improvement;
 import com.example.civilization.Model.Improvements.ImprovementTypes;
-import com.example.civilization.Model.Map;
 import com.example.civilization.Model.Resources.Resource;
 import com.example.civilization.Model.Resources.ResourceTypes;
 import com.example.civilization.Model.Technologies.Technology;
@@ -14,8 +13,12 @@ import com.example.civilization.Model.Technologies.TechnologyTypes;
 import com.example.civilization.Model.TerrainFeatures.TerrainFeatureTypes;
 import com.example.civilization.Model.Terrains.TerrainTypes;
 import com.example.civilization.Model.Units.*;
+import javafx.util.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 import static java.util.Comparator.naturalOrder;
 
@@ -1867,20 +1870,20 @@ public class DatabaseController {
         }
     }
 
-    public Civilization theWinnerCivilization(){
+    public Civilization theWinnerCivilization() {
         int count = 0;
-        for(User user : database.getUsers()){
-            if(user.getCivilization().getCurrentCapital() != null){
-                if(user.getCivilization().getCurrentCapital().equals(user.getCivilization().getFirstCapital())){
+        for (User user : database.getUsers()) {
+            if (user.getCivilization().getCurrentCapital() != null) {
+                if (user.getCivilization().getCurrentCapital().equals(user.getCivilization().getFirstCapital())) {
                     count++;
                 }
             }
 
         }
-        if(count ==1){
-            for(User user : database.getUsers()){
-                if(user.getCivilization().getCurrentCapital() != null){
-                    if(user.getCivilization().getCurrentCapital().equals(user.getCivilization().getFirstCapital())){
+        if (count == 1) {
+            for (User user : database.getUsers()) {
+                if (user.getCivilization().getCurrentCapital() != null) {
+                    if (user.getCivilization().getCurrentCapital().equals(user.getCivilization().getFirstCapital())) {
                         return user.getCivilization();
                     }
                 }
@@ -1890,62 +1893,90 @@ public class DatabaseController {
         return null;
     }
 
-    public Civilization theWinnerAfterYear2050(){
+    public Civilization theWinnerAfterYear2050() {
         int max = -1;
-        for(User user : database.getUsers()){
-            if(user.getCivilization().getScore()>max){
+        for (User user : database.getUsers()) {
+            if (user.getCivilization().getScore() > max) {
                 max = user.getCivilization().getScore();
             }
         }
-        for(User user : database.getUsers()){
-            if(max ==user.getCivilization().getScore()){
+        for (User user : database.getUsers()) {
+            if (max == user.getCivilization().getScore()) {
                 return user.getCivilization();
             }
         }
         return null;
     }
 
-    public int calculatingScoreForEachCivilizationAfterEachRound(Civilization civilization){
-        if(civilization.isHasEverHadCity() && civilization.getCities().size()==0){
+    public int calculatingScoreForEachCivilizationAfterEachRound(Civilization civilization) {
+        if (civilization.isHasEverHadCity() && civilization.getCities().size() == 0) {
             return 0;
         }
-        return civilization.getTerrains().size()*50 + civilization.getTechnologies().size()*500+ civilization.getCities().size()*150;
+        return civilization.getTerrains().size() * 50 + civilization.getTechnologies().size() * 500 + civilization.getCities().size() * 150;
 
     }
 
-    public void increasingYearPerTurn(){
-        if(database.getYear()>= -4000 && database.getYear()<1000){
-            database.setYear(database.getYear()+40);
+    public void increasingYearPerTurnInStandardMode() {
+        if (database.getYear() >= -4000 && database.getYear() < 1000) {
+            database.setYear(database.getYear() + 40);
         }
-        if(database.getYear()>= -1000 && database.getYear()<500){
-            database.setYear(database.getYear()+25);
+        else if (database.getYear() >= -1000 && database.getYear() < 500) {
+            database.setYear(database.getYear() + 25);
         }
-        if(database.getYear()>= 500 && database.getYear()<1000){
-            database.setYear(database.getYear()+20);
+        else if (database.getYear() >= 500 && database.getYear() < 1000) {
+            database.setYear(database.getYear() + 20);
         }
-        if(database.getYear()>= 1000 && database.getYear()<1500){
-            database.setYear(database.getYear()+10);
+        else if (database.getYear() >= 1000 && database.getYear() < 1500) {
+            database.setYear(database.getYear() + 10);
         }
-        if(database.getYear()>= 1500 && database.getYear()<1800){
-            database.setYear(database.getYear()+5);
+        else if (database.getYear() >= 1500 && database.getYear() < 1800) {
+            database.setYear(database.getYear() + 5);
         }
-        if(database.getYear()>= 1800 && database.getYear()<1900){
-            database.setYear(database.getYear()+2);
+        else if (database.getYear() >= 1800 && database.getYear() < 1900) {
+            database.setYear(database.getYear() + 2);
         }
-        if(database.getYear()>= 1900 && database.getYear()<2020){
-            database.setYear(database.getYear()+1);
+        else if (database.getYear() >= 1900 && database.getYear() < 2020) {
+            database.setYear(database.getYear() + 1);
         }
-        if(database.getYear()>= 2020 && database.getYear()<2050){
-            database.setYear(database.getYear()+0.5);
+        else if (database.getYear() >= 2020 && database.getYear() < 2050) {
+            database.setYear(database.getYear() + 0.5);
         }
 
     }
 
-    public void setStatusOfEachCivilizationWithOthersAfterEachRound(){
-        for(User user : database.getUsers()){
-            HashMap<Civilization,Boolean> statusOfCivilization = new HashMap<>();
-            for(User user1 : database.getUsers()){
-                if(user.getCivilization().getStatusWithOtherCivilizations().containsKey(user1.getCivilization())){
+    public void increasingYearPerTurnInQuickMode() {
+        if (database.getYear() >= -4000 && database.getYear() < 1000) {
+            database.setYear(database.getYear() + 60);
+        }
+        else if (database.getYear() >= -1000 && database.getYear() < 200) {
+            database.setYear(database.getYear() + 40);
+        }
+        else if (database.getYear() >= 200 && database.getYear() < 800) {
+            database.setYear(database.getYear() + 30);
+        }
+        else if (database.getYear() >= 800 && database.getYear() < 1400) {
+            database.setYear(database.getYear() + 20);
+        }
+        else if (database.getYear() >= 1400 && database.getYear() < 1650) {
+            database.setYear(database.getYear() + 10);
+        }
+        else if (database.getYear() >= 1650 && database.getYear() < 1850) {
+            database.setYear(database.getYear() + 5);
+        }
+        else if (database.getYear() >= 1850 && database.getYear() < 1980) {
+            database.setYear(database.getYear() + 2);
+        }
+        else if (database.getYear() >= 1980 && database.getYear() < 2050) {
+            database.setYear(database.getYear() + 1);
+        }
+
+    }
+
+    public void setStatusOfEachCivilizationWithOthersAfterEachRound() {
+        for (User user : database.getUsers()) {
+            HashMap<Civilization, Boolean> statusOfCivilization = new HashMap<>();
+            for (User user1 : database.getUsers()) {
+                if (user.getCivilization().getStatusWithOtherCivilizations().containsKey(user1.getCivilization())) {
                     statusOfCivilization.put(user1.getCivilization(), user.getCivilization().getStatusWithOtherCivilizations().get(user1.getCivilization()));
                 }
             }
@@ -1953,27 +1984,37 @@ public class DatabaseController {
         }
     }
 
-    public void setInitialDiplomacy(){
-        for(User user1: DatabaseController.getInstance().getDatabase().getUsers()){
-            for(User user : DatabaseController.getInstance().getDatabase().getUsers()){
-                if(!user.equals(DatabaseController.getInstance().getUserByCivilization(user1.getCivilization()))){
-                    user1.getCivilization().getStatusWithOtherCivilizations().put(user.getCivilization(),false);
+    public void setInitialDiplomacy() {
+        for (User user1 : DatabaseController.getInstance().getDatabase().getUsers()) {
+            for (User user : DatabaseController.getInstance().getDatabase().getUsers()) {
+                if (!user.equals(DatabaseController.getInstance().getUserByCivilization(user1.getCivilization()))) {
+                    user1.getCivilization().getStatusWithOtherCivilizations().put(user.getCivilization(), false);
                 }
             }
         }
 
     }
 
-    public Civilization getCivilizationByName(String name){
-        for(User user : database.getUsers()){
-            if(user.getCivilization().getName().equalsIgnoreCase(name)){
+    public Civilization getCivilizationByName(String name) {
+        for (User user : database.getUsers()) {
+            if (user.getCivilization().getName().equalsIgnoreCase(name)) {
                 return user.getCivilization();
             }
         }
         return null;
     }
 
-
+    public Pair goToTheFirstCoordinates(Civilization civilization) {
+        int x = civilization.getUnits().get(0).getX();
+        int y = civilization.getUnits().get(0).getY();
+        if (x % 2 != 0) {
+            x--;
+        }
+        if (y % 2 != 0) {
+            y--;
+        }
+        return new Pair(x, y);
+    }
 
 
 }

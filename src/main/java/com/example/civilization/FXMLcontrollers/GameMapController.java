@@ -5,7 +5,6 @@ import com.example.civilization.Controllers.DatabaseController;
 import com.example.civilization.Controllers.SaveGame;
 import com.example.civilization.Controllers.saveData;
 import com.example.civilization.Main;
-import com.example.civilization.Model.Database;
 import com.example.civilization.Model.Ruins;
 import com.example.civilization.Model.Technologies.Technology;
 import com.example.civilization.Model.Technologies.TechnologyTypes;
@@ -43,6 +42,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class GameMapController {
 
@@ -155,6 +155,8 @@ public class GameMapController {
                 //Insert conditions here
                 pane.getScene().getAccelerators().put(new KeyCodeCombination(
                         KeyCode.C, KeyCombination.CONTROL_ANY), this::goToCheatCode);
+                pane.getScene().getAccelerators().put(new KeyCodeCombination(
+                        KeyCode.A, KeyCombination.CONTROL_ANY), this::goToFirstCoordinate);
                 setSelectedPanelAndButtons();
                 setSelectedUnitData();
                 setCurrentResearch();
@@ -165,6 +167,12 @@ public class GameMapController {
         });
 
 
+    }
+
+    private void goToFirstCoordinate() {
+        start_X_InShowMap = Collections.min(new ArrayList<>(Arrays.asList(24, (int) DatabaseController.getInstance().goToTheFirstCoordinates(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization()).getKey())));
+        start_Y_InShowMap = Collections.min(new ArrayList<>(Arrays.asList(2, (int) DatabaseController.getInstance().goToTheFirstCoordinates(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization()).getValue())));
+        mapForNewCoordinates();
     }
 
     @FXML
@@ -569,7 +577,12 @@ public class GameMapController {
                     DatabaseController.getInstance().getDatabase().getUsers().remove(user);
                 }
             }
-            DatabaseController.getInstance().increasingYearPerTurn();
+            if(DatabaseController.getInstance().getDatabase().getSpeed().equals("standard")){
+                DatabaseController.getInstance().increasingYearPerTurnInStandardMode();
+            }
+            else if(DatabaseController.getInstance().getDatabase().getSpeed().equals("quick")){
+                DatabaseController.getInstance().increasingYearPerTurnInQuickMode();
+            }
             if (DatabaseController.getInstance().getDatabase().getYear() == 2050) {
                 Main.changeMenu("WinnerMenu");
                 return;
@@ -582,7 +595,7 @@ public class GameMapController {
             DatabaseController.getInstance().getDatabase().setActiveUser(DatabaseController.getInstance().getNextTurnUser());
             DatabaseController.getInstance().setAllUnitsUnfinished(DatabaseController.getInstance().getDatabase().getActiveUser());
             DatabaseController.getInstance().setStatusOfEachCivilizationWithOthersAfterEachRound();
-            if(DatabaseController.getInstance().getDatabase().isAutoSaveOn()){
+            if (DatabaseController.getInstance().getDatabase().isAutoSaveOn()) {
                 try {
                     saveData.getInstance().saveUsers();
                     SaveGame.getInstance().saveGame();

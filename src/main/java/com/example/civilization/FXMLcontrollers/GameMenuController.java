@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -31,6 +32,7 @@ public class GameMenuController {
     public TextField opponentsCount;
     public Button load;
     public Button newGame;
+    public ChoiceBox gameSpeed;
     @FXML
     ArrayList<Button> suggestions = new ArrayList<>();
     @FXML
@@ -47,6 +49,11 @@ public class GameMenuController {
 
     @FXML
     public void initialize() {
+        gameSpeed.getItems().add("Standard");
+        gameSpeed.getItems().add("Quick");
+        gameSpeed.setStyle("-fx-font: 15px \"Copperplate\";");
+
+
         if (!DatabaseController.getInstance().getDatabase().getUsers().contains(DatabaseController.getInstance().getDatabase().getActiveUser())) {
             DatabaseController.getInstance().getDatabase().addUser(DatabaseController.getInstance().getDatabase().getActiveUser());
         }
@@ -138,7 +145,9 @@ public class GameMenuController {
                 if (Integer.parseInt(opponentsCount.getText()) < 2 || Integer.parseInt(opponentsCount.getText()) > 5) {
                     result.setText("number of players must be between 2 and 5");
                 } else {
-
+                    if(gameSpeed.getSelectionModel().getSelectedItem().equals("Quick")){
+                        DatabaseController.getInstance().getDatabase().setSpeed("quick");
+                    }
                     DatabaseController.getInstance().getMap().generateMap();
                     DatabaseController.getInstance().setCivilizations(DatabaseController.getInstance().getDatabase().getUsers());
                     Main.changeMenu("gameMap");
