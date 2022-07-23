@@ -157,6 +157,8 @@ public class GameMapController {
                         KeyCode.C, KeyCombination.CONTROL_ANY), this::goToCheatCode);
                 pane.getScene().getAccelerators().put(new KeyCodeCombination(
                         KeyCode.A, KeyCombination.CONTROL_ANY), this::goToFirstCoordinate);
+                pane.getScene().getAccelerators().put(new KeyCodeCombination(
+                        KeyCode.B, KeyCombination.CONTROL_ANY), this::openCityPanel);
                 setSelectedPanelAndButtons();
                 setSelectedUnitData();
                 setCurrentResearch();
@@ -724,6 +726,23 @@ public class GameMapController {
 
     public void goToSetting() {
         Main.changeMenu("Setting");
+    }
+
+    public void openCityPanel(){
+        try {
+
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/BuildingList.fxml"));
+            Parent root = loader.load();
+            BuildingListController secController = loader.getController();
+            secController.setData(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getCities().get(0));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
 

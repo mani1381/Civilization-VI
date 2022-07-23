@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="1530.0" stylesheets="@../CSS/Game.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.BuildingListController">
+    <children>
+
+        <ImageView fitHeight="63.0" fitWidth="77.0" layoutX="69.0" layoutY="32.0" onMouseClicked="#backToGameMap" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../PNG/images/back.png" />
+            </image>
+        </ImageView>
+      <Separator layoutX="738.0" layoutY="52.0" orientation="VERTICAL" prefHeight="654.0" prefWidth="3.0" />
+      <Label alignment="CENTER" layoutX="250.0" layoutY="52.0" prefHeight="41.0" prefWidth="201.0" text="Create with Turn" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="1000.0" layoutY="49.0" prefHeight="41.0" prefWidth="201.0" text="Create with gold" textFill="RED">
+         <font>
+            <Font name="Copperplate" size="18.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>

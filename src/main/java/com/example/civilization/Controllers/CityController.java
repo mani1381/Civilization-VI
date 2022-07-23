@@ -14,7 +14,6 @@ import com.example.civilization.Model.TerrainFeatures.TerrainFeatureTypes;
 import com.example.civilization.Model.Units.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,6 +22,67 @@ public class CityController {
 
     private DatabaseController databaseController;
     private Map map;
+
+    public static void createBuildingWithTurn(String buildingName, City city) {
+        for (BuildingTypes buildingTypes : BuildingTypes.values()) {
+            if (buildingTypes.name().equalsIgnoreCase(buildingName)) {
+                Building building = new Building(city.getCentralTerrain().getX(), city.getCentralTerrain().getY(), buildingTypes);
+                city.getBuildingWaitlist().add(building);
+            }
+        }
+
+    }
+
+    public static void createBuildingWithGold(String buildingName, City city) {
+        for (BuildingTypes buildingTypes : BuildingTypes.values()) {
+            if (buildingTypes.name().equalsIgnoreCase(buildingName)) {
+                Building building = new Building(city.getCentralTerrain().getX(), city.getCentralTerrain().getY(), buildingTypes);
+                city.setGold(city.getGold() - buildingTypes.getCost());
+                city.getBuildings().add(building);
+            }
+        }
+
+
+    }
+
+    public static ArrayList<BuildingTypes> allPossibleToCreateBuildingsWithTurn(City city) {
+        ArrayList<BuildingTypes> allPossible = new ArrayList<>();
+        ArrayList<BuildingTypes> allBuildingTypesOfCity = new ArrayList<>();
+        for (Building building : city.getBuildings()) {
+            allBuildingTypesOfCity.add(building.getBuildingType());
+        }
+        for (BuildingTypes buildingType : BuildingTypes.values()) {
+            boolean first = buildingType.getBuildingRequirements() == null || allBuildingTypesOfCity.containsAll(buildingType.getBuildingRequirements());
+            boolean second = !allBuildingTypesOfCity.contains(buildingType);
+            if (city.getCentralTerrain().getResource() == null && buildingType.getResourceRequirements() != null) {
+
+            } else if (first && second && (buildingType.getResourceRequirements() == null || (buildingType.getResourceRequirements().get(0).equals(city.getCentralTerrain().getResource().getResourceType())))) {
+                allPossible.add(buildingType);
+            }
+        }
+        return allPossible;
+    }
+
+    public static ArrayList<BuildingTypes> allPossibleToCreateBuildingsWithGold(City city) {
+        int money = city.getGold();
+        ArrayList<BuildingTypes> allPossible = new ArrayList<>();
+        ArrayList<BuildingTypes> allBuildingTypesOfCity = new ArrayList<>();
+        for (Building building : city.getBuildings()) {
+            allBuildingTypesOfCity.add(building.getBuildingType());
+        }
+
+        for (BuildingTypes buildingType : BuildingTypes.values()) {
+            boolean first = buildingType.getBuildingRequirements() == null || allBuildingTypesOfCity.containsAll(buildingType.getBuildingRequirements());
+            boolean second = !allBuildingTypesOfCity.contains(buildingType);
+            boolean third = money < buildingType.getCost();
+            if (city.getCentralTerrain().getResource() == null && buildingType.getResourceRequirements() != null) {
+
+            } else if (third && first && second && (buildingType.getResourceRequirements() == null || (buildingType.getResourceRequirements().get(0).equals(city.getCentralTerrain().getResource().getResourceType())))) {
+                allPossible.add(buildingType);
+            }
+        }
+        return allPossible;
+    }
 
     public void setDatabaseController(DatabaseController databaseController) {
         this.databaseController = databaseController;
@@ -203,7 +263,6 @@ public class CityController {
 
     }
 
-
     public void attachCity(Civilization civilization, City city) {
         civilization.addCity(city);
         city.setOwner(civilization);
@@ -222,7 +281,6 @@ public class CityController {
 
     }
 
-
     public boolean containUnit(ArrayList<Technology> tech, TechnologyTypes technologyType) {
         for (int i = 0; i < tech.size(); i++) {
             if (tech.get(i).getTechnologyType() == technologyType) {
@@ -231,7 +289,6 @@ public class CityController {
         }
         return false;
     }
-
 
     public String createUnitWithTurn(Matcher matcher, City city) {
         Civilization civilization = city.getOwner();
@@ -301,77 +358,6 @@ public class CityController {
         }
 
         return "invalid unit name";
-    }
-
-
-    public String createBuildingWithTurn(Matcher matcher, City city) {
-        Civilization civilization = city.getOwner();
-        String buildingName = matcher.group("buildingName");
-        String lackBuilding = "You lack the required buildings to construct this building";
-        String lackResources = "You lack the required resources to construct this building";
-        String buildingAlreadyExists = "You have constructed this building before";
-        ArrayList<BuildingTypes> allBuildingTypes = new ArrayList<>(Arrays.asList(BuildingTypes.values()));
-        ArrayList<BuildingTypes> allBuildingTypesOfCity = new ArrayList<>();
-        for (Building building : city.getBuildings()) {
-            allBuildingTypesOfCity.add(building.getBuildingType());
-        }
-
-        for (BuildingTypes buildingType : allBuildingTypes) {
-            if (buildingType.name().equals(buildingName)) {
-                if (buildingType.getBuildingRequirements() != null && allBuildingTypes.containsAll(buildingType.getBuildingRequirements())) {
-                    return lackBuilding;
-                } else if (city.getCentralTerrain().getResource() != null && buildingType.getResourceRequirements() != null && !city.getCentralTerrain().getResource().getResourceType().equals(buildingType.getResourceRequirements().get(0))) {
-                    return lackResources;
-                } else if (allBuildingTypes.contains(buildingType)) {
-                    return buildingAlreadyExists;
-                }
-                Building building = new Building(city.getCentralTerrain().getX(), city.getCentralTerrain().getY(), buildingType);
-                city.getBuildingWaitlist().add(building);
-                return buildingType.name() + " will be constructed in " + buildingType.getTurn() + " turns";
-            }
-
-        }
-
-        return "invalid building name";
-
-    }
-
-    public String createBuildingWithGold(Matcher matcher, City city) {
-        Civilization civilization = city.getOwner();
-        int money = city.getGold();
-        String notEnoughMoney = "You do not have enough gold to construct this unit";
-        String buildingName = matcher.group("buildingName");
-        String lackBuilding = "You lack the required buildings to construct this building";
-        String lackResources = "You lack the required resources to construct this building";
-        String buildingAlreadyExists = "You have constructed this building before";
-        String unitPurchasedSuccessfully = "Unit purchase was successful";
-        ArrayList<BuildingTypes> allBuildingTypes = new ArrayList<>(Arrays.asList(BuildingTypes.values()));
-        ArrayList<BuildingTypes> allBuildingTypesOfCity = new ArrayList<>();
-        for (Building building : city.getBuildings()) {
-            allBuildingTypesOfCity.add(building.getBuildingType());
-        }
-
-        for (BuildingTypes buildingType : allBuildingTypes) {
-            if (buildingType.name().equals(buildingName)) {
-                if (money < buildingType.getCost()) {
-                    return notEnoughMoney;
-                } else if (buildingType.getBuildingRequirements() != null && allBuildingTypes.containsAll(buildingType.getBuildingRequirements())) {
-                    return lackBuilding;
-                } else if (city.getCentralTerrain().getResource() != null && buildingType.getResourceRequirements() != null && !city.getCentralTerrain().getResource().getResourceType().equals(buildingType.getResourceRequirements().get(0))) {
-                    return lackResources;
-                } else if (allBuildingTypes.contains(buildingType)) {
-                    return buildingAlreadyExists;
-                }
-                Building building = new Building(city.getCentralTerrain().getX(), city.getCentralTerrain().getY(), buildingType);
-                city.setGold(city.getGold() - buildingType.getCost());
-                city.getBuildings().add(building);
-                return unitPurchasedSuccessfully;
-            }
-
-        }
-
-        return "invalid building name";
-
     }
 
     public String createUnit(Matcher matcher, City city) {

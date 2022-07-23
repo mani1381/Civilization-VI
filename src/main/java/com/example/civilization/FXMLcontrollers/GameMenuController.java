@@ -145,7 +145,7 @@ public class GameMenuController {
                 if (Integer.parseInt(opponentsCount.getText()) < 2 || Integer.parseInt(opponentsCount.getText()) > 5) {
                     result.setText("number of players must be between 2 and 5");
                 } else {
-                    if(gameSpeed.getSelectionModel().getSelectedItem().equals("Quick")){
+                    if(gameSpeed.getSelectionModel().getSelectedItem()!=null && gameSpeed.getSelectionModel().getSelectedItem().equals("Quick")){
                         DatabaseController.getInstance().getDatabase().setSpeed("quick");
                     }
                     DatabaseController.getInstance().getMap().generateMap();
