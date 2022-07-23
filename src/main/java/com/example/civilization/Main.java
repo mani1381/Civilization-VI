@@ -5,15 +5,18 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class Main extends Application {
     public static Scene scene;
     public static Stage stage;
-
+    public static MediaPlayer mediaPlayer;
     //public static void main(String[] args) {
     /*
     Scanner scanner = new Scanner(System.in);
@@ -45,6 +48,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        try {
+            mediaPlayer = new MediaPlayer(new Media(Main.class.getResource("MP3/GameMusic.mp3").toURI().toString()));
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
         Parent root = loadFXML("LoginMenu");
         Scene scene = new Scene(root);
         Main.scene = scene;
