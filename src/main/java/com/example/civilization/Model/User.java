@@ -23,6 +23,8 @@ public class User {
     private ArrayList<privateChat> privatechat = new ArrayList<>();
     private ArrayList<Room> rooms = new ArrayList<>();
 
+    private ArrayList<User> friends = new ArrayList<>();
+
 
     public User(String username, String password, String nickname, Civilization civil) {
         this.username = username;
@@ -119,5 +121,11 @@ public class User {
         this.rooms = rooms;
     }
 
+    public ArrayList<User> getFriends() {
+        return friends;
+    }
 
+    public void setFriends(ArrayList<User> friends) {
+        this.friends = friends;
+    }
 }

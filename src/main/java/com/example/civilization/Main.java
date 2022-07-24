@@ -54,7 +54,7 @@ public class Main extends Application {
             throw new RuntimeException(e);
         }
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
+        //mediaPlayer.play();
         Parent root = loadFXML("LoginMenu");
         Scene scene = new Scene(root);
         Main.scene = scene;

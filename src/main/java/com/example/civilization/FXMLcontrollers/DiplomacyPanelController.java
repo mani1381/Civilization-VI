@@ -21,6 +21,8 @@ public class DiplomacyPanelController {
     AnchorPane anchorPane;
     @FXML
     ArrayList<Button> civilizations = new ArrayList<>();
+    @FXML
+    ArrayList<Button> civilizationsDiscussion = new ArrayList<>();
 
 
     @FXML
@@ -33,6 +35,12 @@ public class DiplomacyPanelController {
     public void setTexts() {
         int i = 0;
         for (Civilization civilization : DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getStatusWithOtherCivilizations().keySet()) {
+            civilizationsDiscussion.add(new Button());
+            civilizationsDiscussion.get(i).setStyle("-fx-background-radius: 100em");
+            civilizationsDiscussion.get(i).setFont(Font.font("Copperplate", 13));
+            civilizationsDiscussion.get(i).setTextFill(Color.RED);
+            civilizationsDiscussion.get(i).setPrefSize(100, 50);
+            civilizationsDiscussion.get(i).setText("Discussion");
             civilizations.add(new Button());
             civilizations.get(i).setStyle("-fx-background-radius: 100em");
             civilizations.get(i).setFont(Font.font("Copperplate", 13));
@@ -44,6 +52,7 @@ public class DiplomacyPanelController {
                 civilizations.get(i).setText(civilization.getScore() + " " + civilization.getName() + " War");
             }
             Button button = civilizations.get(i);
+            Button button1 = civilizationsDiscussion.get(i);
             civilizations.get(i).setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     if (mouseEvent.getClickCount() == 2) {
@@ -59,11 +68,23 @@ public class DiplomacyPanelController {
                     }
                 }
             });
+            civilizationsDiscussion.get(i).setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
+                        Main.changeMenu("Discussion");
+                    }
+                }
+            });
+
+            civilizationsDiscussion.get(i).setVisible(true);
+            civilizationsDiscussion.get(i).setLayoutX(1000);
+            civilizationsDiscussion.get(i).setLayoutY(100 + 65 * (i + 1));
 
             civilizations.get(i).setVisible(true);
             civilizations.get(i).setLayoutX(150 + 400);
             civilizations.get(i).setLayoutY(100 + 65 * (i + 1));
             anchorPane.getChildren().add(civilizations.get(i));
+            anchorPane.getChildren().add(civilizationsDiscussion.get(i));
             i++;
         }
 
