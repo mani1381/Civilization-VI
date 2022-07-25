@@ -471,13 +471,59 @@ public class GameMapController {
     }
 
     public void showingPopUp(ArrayList<Polygon> polygons, int i, int j) {
-        try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/terrainsPopUp.fxml"));
-            Parent root = loader.load();
-            TerrainPopUpController secController = loader.getController();
-            secController.setData(databaseController.getTerrainByCoordinates(i, j));
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
+        boolean isCity = DatabaseController.getInstance().getTerrainByCoordinates(i, j).getCity() != null;
+        if (!isCity) {
+            try {
+                FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/terrainsPopUp.fxml"));
+                Parent root = loader.load();
+                TerrainPopUpController secController = loader.getController();
+                secController.setData(databaseController.getTerrainByCoordinates(i, j));
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                for (Polygon polygon : polygons) {
+
+                    polygon.setStroke(Color.RED);
+                    polygon.setStrokeWidth(2);
+                    polygon.addEventFilter(MouseEvent.ANY, new EventHandler<>() {
+
+                        long startTime;
+
+                        @Override
+                        public void handle(MouseEvent event) {
+                            if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
+                                startTime = System.currentTimeMillis();
+                            } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
+                                if (System.currentTimeMillis() - startTime > 1000) {
+                                    stage.show();
+                                }
+                            } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
+                                if (stage.isShowing()) {
+                                    stage.close();
+                                }
+
+                            }
+                        }
+                    });
+
+
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            FXMLLoader cityPanelLoader = new FXMLLoader(Main.class.getResource("FXML/cityPanel.fxml"));
+            Parent cityRoot = null;
+            try {
+                cityRoot = cityPanelLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            cityPanelController cityPanelController = cityPanelLoader.getController();
+            cityPanelController.setData(databaseController.getTerrainByCoordinates(i, j));
+            Stage cityStage = new Stage();
+            cityStage.setScene(new Scene(cityRoot));
+
             for (Polygon polygon : polygons) {
 
                 polygon.setStroke(Color.RED);
@@ -492,13 +538,8 @@ public class GameMapController {
                             startTime = System.currentTimeMillis();
                         } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
                             if (System.currentTimeMillis() - startTime > 1000) {
-                                stage.show();
+                                cityStage.show();
                             }
-                        } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                            if (stage.isShowing()) {
-                                stage.close();
-                            }
-
                         }
                     }
                 });
@@ -506,9 +547,8 @@ public class GameMapController {
 
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
 
     }
 
@@ -579,10 +619,9 @@ public class GameMapController {
                     DatabaseController.getInstance().getDatabase().getUsers().remove(user);
                 }
             }
-            if(DatabaseController.getInstance().getDatabase().getSpeed().equals("standard")){
+            if (DatabaseController.getInstance().getDatabase().getSpeed().equals("standard")) {
                 DatabaseController.getInstance().increasingYearPerTurnInStandardMode();
-            }
-            else if(DatabaseController.getInstance().getDatabase().getSpeed().equals("quick")){
+            } else if (DatabaseController.getInstance().getDatabase().getSpeed().equals("quick")) {
                 DatabaseController.getInstance().increasingYearPerTurnInQuickMode();
             }
             if (DatabaseController.getInstance().getDatabase().getYear() == 2050) {
@@ -728,7 +767,7 @@ public class GameMapController {
         Main.changeMenu("Setting");
     }
 
-    public void openCityPanel(){
+    public void openCityPanel() {
         try {
 
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/BuildingList.fxml"));

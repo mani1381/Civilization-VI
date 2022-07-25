@@ -184,6 +184,7 @@ public class DatabaseController {
         switch (action) {
             case "sleep" -> nonCombatUnit.setIsAsleep(true);
             case "wake" -> nonCombatUnit.setIsAsleep(false);
+            case "found city" -> CityController.foundCity(getContainerCivilization(nonCombatUnit),nonCombatUnit,getTerrainByCoordinates(nonCombatUnit.getX() ,nonCombatUnit.getY()));
             case "delete" -> nonCombatUnit = null;
         }
         if (!action.equals("delete")) {

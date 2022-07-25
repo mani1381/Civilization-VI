@@ -39,6 +39,8 @@ public class City {
     private int production;
     private int turnsRemainingUntilPopulationIncrease;
     private int foodStorage;
+    private int numberOfUnemployed;
+
     private boolean isUnderAttack;
     private ArrayList<Terrain> mainTerrains = new ArrayList<>();
     private CityController cityController = new CityController();
@@ -72,6 +74,25 @@ public class City {
         this.foodStorage = 0;
         this.mainTerrains.add(centralTerrain);
 
+    }
+    public int getNumberOfUnemployed()
+    {
+        int num = 0;
+        for( Citizen citizen: this.citizens)
+        {
+            if ( !citizen.getHasWork()) num++;
+
+        }
+        return num;
+    }
+
+    public Citizen getTheFirstUnemployed()
+    {
+        for( Citizen citizen: citizens)
+        {
+            if ( !citizen.getHasWork()) return citizen;
+        }
+        return null;
     }
 
 

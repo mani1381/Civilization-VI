@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.cityPanelController">
+   <children>
+      <ImageView fitHeight="526.0" fitWidth="428.0" layoutX="-14.0" layoutY="-17.0" pickOnBounds="true">
+         <image>
+            <Image url="@../PNG/ARX/BackgroundARX.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="116.0" layoutY="45.0" prefHeight="50.0" prefWidth="182.0" text="City Panel" textFill="#fdfdfd">
+         <font>
+            <Font size="34.0" />
+         </font></Label>
+      <Label layoutX="49.0" layoutY="145.0" prefHeight="17.0" prefWidth="88.0" text="Population: " textFill="#fffefe">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="49.0" layoutY="184.0" prefHeight="17.0" prefWidth="88.0" text="Food: " textFill="#fffefe">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="49.0" layoutY="220.0" prefHeight="17.0" prefWidth="88.0" text="Gold" textFill="#fffefe">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="22.0" layoutY="219.0" pickOnBounds="true">
+         <image>
+            <Image url="@../PNG/ARX/ICON_Gold.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="22.0" layoutY="183.0" pickOnBounds="true">
+         <image>
+            <Image url="@../PNG/ARX/Food_Icon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="22.0" layoutY="148.0" pickOnBounds="true">
+         <image>
+            <Image url="@../PNG/ARX/population_icon.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="populationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="275.0" layoutY="149.0" prefHeight="20.0" prefWidth="71.0" text="Label" textFill="WHITE" visible="false" />
+      <Label fx:id="foodLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="275.0" layoutY="186.0" prefHeight="20.0" prefWidth="71.0" text="Label" textFill="WHITE" visible="false" />
+      <Label fx:id="goldLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="275.0" layoutY="219.0" prefHeight="20.0" prefWidth="71.0" text="Label" textFill="WHITE" visible="false" />
+      <TextField layoutX="26.0" layoutY="301.0" prefHeight="25.0" prefWidth="58.0" promptText="Enter X" fx:id="x" />
+      <TextField fx:id="y" layoutX="108.0" layoutY="301.0" prefHeight="25.0" prefWidth="58.0" promptText="Enter Y" />
+      <Label layoutX="28.0" layoutY="274.0" prefHeight="17.0" prefWidth="71.0" text="Buy tile" textFill="#fdfdfd" />
+      <Button id="Button" fx:id="buyButton" layoutX="26.0" layoutY="338.0" mnemonicParsing="false" onMouseClicked="#buyTile" style="--fxbackground-color: #155718" text="Buy" textFill="WHITE" />
+      <Label fx:id="buyMessage" layoutX="75.0" layoutY="350.0" prefHeight="17.0" prefWidth="101.0" text="Label" textFill="#f3f3f3" visible="false" />
+      <Label fx:id="populationNumber" layoutX="278.0" layoutY="145.0" prefHeight="17.0" prefWidth="88.0" text="Label" textFill="#fffefe" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="foodNumber" layoutX="278.0" layoutY="186.0" prefHeight="17.0" prefWidth="88.0" text="Label" textFill="#fffefe" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="goldNumber" layoutX="278.0" layoutY="221.0" prefHeight="17.0" prefWidth="88.0" text="Label" textFill="#fffefe" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="28.0" layoutY="376.0" prefHeight="19.0" prefWidth="198.0" text="Number of unemployed citizens:" textFill="#fdfdfd">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="numberOfUnemployed" layoutX="263.0" layoutY="377.0" prefHeight="17.0" prefWidth="71.0" text="Label" textFill="#fdfdfd" visible="false" />
+      <ImageView fitHeight="42.0" fitWidth="45.0" layoutX="11.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../PNG/images/back.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="28.0" layoutY="404.0" prefHeight="19.0" prefWidth="281.0" text="Enter tile coordinates to see number of workers" textFill="#fdfdfd">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="workersX" layoutX="26.0" layoutY="434.0" prefHeight="25.0" prefWidth="58.0" promptText="Enter X" />
+      <TextField fx:id="workersY" layoutX="108.0" layoutY="434.0" prefHeight="25.0" prefWidth="58.0" promptText="Enter Y" />
+      <Button id="Button" fx:id="goButton" layoutX="27.0" layoutY="468.0" mnemonicParsing="false" onMouseClicked="#go" style="--fxbackground-color: #155718" text="Go" textFill="WHITE" />
+      <Label layoutX="213.0" layoutY="437.0" prefHeight="25.0" prefWidth="71.0" text="Number:" textFill="WHITE" />
+      <Label fx:id="numberOfWorkers" layoutX="275.0" layoutY="442.0" text="Label" textFill="WHITE" />
+      <ImageView fx:id="upButton" fitHeight="25.0" fitWidth="20.0" layoutX="334.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#up">
+         <image>
+            <Image url="@../PNG/ARX/up.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="downButton" fitHeight="25.0" fitWidth="20.0" layoutX="334.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../PNG/ARX/down.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="goMessage" layoutX="67.0" layoutY="471.0" prefHeight="19.0" prefWidth="281.0" text="label" textFill="#fdfdfd">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

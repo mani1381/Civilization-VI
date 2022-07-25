@@ -5,6 +5,7 @@ import com.example.civilization.Model.Buildings.BuildingTypes;
 import com.example.civilization.Model.City.Citizen;
 import com.example.civilization.Model.City.City;
 import com.example.civilization.Model.Civilization;
+import com.example.civilization.Model.Database;
 import com.example.civilization.Model.Map;
 import com.example.civilization.Model.Resources.ResourceTypes;
 import com.example.civilization.Model.Technologies.Technology;
@@ -20,8 +21,8 @@ import java.util.regex.Matcher;
 
 public class CityController {
 
-    private DatabaseController databaseController;
-    private Map map;
+    private DatabaseController databaseController = DatabaseController.getInstance();
+    private Map map = Database.getInstance().getMap();
 
     public static void createBuildingWithTurn(String buildingName, City city) {
         for (BuildingTypes buildingTypes : BuildingTypes.values()) {
@@ -133,7 +134,7 @@ public class CityController {
 
     }
 
-    public void foundCity(Civilization civilization, NonCombatUnit unit, Terrain tile) {
+    public static void foundCity(Civilization civilization, NonCombatUnit unit, Terrain tile) {
         if (unit == null) {
             System.out.println("please select a unit first");
             return;
@@ -804,20 +805,19 @@ public class CityController {
     }
 
 
-    public void buyTile(int x, int y, City city) {
+    public String buyTile(int x, int y, City city) {
         Terrain tile = this.databaseController.getTerrainByCoordinates(x, y);
         ArrayList<Terrain> mainTerrains = city.getMainTerrains();
         if (NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(mainTerrains, this.map).contains(tile)) {
             if (city.getGold() < tile.getGold()) {
-                System.out.println("Not enough money");
-                return;
+                return "Not enough money";
             }
             city.setGold(city.getGold() - tile.getGold());
             mainTerrains.add(tile);
             city.setMainTerrains(mainTerrains);
-            return;
+            return "Tile bought successfully";
         }
-        System.out.println("You cannot buy this tile");
+        return "You cannot buy this tile";
 
     }
 

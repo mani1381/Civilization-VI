@@ -5,6 +5,7 @@ import com.example.civilization.Main;
 import com.example.civilization.Model.Units.CombatUnit;
 import com.example.civilization.Model.Units.NonCombatUnit;
 import com.example.civilization.Model.Units.RangedCombatUnit;
+import com.example.civilization.Model.Units.UnitTypes;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -44,10 +45,15 @@ public class UnitActionsController {
                         children.setVisible(false);
                     }
                 }
+                if (name.equalsIgnoreCase("found city")) {
+                    if (!(nonCombatUnit != null && nonCombatUnit.getUnitType().equals(UnitTypes.SETTLER))) {
+                        children.setVisible(false);
+                    }
+                }
                 children.setOnMouseClicked(mouseEvent -> {
                     if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                         if (mouseEvent.getClickCount() == 2) {
-                            result.setText(DatabaseController.getInstance().changingTheStateOfAUnit(((Button) children).getText()));
+                            System.out.println(DatabaseController.getInstance().changingTheStateOfAUnit(((Button) children).getText().toLowerCase()));
                             Main.changeMenu("gameMap");
                         }
                     }
