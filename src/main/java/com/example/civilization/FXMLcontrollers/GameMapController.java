@@ -1,6 +1,7 @@
 package com.example.civilization.FXMLcontrollers;
 
 
+import com.example.civilization.Controllers.CombatController;
 import com.example.civilization.Controllers.DatabaseController;
 import com.example.civilization.Controllers.SaveGame;
 import com.example.civilization.Controllers.saveData;
@@ -12,6 +13,7 @@ import com.example.civilization.Model.TerrainFeatures.TerrainFeatureTypes;
 import com.example.civilization.Model.Terrains.TerrainTypes;
 import com.example.civilization.Model.Units.CombatUnit;
 import com.example.civilization.Model.Units.NonCombatUnit;
+import com.example.civilization.Model.Units.RangedCombatUnit;
 import com.example.civilization.Model.Units.UnitTypes;
 import com.example.civilization.Model.User;
 import javafx.animation.PauseTransition;
@@ -22,9 +24,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -35,6 +35,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.FileInputStream;
@@ -43,6 +44,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 
 public class GameMapController {
 
@@ -144,8 +146,8 @@ public class GameMapController {
         for (Polygon polygon : terrainHexagons) {
             pane.getChildren().add(polygon);
         }
-
         Platform.runLater(() -> {
+
             try {
                 changingDirection();
             } catch (IOException e) {
@@ -153,12 +155,9 @@ public class GameMapController {
             }
             try {
                 //Insert conditions here
-                pane.getScene().getAccelerators().put(new KeyCodeCombination(
-                        KeyCode.C, KeyCombination.CONTROL_ANY), this::goToCheatCode);
-                pane.getScene().getAccelerators().put(new KeyCodeCombination(
-                        KeyCode.A, KeyCombination.CONTROL_ANY), this::goToFirstCoordinate);
-                pane.getScene().getAccelerators().put(new KeyCodeCombination(
-                        KeyCode.B, KeyCombination.CONTROL_ANY), this::openCityPanel);
+                pane.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY), this::goToCheatCode);
+                pane.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_ANY), this::goToFirstCoordinate);
+                pane.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.B, KeyCombination.CONTROL_ANY), this::openCityPanel);
                 setSelectedPanelAndButtons();
                 setSelectedUnitData();
                 setCurrentResearch();
@@ -170,6 +169,7 @@ public class GameMapController {
 
 
     }
+
 
     private void goToFirstCoordinate() {
         start_X_InShowMap = Collections.min(new ArrayList<>(Arrays.asList(24, (int) DatabaseController.getInstance().goToTheFirstCoordinates(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization()).getKey())));
@@ -521,13 +521,13 @@ public class GameMapController {
             }
             cityPanelController cityPanelController = cityPanelLoader.getController();
             cityPanelController.setData(databaseController.getTerrainByCoordinates(i, j));
-            Stage cityStage = new Stage();
-            cityStage.setScene(new Scene(cityRoot));
+
 
             for (Polygon polygon : polygons) {
 
                 polygon.setStroke(Color.RED);
                 polygon.setStrokeWidth(2);
+                Parent finalCityRoot = cityRoot;
                 polygon.addEventFilter(MouseEvent.ANY, new EventHandler<>() {
 
                     long startTime;
@@ -538,7 +538,7 @@ public class GameMapController {
                             startTime = System.currentTimeMillis();
                         } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
                             if (System.currentTimeMillis() - startTime > 1000) {
-                                cityStage.show();
+                                Main.scene.setRoot(finalCityRoot);
                             }
                         }
                     }
@@ -556,7 +556,31 @@ public class GameMapController {
         for (Polygon polygon : polygons) {
             polygon.setOnMousePressed(mouseEvent -> {
                 if (DatabaseController.getInstance().getSelectedNonCombatUnit() != null || DatabaseController.getInstance().getSelectedCombatUnit() != null) {
-                    System.out.println(DatabaseController.getInstance().unitMovement(i, j, DatabaseController.getInstance().getDatabase().getActiveUser()));
+                    if (DatabaseController.getInstance().getSelectedCombatUnit() != null && DatabaseController.getInstance().getTerrainByCoordinates(i, j).getCombatUnit() != null && !DatabaseController.getInstance().getContainerCivilization(DatabaseController.getInstance().getTerrainByCoordinates(i, j).getCombatUnit()).equals(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization())) {
+                        if (!DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getStatusWithOtherCivilizations().get(DatabaseController.getInstance().getContainerCivilization(DatabaseController.getInstance().getTerrainByCoordinates(i, j).getCombatUnit()))) {
+                            openWarInit(i, j, 0);
+
+                        } else {
+                            CombatController.unitAttackUnit(DatabaseController.getInstance().getSelectedCombatUnit().getX(), DatabaseController.getInstance().getSelectedCombatUnit().getY(), i, j);
+                        }
+
+                    } else if (DatabaseController.getInstance().getSelectedCombatUnit() != null && DatabaseController.getInstance().getTerrainByCoordinates(i, j).getCity() != null && !DatabaseController.getInstance().getContainerCivilizationOfCity(DatabaseController.getInstance().getTerrainByCoordinates(i, j).getCity()).equals(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization())) {
+                        if (!DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getStatusWithOtherCivilizations().get(DatabaseController.getInstance().getContainerCivilizationOfCity(DatabaseController.getInstance().getTerrainByCoordinates(i, j).getCity()))) {
+                            if (!(DatabaseController.getInstance().getSelectedCombatUnit() instanceof RangedCombatUnit)) {
+                                openWarInit(i, j, 1);
+                            } else {
+                                openWarInit(i, j, 2);
+                            }
+                        } else {
+                            if (!(DatabaseController.getInstance().getSelectedCombatUnit() instanceof RangedCombatUnit)) {
+                                CombatController.unitAttackCity(i, j, DatabaseController.getInstance().getDatabase().getActiveUser());
+                            } else {
+                                CombatController.rangedAttack(i, j, DatabaseController.getInstance().getDatabase().getActiveUser());
+                            }
+                        }
+                    } else {
+                        System.out.println(DatabaseController.getInstance().unitMovement(i, j, DatabaseController.getInstance().getDatabase().getActiveUser()));
+                    }
                     DatabaseController.getInstance().movementOfAllUnits(DatabaseController.getInstance().getDatabase().getActiveUser());
                     DatabaseController.getInstance().setTerrainsOfEachCivilization(DatabaseController.getInstance().getDatabase().getActiveUser());
                     this.databaseController.getMap().initializeMapUser(DatabaseController.getInstance().getDatabase().getActiveUser());
@@ -566,6 +590,8 @@ public class GameMapController {
                         throw new RuntimeException(e);
                     }
                     mapForNewCoordinates();
+
+
                 }
             });
         }
@@ -595,6 +621,21 @@ public class GameMapController {
             });
         }
 
+
+    }
+
+    public void openWarInit(int i, int j, int attackType) {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/warInit.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        WarInit secController = loader.getController();
+        secController.setData(DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization(), DatabaseController.getInstance().getContainerCivilization(DatabaseController.getInstance().getTerrainByCoordinates(i, j).getCombatUnit()), i, j, attackType);
+        Main.scene.setRoot(root);
 
     }
 
@@ -638,7 +679,6 @@ public class GameMapController {
             DatabaseController.getInstance().setStatusOfEachCivilizationWithOthersAfterEachRound();
             if (DatabaseController.getInstance().getDatabase().isAutoSaveOn()) {
                 try {
-                    saveData.getInstance().saveUsers();
                     SaveGame.getInstance().saveGame();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -656,7 +696,6 @@ public class GameMapController {
             for (int b = -1; b < 2; b++) {
                 if (i + a >= 0 && i + a < databaseController.getMap().getROW() && j + b >= 0 && j + b < databaseController.getMap().getCOL()) {
                     if (databaseController.getMap().hasRiver(databaseController.getMap().getTerrain()[i + a][j + b], databaseController.getMap().getTerrain()[i][j]) != null) {
-
                         if (a == 1 && b == 0) {
                             rivers.getPoints().addAll(drawingPolygonWithCenterAndRadius(x, y, radius));
                             rivers.setFill(new ImagePattern(new Image(new FileInputStream("src/main/resources/com/example/civilization/PNG/civAsset/map/Tiles/River-Bottom.png"))));
@@ -765,6 +804,15 @@ public class GameMapController {
 
     public void goToSetting() {
         Main.changeMenu("Setting");
+    }
+
+    public void stop() {
+        try {
+            SaveGame.getInstance().saveGame();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.exit(0);
     }
 
     public void openCityPanel() {

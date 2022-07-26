@@ -39,12 +39,15 @@ public class saveData {
     }
 
     public void loadUsers() {
-        try {
-            String Users = new String(Files.readAllBytes(Paths.get("src/main/resources/Users.json")));
-            this.database.setAllUsers(new Gson().fromJson(Users, new TypeToken<List<User>>() {
-            }.getType()));
-        } catch (IllegalStateException | JsonSyntaxException | IOException exception) {
 
+        String Users = null;
+        try {
+            Users = new String(Files.readAllBytes(Paths.get("src/main/resources/Users.json")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        this.database.setAllUsers(new Gson().fromJson(Users, new TypeToken<List<User>>() {
+            }.getType()));
+
     }
 }

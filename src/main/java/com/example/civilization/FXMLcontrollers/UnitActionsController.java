@@ -50,12 +50,22 @@ public class UnitActionsController {
                         children.setVisible(false);
                     }
                 }
+                if (name.equalsIgnoreCase("worker options")) {
+                    if (!(nonCombatUnit != null && nonCombatUnit.getUnitType().equals(UnitTypes.WORKER))) {
+                        children.setVisible(false);
+                    }
+                }
                 children.setOnMouseClicked(mouseEvent -> {
                     if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                        if (mouseEvent.getClickCount() == 2) {
-                            System.out.println(DatabaseController.getInstance().changingTheStateOfAUnit(((Button) children).getText().toLowerCase()));
-                            Main.changeMenu("gameMap");
+                        if(!name.equalsIgnoreCase("worker options")){
+                            if (mouseEvent.getClickCount() == 2) {
+                                System.out.println(DatabaseController.getInstance().changingTheStateOfAUnit(((Button) children).getText().toLowerCase()));
+                                Main.changeMenu("gameMap");
+                            }
+                        }else{
+                            Main.changeMenu("workersOptions");
                         }
+
                     }
 
 

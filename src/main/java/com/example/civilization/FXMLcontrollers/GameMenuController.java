@@ -1,6 +1,8 @@
 package com.example.civilization.FXMLcontrollers;
 
 import com.example.civilization.Controllers.DatabaseController;
+import com.example.civilization.Controllers.SaveGame;
+import com.example.civilization.Controllers.saveData;
 import com.example.civilization.Main;
 import com.example.civilization.Model.User;
 import javafx.animation.PauseTransition;
@@ -160,6 +162,16 @@ public class GameMenuController {
 
     }
 
+    public void loadGame(){
+        try {
+            SaveGame.getInstance().loadGame(1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        DatabaseController.getInstance().setCivilizations(DatabaseController.getInstance().getDatabase().getUsers());
+
+        Main.changeMenu("gameMap");
+    }
     public void showingTooltip(String result) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/tooltip.fxml"));

@@ -70,9 +70,9 @@ public class WorkersOptionsController {
     }
 
     public void setTexts() {
-        for (TechnologyTypes technologyTypes : TechnologyTypes.values()) {
-            DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getTechnologies().add(new Technology(false, 0, technologyTypes, true));
-        }
+//        for (TechnologyTypes technologyTypes : TechnologyTypes.values()) {
+//            DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getTechnologies().add(new Technology(false, 0, technologyTypes, true));
+//        }
 
         int x = DatabaseController.getInstance().getSelectedNonCombatUnit().getX();
         int y = DatabaseController.getInstance().getSelectedNonCombatUnit().getY();
@@ -163,7 +163,6 @@ public class WorkersOptionsController {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     if (mouseEvent.getClickCount() == 2) {
                         workersTerrain.setHasToBeDeleted(true);
-                        workersTerrain.getTerrainImprovement().setHasToBeDeleted(false);
                         workersTerrain.getNonCombatUnit().setIsSelected(false);
                         workersTerrain.getNonCombatUnit().setIsFinished(true);
                         Main.changeMenu("GameMap");

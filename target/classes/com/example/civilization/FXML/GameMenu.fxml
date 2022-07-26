@@ -26,7 +26,7 @@
             <Font name="Copperplate" size="13.0" />
          </font>
       </Button>
-      <Button fx:id="load" alignment="CENTER" layoutX="1039.0" layoutY="495.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="153.0" style="-fx-background-radius: 100;" text="Load">
+      <Button fx:id="load" alignment="CENTER" layoutX="1039.0" layoutY="495.0" mnemonicParsing="false" onAction="#loadGame" prefHeight="22.0" prefWidth="153.0" style="-fx-background-radius: 100;" text="Load">
          <font>
             <Font name="Copperplate" size="13.0" />
          </font>

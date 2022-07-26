@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.civilization.FXMLcontrollers.WinningPopupController">
+   <children>
+      <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true">
+         <image>
+            <Image url="@../PNG/ARX/BackgroundARX.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="77.0" prefHeight="44.0" prefWidth="265.0" text="You Won" textFill="WHITE">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="113.0" layoutY="113.0" prefHeight="44.0" prefWidth="265.0" text="What do you wish to do with the city?" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Button fx:id="attachButton" layoutX="179.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#attachCity" prefHeight="25.0" prefWidth="133.0" text="Attach" textFill="#06521c" />
+      <Button fx:id="DestroyButton" layoutX="179.0" layoutY="283.0" mnemonicParsing="false" onMouseClicked="#destroyCity" prefHeight="25.0" prefWidth="133.0" text="Destroy" textFill="#750808" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="148.0" layoutY="365.0" prefHeight="25.0" prefWidth="191.0" text="Label" textFill="#fffdfd">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -2,21 +2,29 @@ package com.example.civilization.FXMLcontrollers;
 
 import com.example.civilization.Controllers.CityController;
 import com.example.civilization.Controllers.DatabaseController;
+import com.example.civilization.Main;
 import com.example.civilization.Model.City.Citizen;
 import com.example.civilization.Model.City.City;
 import com.example.civilization.Model.Terrain;
 import com.example.civilization.View.GameMenu;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.EventListener;
 
 public class cityPanelController {
     @FXML
     private Button buyButton;
+    @FXML
+    private Label buildings;
     @FXML
     private TextField x;
     @FXML
@@ -52,7 +60,6 @@ public class cityPanelController {
         goldNumber.setText(String.valueOf(city.getGold()));
 
     }
-
     public boolean setData(Terrain terrain)
     {
         if ( terrain.getCity() == null) return false;
@@ -67,7 +74,16 @@ public class cityPanelController {
             goldNumber.setText(String.valueOf(city.getGold()));
             numberOfUnemployed.setVisible(true);
             numberOfUnemployed.setText( String.valueOf(city.getNumberOfUnemployed()));
+            if ( !city.getBuildings().isEmpty())
+            {
+                buildings.setText( city.getBuildings().get(0).getBuildingType().name());
+                if ( city.getBuildings().get(1) != null)
+                {
+                    buildings.setText(city.getBuildings().get(0).getBuildingType().name() + city.getBuildings().get(1).getBuildingType().name());
+                }
+            }
             return true;
+
         }
     }
     public boolean isClickingOnBack (MouseEvent mouseEvent)
@@ -112,5 +128,28 @@ public class cityPanelController {
             }
         }
 
+    }
+
+    public void goToBuilding(ActionEvent actionEvent) {
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/BuildingList.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        BuildingListController secController = loader.getController();
+        try {
+            secController.setData(city);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        Main.scene.setRoot(root);
+    }
+
+    public void goToMap(MouseEvent mouseEvent) {
+        Main.changeMenu("gameMap");
     }
 }

@@ -25,7 +25,12 @@ public class SettingController {
 
     @FXML
     public void initialize() {
-        autoSave.setText("Auto save: off");
+        if(DatabaseController.getInstance().getDatabase().isAutoSaveOn()){
+            autoSave.setText("Auto save: on");
+        }
+        else{
+            autoSave.setText("Auto save: off");
+        }
         Platform.runLater(this::setTexts);
     }
 

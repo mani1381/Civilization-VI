@@ -27,10 +27,10 @@ public class GameMenu {
     private CombatController combatController;
 
     public GameMenu(DatabaseController databaseController, ArrayList<User> users) {
-        this.cityController = new CityController();
-        cityController.setDatabaseController(databaseController);
+//        this.cityController = new CityController();
+//        cityController.setDatabaseController(databaseController);
+//        this.combatController = new CombatController(DatabaseController.getInstance(), this.cityController);
         this.users = users;
-        this.combatController = new CombatController(DatabaseController.getInstance(), this.cityController);
     }
 
 
@@ -61,18 +61,18 @@ public class GameMenu {
                             {
                                 if (DatabaseController.getInstance().getSelectedCombatUnit() != null)
                                 {
-                                    CombatUnit combatUnit = DatabaseController.getInstance().getSelectedCombatUnit();
-                                    String temp = combatController.unitAttackCity(matcher, user);
-                                    if (temp.equals("You won.The city is yours. Do you wish to destroy it or make it yours?"))
-                                    {
-                                        System.out.println("You won.The city is yours. Do you wish to destroy it or make it yours?");
-                                        input = scanner.nextLine();
-                                        Terrain terrain = DatabaseController.getInstance().getTerrainByCoordinates(combatUnit.getX(), combatUnit.getY());
-                                        City city = terrain.getCity();
-                                        this.cityController.whatToDoWithTheCity(input, city, user.getCivilization());
-                                    }
-                                    else
-                                        System.out.println(temp);
+//                                    CombatUnit combatUnit = DatabaseController.getInstance().getSelectedCombatUnit();
+//                                  //  String temp = combatController.unitAttackCity(matcher, user);
+//                                    if (temp.equals("You won.The city is yours. Do you wish to destroy it or make it yours?"))
+//                                    {
+//                                        System.out.println("You won.The city is yours. Do you wish to destroy it or make it yours?");
+//                                        input = scanner.nextLine();
+//                                        Terrain terrain = DatabaseController.getInstance().getTerrainByCoordinates(combatUnit.getX(), combatUnit.getY());
+//                                        City city = terrain.getCity();
+//                                        this.cityController.whatToDoWithTheCity(input, city, user.getCivilization());
+//                                    }
+//                                    else
+//                                        System.out.println(temp);
                                 }
                                 else
                                     System.out.println("You cannot attack a city with a non-combat unit.");
@@ -81,15 +81,15 @@ public class GameMenu {
                             {
                                 if ( DatabaseController.getInstance().getSelectedCombatUnit() != null)
                                 {
-                                    CombatUnit combatUnit = DatabaseController.getInstance().getSelectedCombatUnit();
-                                    String temp = combatController.rangedAttack(matcher, user);
-                                    if ( temp.equals("You won. The city is yours. Please move a combat unit to the tile to win it"))
-                                    {
-                                        System.out.println("You won. The city is yours. Please move a combat unit to the tile to win it");
-
-                                    }
-                                    else
-                                        System.out.println(temp);
+//                                    CombatUnit combatUnit = DatabaseController.getInstance().getSelectedCombatUnit();
+//                                    String temp = combatController.rangedAttack(matcher, user);
+//                                    if ( temp.equals("You won. The city is yours. Please move a combat unit to the tile to win it"))
+//                                    {
+//                                        System.out.println("You won. The city is yours. Please move a combat unit to the tile to win it");
+//
+//                                    }
+//                                    else
+//                                        System.out.println(temp);
                                 }
                                 else
                                     System.out.println("You cannot attack a city with a non-combat unit.");

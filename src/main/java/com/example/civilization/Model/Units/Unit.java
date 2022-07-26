@@ -33,7 +33,7 @@ public class Unit {
         this.isFinished = isFinished;
         this.unitType = unitType;
         this.isSelected = isSelected;
-        this.HP = 10;
+        this.HP = 20;
     }
 
 

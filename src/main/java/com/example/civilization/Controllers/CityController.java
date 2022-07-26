@@ -85,8 +85,7 @@ public class CityController {
         return allPossible;
     }
 
-    public void setDatabaseController(DatabaseController databaseController) {
-        this.databaseController = databaseController;
+    public void setDatabaseController() {
     }
 
     public void setMap(Map map) {
@@ -94,7 +93,7 @@ public class CityController {
     }
 
     public String garrisonCity(CombatUnit combatUnit) {
-        Terrain unitTerrain = this.databaseController.getTerrainByCoordinates(combatUnit.getX(), combatUnit.getY());
+        Terrain unitTerrain = DatabaseController.getInstance().getTerrainByCoordinates(combatUnit.getX(), combatUnit.getY());
         City city = unitTerrain.getCity();
         if (city == null || !city.getMainTerrains().contains(unitTerrain)) {
             return "The unit has to enter a city first.";
@@ -115,7 +114,7 @@ public class CityController {
     }
 
     public String ungarrisonCity(CombatUnit combatUnit) {
-        Terrain unitTerrain = this.databaseController.getTerrainByCoordinates(combatUnit.getX(), combatUnit.getY());
+        Terrain unitTerrain = DatabaseController.getInstance().getTerrainByCoordinates(combatUnit.getX(), combatUnit.getY());
         City city = unitTerrain.getCity();
         if (city == null || !city.getMainTerrains().contains(unitTerrain)) {
             return "The unit is not in any cities";
@@ -806,7 +805,7 @@ public class CityController {
 
 
     public String buyTile(int x, int y, City city) {
-        Terrain tile = this.databaseController.getTerrainByCoordinates(x, y);
+        Terrain tile = DatabaseController.getInstance().getTerrainByCoordinates(x, y);
         ArrayList<Terrain> mainTerrains = city.getMainTerrains();
         if (NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(mainTerrains, this.map).contains(tile)) {
             if (city.getGold() < tile.getGold()) {
@@ -822,7 +821,7 @@ public class CityController {
     }
 
 
-    public ArrayList<Terrain> getNeighborTerrainsOfOneTerrain(Terrain terrain, Map map) {
+    public static ArrayList<Terrain> getNeighborTerrainsOfOneTerrain(Terrain terrain, Map map) {
         ArrayList<Terrain> neighbors = new ArrayList<>();
         Terrain[][] copy_map = map.getTerrain();
         int x_beginning = terrain.getX();
@@ -843,11 +842,11 @@ public class CityController {
 
     }
 
-    public ArrayList<Terrain> NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(ArrayList<Terrain> terrains, Map map) {
+    public static ArrayList<Terrain> NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(ArrayList<Terrain> terrains, Map map) {
 
         ArrayList<Terrain> neighbors = new ArrayList<>();
         for (Terrain terrain : terrains) {
-            for (Terrain terrain2 : getNeighborTerrainsOfOneTerrain(terrain, map)) {
+            for (Terrain terrain2 : CityController.getNeighborTerrainsOfOneTerrain(terrain, map)) {
                 neighbors.addAll(getNeighborTerrainsOfOneTerrain(terrain2, map));
             }
         }
@@ -858,13 +857,13 @@ public class CityController {
 
     }
 
-    public ArrayList<Terrain> NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(ArrayList<Terrain> terrains, Map map) {
+    public static ArrayList<Terrain> NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(ArrayList<Terrain> terrains, Map map) {
 
         ArrayList<Terrain> neighbors = new ArrayList<>();
-        ArrayList<Terrain> neighborsAtADistanceOfOne = NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(terrains, map);
+        ArrayList<Terrain> neighborsAtADistanceOfOne = CityController.NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(terrains, map);
 
         neighbors.addAll(neighborsAtADistanceOfOne);
-        neighbors.addAll(NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(neighborsAtADistanceOfOne, map));
+        neighbors.addAll(CityController.NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(neighborsAtADistanceOfOne, map));
 
         neighbors.removeAll(terrains);
 
@@ -872,7 +871,7 @@ public class CityController {
 
     }
 
-    public ArrayList<Terrain> deleteExcessTerrain(ArrayList<Terrain> terrains) {
+    public static ArrayList<Terrain> deleteExcessTerrain(ArrayList<Terrain> terrains) {
         ArrayList<Terrain> finalTerrains = new ArrayList<>();
         for (Terrain terrain : terrains) {
             boolean isNew = true;
@@ -908,10 +907,10 @@ public class CityController {
         System.out.println("error");
     }
 
-    public Boolean oneCombatTurn(City city, CombatUnit attacker) {
+    public static Boolean oneCombatTurn(City city, CombatUnit attacker) {
         double cityCombatStrength = city.getCombatStrength();
         int attackerCombatStrength = attacker.getCombatStrength();
-        Terrain terrain = this.databaseController.getTerrainByCoordinates(attacker.getX(), attacker.getY());
+        Terrain terrain = DatabaseController.getInstance().getTerrainByCoordinates(attacker.getX(), attacker.getY());
         int modifier = terrain.getTerrainTypes().getCombatModifier();
         if (terrain.getTerrainFeatureTypes() != null) {
             for (TerrainFeatureTypes terrainFeatureTypes : terrain.getTerrainFeatureTypes()) {
@@ -925,15 +924,17 @@ public class CityController {
         city.setHP(city.getHP() - attackerCombatStrength + 1);
         attacker.setHP(attacker.getHP() - cityCombatStrength);
         if (attacker.getHP() <= 0) {
-            Civilization unitOwner = this.databaseController.getContainerCivilization(attacker);
+            Civilization unitOwner = DatabaseController.getInstance().getContainerCivilization(attacker);
             unitOwner.removeUnit(attacker);
-            Terrain tile = this.databaseController.getTerrainByCoordinates(attacker.getX(), attacker.getY());
+            Terrain tile = DatabaseController.getInstance().getTerrainByCoordinates(attacker.getX(), attacker.getY());
             tile.setCombatUnit(null);
             System.out.println("The city won.");
             return false;
         }
         if (city.getHP() <= 0) {
             System.out.println("The city lost.");
+
+            //civilization.removeCity(city);
             return true;
             /*Civilization civilization = city.getOwner();
             civilization.removeCity(city);*/
@@ -954,13 +955,14 @@ public class CityController {
         }
     }
 
-    public boolean rangedAttackToCityForOneTurn(RangedCombatUnit attacker, City city) {
+    public static boolean rangedAttackToCityForOneTurn(RangedCombatUnit attacker, City city) {
         int combatStrength = attacker.getUnitType().getRangedCombatStrengh();
         int combatRange = attacker.getUnitType().getRange();
         city.setHP(city.getHP() - combatStrength + 1);
         return city.getHP() <= 0;
 
     }
+
 
 
 }

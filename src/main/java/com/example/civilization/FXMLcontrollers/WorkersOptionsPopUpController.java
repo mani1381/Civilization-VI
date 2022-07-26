@@ -50,7 +50,7 @@ public class WorkersOptionsPopUpController {
         } else if (text.toUpperCase().startsWith("Delete feature".toUpperCase())) {
             int total = 6;
             int passed = DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getPassedTurns();
-            remainingTurns.setText(DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainImprovement().getImprovementType().name() + " feature will be deleted in " + (total - passed) + " turns");
+            remainingTurns.setText(DatabaseController.getInstance().getTerrainByCoordinates(DatabaseController.getInstance().getSelectedNonCombatUnit().getX(), DatabaseController.getInstance().getSelectedNonCombatUnit().getY()).getTerrainFeatureTypes().get(0).name() + " feature will be deleted in " + (total - passed) + " turns");
             progressBar.setProgress((double) passed / total);
 
         } else if (text.toUpperCase().startsWith("repair improvement".toUpperCase())) {
