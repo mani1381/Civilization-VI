@@ -1,5 +1,8 @@
 package com.example.civilization.Controllers;
 
+import com.example.civilization.FXMLcontrollers.WinningPopupController;
+import com.example.civilization.FXMLcontrollers.cityPanelController;
+import com.example.civilization.Main;
 import com.example.civilization.Model.Buildings.Building;
 import com.example.civilization.Model.Buildings.BuildingTypes;
 import com.example.civilization.Model.City.Citizen;
@@ -13,7 +16,10 @@ import com.example.civilization.Model.Technologies.TechnologyTypes;
 import com.example.civilization.Model.Terrain;
 import com.example.civilization.Model.TerrainFeatures.TerrainFeatureTypes;
 import com.example.civilization.Model.Units.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -933,7 +939,16 @@ public class CityController {
         }
         if (city.getHP() <= 0) {
             System.out.println("The city lost.");
-
+            FXMLLoader winningPopup = new FXMLLoader(Main.class.getResource("FXML/winningPopup.fxml"));
+            Parent root = null;
+            try {
+                root= winningPopup.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            WinningPopupController winningPopupController = winningPopup.getController();
+            winningPopupController.setData(city);
+            Main.scene.setRoot(root);
             //civilization.removeCity(city);
             return true;
             /*Civilization civilization = city.getOwner();
@@ -944,6 +959,7 @@ public class CityController {
         }
         return false;
     }
+
 
     public void whatToDoWithTheCity(String input, City city, Civilization civilization) {
         if (civilization.getUnits().contains(city.getCentralTerrain().getCombatUnit()) && city.getHP() <= 0) {

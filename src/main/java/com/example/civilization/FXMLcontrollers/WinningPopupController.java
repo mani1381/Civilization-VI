@@ -15,6 +15,10 @@ public class WinningPopupController {
     @FXML
     private Label message;
 
+    public void setData(City city){
+        this.city = city;
+    }
+
     public void attachCity()
     {
         User user = databaseController.getDatabase().getActiveUser();
