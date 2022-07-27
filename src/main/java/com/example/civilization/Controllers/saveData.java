@@ -3,7 +3,6 @@ package com.example.civilization.Controllers;
 import com.example.civilization.Model.Database;
 import com.example.civilization.Model.User;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.FileWriter;
@@ -29,13 +28,13 @@ public class saveData {
     }
 
     public void saveUsers() {
-        try {
-            FileWriter Writer = new FileWriter("src/main/resources/Users.json");
-            Writer.write(new Gson().toJson(this.database.getAllUsers()));
-            Writer.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            FileWriter Writer = new FileWriter("src/main/resources/Users.json");
+//            Writer.write(new Gson().toJson(this.database.getAllUsers()));
+//            Writer.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void loadUsers() {
@@ -47,7 +46,7 @@ public class saveData {
             throw new RuntimeException(e);
         }
         this.database.setAllUsers(new Gson().fromJson(Users, new TypeToken<List<User>>() {
-            }.getType()));
+        }.getType()));
 
     }
 }

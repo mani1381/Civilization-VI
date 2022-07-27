@@ -94,8 +94,12 @@ public class DiplomacyPanelController {
     public void backToGameMap() {
         Main.changeMenu("GameMap");
     }
+
     public void goToTradePanel() {
         Main.changeMenu("TradePanel");
     }
-    public void goToDemandPanel() { Main.changeMenu("DemandPanel"); }
+
+    public void goToDemandPanel() {
+        Main.changeMenu("DemandPanel");
+    }
 }

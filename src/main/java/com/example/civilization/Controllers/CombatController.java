@@ -6,8 +6,6 @@ import com.example.civilization.Model.Terrain;
 import com.example.civilization.Model.Units.*;
 import com.example.civilization.Model.User;
 
-import java.util.regex.Matcher;
-
 public class CombatController {
     private DatabaseController databaseController = DatabaseController.getInstance();
     private CityController cityController = new CityController();
@@ -25,10 +23,9 @@ public class CombatController {
         CombatUnit attackerCombatUnit = attackerTerrain.getCombatUnit();
         CombatUnit targetCombatUnit = targetTerrain.getCombatUnit();
         if (targetCombatUnit == null) return " There is no unit in this tile.";
-        else if (DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getUnits().contains((targetCombatUnit))){
+        else if (DatabaseController.getInstance().getDatabase().getActiveUser().getCivilization().getUnits().contains((targetCombatUnit))) {
             return "You cannot attack your own unit";
-        }
-        else {
+        } else {
             playOneTurnInUnitAttack(attackerCombatUnit, targetCombatUnit);
             return "You attacked the unit";
 
@@ -99,7 +96,7 @@ public class CombatController {
         return "Error";
     }
 
-    public static String rangedAttack(int x,int y, User user) {
+    public static String rangedAttack(int x, int y, User user) {
 
         Terrain terrain = DatabaseController.getInstance().getTerrainByCoordinates(x, y);
         City city = terrain.getCity();

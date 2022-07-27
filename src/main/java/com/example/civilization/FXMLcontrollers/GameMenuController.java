@@ -2,7 +2,6 @@ package com.example.civilization.FXMLcontrollers;
 
 import com.example.civilization.Controllers.DatabaseController;
 import com.example.civilization.Controllers.SaveGame;
-import com.example.civilization.Controllers.saveData;
 import com.example.civilization.Main;
 import com.example.civilization.Model.User;
 import javafx.animation.PauseTransition;
@@ -147,7 +146,7 @@ public class GameMenuController {
                 if (Integer.parseInt(opponentsCount.getText()) < 2 || Integer.parseInt(opponentsCount.getText()) > 5) {
                     result.setText("number of players must be between 2 and 5");
                 } else {
-                    if(gameSpeed.getSelectionModel().getSelectedItem()!=null && gameSpeed.getSelectionModel().getSelectedItem().equals("Quick")){
+                    if (gameSpeed.getSelectionModel().getSelectedItem() != null && gameSpeed.getSelectionModel().getSelectedItem().equals("Quick")) {
                         DatabaseController.getInstance().getDatabase().setSpeed("quick");
                     }
                     DatabaseController.getInstance().getMap().generateMap();
@@ -162,7 +161,7 @@ public class GameMenuController {
 
     }
 
-    public void loadGame(){
+    public void loadGame() {
         try {
             SaveGame.getInstance().loadGame(1);
         } catch (IOException e) {
@@ -172,6 +171,7 @@ public class GameMenuController {
 
         Main.changeMenu("gameMap");
     }
+
     public void showingTooltip(String result) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/tooltip.fxml"));

@@ -1,7 +1,6 @@
 package com.example.civilization.Controllers;
 
 import com.example.civilization.FXMLcontrollers.WinningPopupController;
-import com.example.civilization.FXMLcontrollers.cityPanelController;
 import com.example.civilization.Main;
 import com.example.civilization.Model.Buildings.Building;
 import com.example.civilization.Model.Buildings.BuildingTypes;
@@ -91,6 +90,148 @@ public class CityController {
         return allPossible;
     }
 
+    public static void foundCity(Civilization civilization, NonCombatUnit unit, Terrain tile) {
+        if (unit == null) {
+            System.out.println("please select a unit first");
+            return;
+        }
+        if (unit.getUnitType().equals(UnitTypes.SETTLER)) {
+            if (tile.getCity() != null) {
+                System.out.println("error : city already exists");
+                return;
+            }
+            City newCity = new City(civilization, civilization, tile, 20, "none", 20, 20);
+            tile.setCity(newCity);
+            civilization.addCity(newCity);
+            civilization.removeUnit(unit);
+            tile.setNonCombatUnit(null);
+        }
+    }
+
+    public static ArrayList<Terrain> getNeighborTerrainsOfOneTerrain(Terrain terrain, Map map) {
+        ArrayList<Terrain> neighbors = new ArrayList<>();
+        Terrain[][] copy_map = map.getTerrain();
+        int x_beginning = terrain.getX();
+        int y_beginning = terrain.getY();
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                if (x_beginning + i < 0 || x_beginning + i >= map.getROW() || y_beginning + j < 0 || y_beginning + j >= map.getCOL() || y_beginning % 2 == 0 && ((i == 0 && j == 0) || (i == 1 && j == 1)) || y_beginning % 2 == 1 && ((i == 0 && j == 0) || (i == -1 && j == -1))) {
+
+                } else {
+                    neighbors.add(copy_map[x_beginning + i][y_beginning + j]);
+                }
+
+
+            }
+
+        }
+        return neighbors;
+
+    }
+
+    public static ArrayList<Terrain> NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(ArrayList<Terrain> terrains, Map map) {
+
+        ArrayList<Terrain> neighbors = new ArrayList<>();
+        for (Terrain terrain : terrains) {
+            for (Terrain terrain2 : CityController.getNeighborTerrainsOfOneTerrain(terrain, map)) {
+                neighbors.addAll(getNeighborTerrainsOfOneTerrain(terrain2, map));
+            }
+        }
+
+        neighbors.removeAll(terrains);
+
+        return deleteExcessTerrain(neighbors);
+
+    }
+
+    public static ArrayList<Terrain> NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(ArrayList<Terrain> terrains, Map map) {
+
+        ArrayList<Terrain> neighbors = new ArrayList<>();
+        ArrayList<Terrain> neighborsAtADistanceOfOne = CityController.NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(terrains, map);
+
+        neighbors.addAll(neighborsAtADistanceOfOne);
+        neighbors.addAll(CityController.NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(neighborsAtADistanceOfOne, map));
+
+        neighbors.removeAll(terrains);
+
+        return deleteExcessTerrain(neighbors);
+
+    }
+
+    public static ArrayList<Terrain> deleteExcessTerrain(ArrayList<Terrain> terrains) {
+        ArrayList<Terrain> finalTerrains = new ArrayList<>();
+        for (Terrain terrain : terrains) {
+            boolean isNew = true;
+            for (Terrain terrain1 : finalTerrains) {
+                if (terrain.equals(terrain1)) {
+                    isNew = false;
+                    break;
+                }
+            }
+
+            if (isNew) {
+                finalTerrains.add(terrain);
+            }
+        }
+
+        return finalTerrains;
+    }
+
+    public static Boolean oneCombatTurn(City city, CombatUnit attacker) {
+        double cityCombatStrength = city.getCombatStrength();
+        int attackerCombatStrength = attacker.getCombatStrength();
+        Terrain terrain = DatabaseController.getInstance().getTerrainByCoordinates(attacker.getX(), attacker.getY());
+        int modifier = terrain.getTerrainTypes().getCombatModifier();
+        if (terrain.getTerrainFeatureTypes() != null) {
+            for (TerrainFeatureTypes terrainFeatureTypes : terrain.getTerrainFeatureTypes()) {
+                modifier += terrainFeatureTypes.getCombatModifier();
+            }
+        }
+        if (attacker.getUnitType().equals(UnitTypes.CATAPULT) || attacker.getUnitType().equals(UnitTypes.TREBUCHET) || attacker.getUnitType().equals(UnitTypes.ARTILLERY) || attacker.getUnitType().equals(UnitTypes.CANNON)) {
+            modifier += 10;
+        }
+        attackerCombatStrength = attackerCombatStrength * (1 + (modifier / 100));
+        city.setHP(city.getHP() - attackerCombatStrength + 1);
+        attacker.setHP(attacker.getHP() - cityCombatStrength);
+        if (attacker.getHP() <= 0) {
+            Civilization unitOwner = DatabaseController.getInstance().getContainerCivilization(attacker);
+            unitOwner.removeUnit(attacker);
+            Terrain tile = DatabaseController.getInstance().getTerrainByCoordinates(attacker.getX(), attacker.getY());
+            tile.setCombatUnit(null);
+            System.out.println("The city won.");
+            return false;
+        }
+        if (city.getHP() <= 0) {
+            System.out.println("The city lost.");
+            FXMLLoader winningPopup = new FXMLLoader(Main.class.getResource("FXML/winningPopup.fxml"));
+            Parent root = null;
+            try {
+                root = winningPopup.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            WinningPopupController winningPopupController = winningPopup.getController();
+            winningPopupController.setData(city);
+            Main.scene.setRoot(root);
+            //civilization.removeCity(city);
+            return true;
+            /*Civilization civilization = city.getOwner();
+            civilization.removeCity(city);*/
+            //Unit bayad bere tush
+            // bayad bebinim turn kie
+
+        }
+        return false;
+    }
+
+    public static boolean rangedAttackToCityForOneTurn(RangedCombatUnit attacker, City city) {
+        int combatStrength = attacker.getUnitType().getRangedCombatStrengh();
+        int combatRange = attacker.getUnitType().getRange();
+        city.setHP(city.getHP() - combatStrength + 1);
+        return city.getHP() <= 0;
+
+    }
+
     public void setDatabaseController() {
     }
 
@@ -137,24 +278,6 @@ public class CityController {
         }
 
 
-    }
-
-    public static void foundCity(Civilization civilization, NonCombatUnit unit, Terrain tile) {
-        if (unit == null) {
-            System.out.println("please select a unit first");
-            return;
-        }
-        if (unit.getUnitType().equals(UnitTypes.SETTLER)) {
-            if (tile.getCity() != null) {
-                System.out.println("error : city already exists");
-                return;
-            }
-            City newCity = new City(civilization, civilization, tile, 20, "none", 20, 20);
-            tile.setCity(newCity);
-            civilization.addCity(newCity);
-            civilization.removeUnit(unit);
-            tile.setNonCombatUnit(null);
-        }
     }
 
     public void playTurn(City city) {
@@ -296,9 +419,8 @@ public class CityController {
         return false;
     }
 
-    public String createUnitWithTurn(Matcher matcher, City city) {
+    public String createUnitWithTurn(String unitName, City city) {
         Civilization civilization = city.getOwner();
-        String unitName = matcher.group("unitName");
         String lackTechnology = "You lack the required technology to construct this unit";
         String lackResources = "You lack the required resources to construct this unit";
         String unitAlreadyExists = "There is already a unit in this city";
@@ -796,7 +918,6 @@ public class CityController {
         return "invalid unit name";
     }
 
-
     public void assignCitizen(City city, Citizen citizen, Terrain tile) {
         if (city.getCitizens().contains(citizen)) {
             if (city.getNeighbors().contains(tile) && citizen.getHasWork()) {
@@ -808,7 +929,6 @@ public class CityController {
         System.out.println("error");
 
     }
-
 
     public String buyTile(int x, int y, City city) {
         Terrain tile = DatabaseController.getInstance().getTerrainByCoordinates(x, y);
@@ -824,76 +944,6 @@ public class CityController {
         }
         return "You cannot buy this tile";
 
-    }
-
-
-    public static ArrayList<Terrain> getNeighborTerrainsOfOneTerrain(Terrain terrain, Map map) {
-        ArrayList<Terrain> neighbors = new ArrayList<>();
-        Terrain[][] copy_map = map.getTerrain();
-        int x_beginning = terrain.getX();
-        int y_beginning = terrain.getY();
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                if (x_beginning + i < 0 || x_beginning + i >= map.getROW() || y_beginning + j < 0 || y_beginning + j >= map.getCOL() || y_beginning % 2 == 0 && ((i == 0 && j == 0) || (i == 1 && j == 1)) || y_beginning % 2 == 1 && ((i == 0 && j == 0) || (i == -1 && j == -1))) {
-
-                } else {
-                    neighbors.add(copy_map[x_beginning + i][y_beginning + j]);
-                }
-
-
-            }
-
-        }
-        return neighbors;
-
-    }
-
-    public static ArrayList<Terrain> NeighborsAtADistanceOfOneFromAnArraylistOfTerrains(ArrayList<Terrain> terrains, Map map) {
-
-        ArrayList<Terrain> neighbors = new ArrayList<>();
-        for (Terrain terrain : terrains) {
-            for (Terrain terrain2 : CityController.getNeighborTerrainsOfOneTerrain(terrain, map)) {
-                neighbors.addAll(getNeighborTerrainsOfOneTerrain(terrain2, map));
-            }
-        }
-
-        neighbors.removeAll(terrains);
-
-        return deleteExcessTerrain(neighbors);
-
-    }
-
-    public static ArrayList<Terrain> NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(ArrayList<Terrain> terrains, Map map) {
-
-        ArrayList<Terrain> neighbors = new ArrayList<>();
-        ArrayList<Terrain> neighborsAtADistanceOfOne = CityController.NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(terrains, map);
-
-        neighbors.addAll(neighborsAtADistanceOfOne);
-        neighbors.addAll(CityController.NeighborsAtADistanceOfTwoFromAnArraylistOfTerrains(neighborsAtADistanceOfOne, map));
-
-        neighbors.removeAll(terrains);
-
-        return deleteExcessTerrain(neighbors);
-
-    }
-
-    public static ArrayList<Terrain> deleteExcessTerrain(ArrayList<Terrain> terrains) {
-        ArrayList<Terrain> finalTerrains = new ArrayList<>();
-        for (Terrain terrain : terrains) {
-            boolean isNew = true;
-            for (Terrain terrain1 : finalTerrains) {
-                if (terrain.equals(terrain1)) {
-                    isNew = false;
-                    break;
-                }
-            }
-
-            if (isNew) {
-                finalTerrains.add(terrain);
-            }
-        }
-
-        return finalTerrains;
     }
 
     public UnitTypes getUnitTypeByName(String name) {
@@ -913,54 +963,6 @@ public class CityController {
         System.out.println("error");
     }
 
-    public static Boolean oneCombatTurn(City city, CombatUnit attacker) {
-        double cityCombatStrength = city.getCombatStrength();
-        int attackerCombatStrength = attacker.getCombatStrength();
-        Terrain terrain = DatabaseController.getInstance().getTerrainByCoordinates(attacker.getX(), attacker.getY());
-        int modifier = terrain.getTerrainTypes().getCombatModifier();
-        if (terrain.getTerrainFeatureTypes() != null) {
-            for (TerrainFeatureTypes terrainFeatureTypes : terrain.getTerrainFeatureTypes()) {
-                modifier += terrainFeatureTypes.getCombatModifier();
-            }
-        }
-        if (attacker.getUnitType().equals(UnitTypes.CATAPULT) || attacker.getUnitType().equals(UnitTypes.TREBUCHET) || attacker.getUnitType().equals(UnitTypes.ARTILLERY) || attacker.getUnitType().equals(UnitTypes.CANNON)) {
-            modifier += 10;
-        }
-        attackerCombatStrength = attackerCombatStrength * (1 + (modifier / 100));
-        city.setHP(city.getHP() - attackerCombatStrength + 1);
-        attacker.setHP(attacker.getHP() - cityCombatStrength);
-        if (attacker.getHP() <= 0) {
-            Civilization unitOwner = DatabaseController.getInstance().getContainerCivilization(attacker);
-            unitOwner.removeUnit(attacker);
-            Terrain tile = DatabaseController.getInstance().getTerrainByCoordinates(attacker.getX(), attacker.getY());
-            tile.setCombatUnit(null);
-            System.out.println("The city won.");
-            return false;
-        }
-        if (city.getHP() <= 0) {
-            System.out.println("The city lost.");
-            FXMLLoader winningPopup = new FXMLLoader(Main.class.getResource("FXML/winningPopup.fxml"));
-            Parent root = null;
-            try {
-                root= winningPopup.load();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            WinningPopupController winningPopupController = winningPopup.getController();
-            winningPopupController.setData(city);
-            Main.scene.setRoot(root);
-            //civilization.removeCity(city);
-            return true;
-            /*Civilization civilization = city.getOwner();
-            civilization.removeCity(city);*/
-            //Unit bayad bere tush
-            // bayad bebinim turn kie
-
-        }
-        return false;
-    }
-
-
     public void whatToDoWithTheCity(String input, City city, Civilization civilization) {
         if (civilization.getUnits().contains(city.getCentralTerrain().getCombatUnit()) && city.getHP() <= 0) {
             if (input.equals("ATTACH CITY")) {
@@ -970,15 +972,6 @@ public class CityController {
             }
         }
     }
-
-    public static boolean rangedAttackToCityForOneTurn(RangedCombatUnit attacker, City city) {
-        int combatStrength = attacker.getUnitType().getRangedCombatStrengh();
-        int combatRange = attacker.getUnitType().getRange();
-        city.setHP(city.getHP() - combatStrength + 1);
-        return city.getHP() <= 0;
-
-    }
-
 
 
 }

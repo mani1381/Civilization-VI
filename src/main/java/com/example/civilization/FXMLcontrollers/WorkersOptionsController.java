@@ -4,8 +4,6 @@ import com.example.civilization.Controllers.DatabaseController;
 import com.example.civilization.Main;
 import com.example.civilization.Model.Improvements.Improvement;
 import com.example.civilization.Model.Improvements.ImprovementTypes;
-import com.example.civilization.Model.Technologies.Technology;
-import com.example.civilization.Model.Technologies.TechnologyTypes;
 import com.example.civilization.Model.Terrain;
 import javafx.application.Platform;
 import javafx.event.EventHandler;

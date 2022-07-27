@@ -15,12 +15,11 @@ public class WinningPopupController {
     @FXML
     private Label message;
 
-    public void setData(City city){
+    public void setData(City city) {
         this.city = city;
     }
 
-    public void attachCity()
-    {
+    public void attachCity() {
         User user = databaseController.getDatabase().getActiveUser();
         Civilization civilization = user.getCivilization();
         cityController.attachCity(civilization, city);
@@ -28,8 +27,8 @@ public class WinningPopupController {
         message.setText("City attached successfully");
 
     }
-    public void destroyCity()
-    {
+
+    public void destroyCity() {
         User user = databaseController.getDatabase().getActiveUser();
         Civilization civilization = user.getCivilization();
         cityController.destroyCity(civilization, city.getOwner(), city);

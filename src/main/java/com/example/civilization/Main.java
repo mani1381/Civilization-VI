@@ -1,6 +1,5 @@
 package com.example.civilization;
 
-import com.example.civilization.Controllers.saveData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

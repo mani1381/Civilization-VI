@@ -34,6 +34,21 @@ public class TradePanelController {
     @FXML
     ArrayList<Label> requests = new ArrayList<>();
 
+    public static ArrayList<City> getCitiesFromCivilization(Civilization civilization, int i) {
+        int numberOfAdded = 0;
+        ArrayList<City> cities = new ArrayList<>();
+        for (City city : civilization.getCities()) {
+            if (!city.equals(civilization.getCurrentCapital())) {
+                cities.add(city);
+                numberOfAdded++;
+            }
+            if (numberOfAdded == i) {
+                break;
+            }
+        }
+        return cities;
+    }
+
     @FXML
     public void initialize() {
 
@@ -196,21 +211,6 @@ public class TradePanelController {
 
     public void backToGameMap() {
         Main.changeMenu("DiplomacyPanel");
-    }
-
-    public static ArrayList<City> getCitiesFromCivilization(Civilization civilization, int i) {
-        int numberOfAdded = 0;
-        ArrayList<City> cities = new ArrayList<>();
-        for (City city : civilization.getCities()) {
-            if (!city.equals(civilization.getCurrentCapital())) {
-                cities.add(city);
-                numberOfAdded++;
-            }
-            if (numberOfAdded == i) {
-                break;
-            }
-        }
-        return cities;
     }
 }
 

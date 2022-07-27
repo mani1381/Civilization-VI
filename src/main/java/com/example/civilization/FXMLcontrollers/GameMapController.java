@@ -4,7 +4,6 @@ package com.example.civilization.FXMLcontrollers;
 import com.example.civilization.Controllers.CombatController;
 import com.example.civilization.Controllers.DatabaseController;
 import com.example.civilization.Controllers.SaveGame;
-import com.example.civilization.Controllers.saveData;
 import com.example.civilization.Main;
 import com.example.civilization.Model.Ruins;
 import com.example.civilization.Model.Technologies.Technology;
@@ -24,7 +23,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -35,7 +36,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.FileInputStream;
@@ -44,7 +44,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Optional;
 
 public class GameMapController {
 
@@ -770,7 +769,6 @@ public class GameMapController {
     }
 
     public void save() throws IOException {
-        saveData.getInstance().saveUsers();
         SaveGame.getInstance().saveGame();
 
     }
@@ -807,11 +805,7 @@ public class GameMapController {
     }
 
     public void stop() {
-        try {
-            SaveGame.getInstance().saveGame();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
         System.exit(0);
     }
 

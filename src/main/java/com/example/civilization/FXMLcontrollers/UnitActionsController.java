@@ -57,12 +57,12 @@ public class UnitActionsController {
                 }
                 children.setOnMouseClicked(mouseEvent -> {
                     if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                        if(!name.equalsIgnoreCase("worker options")){
+                        if (!name.equalsIgnoreCase("worker options")) {
                             if (mouseEvent.getClickCount() == 2) {
                                 System.out.println(DatabaseController.getInstance().changingTheStateOfAUnit(((Button) children).getText().toLowerCase()));
                                 Main.changeMenu("gameMap");
                             }
-                        }else{
+                        } else {
                             Main.changeMenu("workersOptions");
                         }
 

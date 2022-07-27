@@ -184,7 +184,8 @@ public class DatabaseController {
         switch (action) {
             case "sleep" -> nonCombatUnit.setIsAsleep(true);
             case "wake" -> nonCombatUnit.setIsAsleep(false);
-            case "found city" -> CityController.foundCity(getContainerCivilization(nonCombatUnit),nonCombatUnit,getTerrainByCoordinates(nonCombatUnit.getX() ,nonCombatUnit.getY()));
+            case "found city" ->
+                    CityController.foundCity(getContainerCivilization(nonCombatUnit), nonCombatUnit, getTerrainByCoordinates(nonCombatUnit.getX(), nonCombatUnit.getY()));
             case "delete" -> nonCombatUnit = null;
         }
         if (!action.equals("delete")) {
@@ -1407,6 +1408,7 @@ public class DatabaseController {
         }
         return null;
     }
+
     public Civilization getContainerCivilizationOfCity(City city) {
         for (User user : this.database.getUsers()) {
             if (user.getCivilization().getCities().contains(city)) {
@@ -1928,26 +1930,19 @@ public class DatabaseController {
     public void increasingYearPerTurnInStandardMode() {
         if (database.getYear() >= -4000 && database.getYear() < 1000) {
             database.setYear(database.getYear() + 40);
-        }
-        else if (database.getYear() >= -1000 && database.getYear() < 500) {
+        } else if (database.getYear() >= -1000 && database.getYear() < 500) {
             database.setYear(database.getYear() + 25);
-        }
-        else if (database.getYear() >= 500 && database.getYear() < 1000) {
+        } else if (database.getYear() >= 500 && database.getYear() < 1000) {
             database.setYear(database.getYear() + 20);
-        }
-        else if (database.getYear() >= 1000 && database.getYear() < 1500) {
+        } else if (database.getYear() >= 1000 && database.getYear() < 1500) {
             database.setYear(database.getYear() + 10);
-        }
-        else if (database.getYear() >= 1500 && database.getYear() < 1800) {
+        } else if (database.getYear() >= 1500 && database.getYear() < 1800) {
             database.setYear(database.getYear() + 5);
-        }
-        else if (database.getYear() >= 1800 && database.getYear() < 1900) {
+        } else if (database.getYear() >= 1800 && database.getYear() < 1900) {
             database.setYear(database.getYear() + 2);
-        }
-        else if (database.getYear() >= 1900 && database.getYear() < 2020) {
+        } else if (database.getYear() >= 1900 && database.getYear() < 2020) {
             database.setYear(database.getYear() + 1);
-        }
-        else if (database.getYear() >= 2020 && database.getYear() < 2050) {
+        } else if (database.getYear() >= 2020 && database.getYear() < 2050) {
             database.setYear(database.getYear() + 0.5);
         }
 
@@ -1956,26 +1951,19 @@ public class DatabaseController {
     public void increasingYearPerTurnInQuickMode() {
         if (database.getYear() >= -4000 && database.getYear() < 1000) {
             database.setYear(database.getYear() + 60);
-        }
-        else if (database.getYear() >= -1000 && database.getYear() < 200) {
+        } else if (database.getYear() >= -1000 && database.getYear() < 200) {
             database.setYear(database.getYear() + 40);
-        }
-        else if (database.getYear() >= 200 && database.getYear() < 800) {
+        } else if (database.getYear() >= 200 && database.getYear() < 800) {
             database.setYear(database.getYear() + 30);
-        }
-        else if (database.getYear() >= 800 && database.getYear() < 1400) {
+        } else if (database.getYear() >= 800 && database.getYear() < 1400) {
             database.setYear(database.getYear() + 20);
-        }
-        else if (database.getYear() >= 1400 && database.getYear() < 1650) {
+        } else if (database.getYear() >= 1400 && database.getYear() < 1650) {
             database.setYear(database.getYear() + 10);
-        }
-        else if (database.getYear() >= 1650 && database.getYear() < 1850) {
+        } else if (database.getYear() >= 1650 && database.getYear() < 1850) {
             database.setYear(database.getYear() + 5);
-        }
-        else if (database.getYear() >= 1850 && database.getYear() < 1980) {
+        } else if (database.getYear() >= 1850 && database.getYear() < 1980) {
             database.setYear(database.getYear() + 2);
-        }
-        else if (database.getYear() >= 1980 && database.getYear() < 2050) {
+        } else if (database.getYear() >= 1980 && database.getYear() < 2050) {
             database.setYear(database.getYear() + 1);
         }
 

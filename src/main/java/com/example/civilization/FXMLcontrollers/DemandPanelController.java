@@ -36,6 +36,31 @@ public class DemandPanelController {
     @FXML
     ArrayList<Label> requests = new ArrayList<>();
 
+    static void setCivilizationNameAndButton(int i, ArrayList<Pair<Label, Button>> civilizationsNameAndButtonRequest) {
+        civilizationsNameAndButtonRequest.get(i).getKey().setFont(Font.font("Copperplate", 13));
+        civilizationsNameAndButtonRequest.get(i).getValue().setFont(Font.font("Copperplate", 13));
+        civilizationsNameAndButtonRequest.get(i).getKey().setTextFill(Color.RED);
+        civilizationsNameAndButtonRequest.get(i).getValue().setTextFill(Color.RED);
+        civilizationsNameAndButtonRequest.get(i).getValue().setStyle("-fx-background-radius: 100em");
+    }
+
+    static void setRequestText(int i, ArrayList<Pair<Button, Button>> acceptAndDecline, ArrayList<Label> requests, AnchorPane anchorPane) {
+        acceptAndDecline.add(new Pair<>(new Button(), new Button()));
+        acceptAndDecline.get(i).getKey().setStyle("-fx-background-color: green");
+        acceptAndDecline.get(i).getValue().setStyle("-fx-background-color: red");
+        requests.get(i).setLayoutX(1100);
+        requests.get(i).setLayoutY(100 + 65 * (i + 1));
+        requests.get(i).setTextFill(Color.RED);
+        requests.get(i).setFont(Font.font("Copperplate", 11));
+        acceptAndDecline.get(i).getKey().setPrefSize(30, 30);
+        acceptAndDecline.get(i).getValue().setPrefSize(30, 30);
+        acceptAndDecline.get(i).getKey().setLayoutX(1300);
+        acceptAndDecline.get(i).getValue().setLayoutX(1350);
+        acceptAndDecline.get(i).getKey().setLayoutY(100 + 65 * (i + 1));
+        acceptAndDecline.get(i).getValue().setLayoutY(100 + 65 * (i + 1));
+        anchorPane.getChildren().addAll(requests.get(i), acceptAndDecline.get(i).getKey(), acceptAndDecline.get(i).getValue());
+    }
+
     @FXML
     public void initialize() {
 
@@ -90,14 +115,6 @@ public class DemandPanelController {
         }
     }
 
-    static void setCivilizationNameAndButton(int i, ArrayList<Pair<Label, Button>> civilizationsNameAndButtonRequest) {
-        civilizationsNameAndButtonRequest.get(i).getKey().setFont(Font.font("Copperplate", 13));
-        civilizationsNameAndButtonRequest.get(i).getValue().setFont(Font.font("Copperplate", 13));
-        civilizationsNameAndButtonRequest.get(i).getKey().setTextFill(Color.RED);
-        civilizationsNameAndButtonRequest.get(i).getValue().setTextFill(Color.RED);
-        civilizationsNameAndButtonRequest.get(i).getValue().setStyle("-fx-background-radius: 100em");
-    }
-
     public boolean isRequestValid(int i) {
         return choiceBoxes.get(i).getSelectionModel().getSelectedItem() != null && GameMenuController.isInteger(choiceBoxesValues.get(i).getText());
     }
@@ -128,23 +145,6 @@ public class DemandPanelController {
         }
     }
 
-    static void setRequestText(int i, ArrayList<Pair<Button, Button>> acceptAndDecline, ArrayList<Label> requests, AnchorPane anchorPane) {
-        acceptAndDecline.add(new Pair<>(new Button(), new Button()));
-        acceptAndDecline.get(i).getKey().setStyle("-fx-background-color: green");
-        acceptAndDecline.get(i).getValue().setStyle("-fx-background-color: red");
-        requests.get(i).setLayoutX(1100);
-        requests.get(i).setLayoutY(100 + 65 * (i + 1));
-        requests.get(i).setTextFill(Color.RED);
-        requests.get(i).setFont(Font.font("Copperplate", 11));
-        acceptAndDecline.get(i).getKey().setPrefSize(30, 30);
-        acceptAndDecline.get(i).getValue().setPrefSize(30, 30);
-        acceptAndDecline.get(i).getKey().setLayoutX(1300);
-        acceptAndDecline.get(i).getValue().setLayoutX(1350);
-        acceptAndDecline.get(i).getKey().setLayoutY(100 + 65 * (i + 1));
-        acceptAndDecline.get(i).getValue().setLayoutY(100 + 65 * (i + 1));
-        anchorPane.getChildren().addAll(requests.get(i), acceptAndDecline.get(i).getKey(), acceptAndDecline.get(i).getValue());
-    }
-
     public void demandCheck(String request) {
         String[] parts = request.split(" ");
         Civilization first = DatabaseController.getInstance().getCivilizationByName(parts[0]);
@@ -160,7 +160,7 @@ public class DemandPanelController {
 
         } else if (parts[2].equalsIgnoreCase("city")) {
             if (second.getCities().size() >= value + 1) {
-                ArrayList<City> cities = TradePanelController.getCitiesFromCivilization(second,value);
+                ArrayList<City> cities = TradePanelController.getCitiesFromCivilization(second, value);
                 for (City city : cities) {
                     first.addCity(city);
                     second.getCities().remove(city);

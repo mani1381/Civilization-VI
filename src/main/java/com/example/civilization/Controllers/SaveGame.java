@@ -26,21 +26,21 @@ public class SaveGame {
     }
 
     public void saveGame() throws IOException {
-        Gson gson = new Gson();
-        String gsonMap = gson.toJson(database.getMap());
-        FileWriter fileWriter = new FileWriter("src/main/resources/com/Game" + turn + ".json");
-        fileWriter.write(gsonMap);
-        fileWriter.close();
-        turn++;
-        if (turn > 5) {
-            turn = 1;
-        }
+//        Gson gson = new Gson();
+//        String gsonMap = gson.toJson(database.getMap());
+//        FileWriter fileWriter = new FileWriter("src/main/resources/com/Game" + turn + ".json");
+//        fileWriter.write(gsonMap);
+//        fileWriter.close();
+//        turn++;
+//        if (turn > 5) {
+//            turn = 1;
+//        }
     }
 
     public void loadGame(int num) throws IOException {
-        String gsonMap = new String(Files.readAllBytes(Paths.get("src/main/resources/com/Game" + num + ".json")));
-        Gson gson = new Gson();
-        Map map = gson.fromJson(gsonMap, Map.class);
-        database.setMap(map);
+//        String gsonMap = new String(Files.readAllBytes(Paths.get("src/main/resources/com/Game" + num + ".json")));
+//        Gson gson = new Gson();
+//        Map map = gson.fromJson(gsonMap, Map.class);
+//        database.setMap(map);
     }
 }

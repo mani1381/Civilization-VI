@@ -38,6 +38,41 @@ public class TechnologyTreeController {
     @FXML
     ArrayList<Button> suggestions = new ArrayList<>();
 
+    public static void showingPopUp(TechnologyTypes technologyTypes, StackPane stackPane) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/TechnologyPopUp.fxml"));
+            Parent root = loader.load();
+            TechnologyPopUpController secController = loader.getController();
+            secController.setData(technologyTypes);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+
+            stackPane.addEventFilter(MouseEvent.ANY, new EventHandler<>() {
+
+                long startTime;
+
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
+                        startTime = System.currentTimeMillis();
+                    } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
+                        if (System.currentTimeMillis() - startTime > 1000) {
+                            stage.show();
+                        }
+                    } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
+                        if (stage.isShowing()) {
+                            stage.close();
+                        }
+
+                    }
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @FXML
     public void initialize() {
@@ -140,42 +175,6 @@ public class TechnologyTreeController {
 
             }
         }
-    }
-
-    public static void showingPopUp(TechnologyTypes technologyTypes, StackPane stackPane) {
-        try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/TechnologyPopUp.fxml"));
-            Parent root = loader.load();
-            TechnologyPopUpController secController = loader.getController();
-            secController.setData(technologyTypes);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-
-            stackPane.addEventFilter(MouseEvent.ANY, new EventHandler<>() {
-
-                long startTime;
-
-                @Override
-                public void handle(MouseEvent event) {
-                    if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
-                        startTime = System.currentTimeMillis();
-                    } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
-                        if (System.currentTimeMillis() - startTime > 1000) {
-                            stage.show();
-                        }
-                    } else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED)) {
-                        if (stage.isShowing()) {
-                            stage.close();
-                        }
-
-                    }
-                }
-            });
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     public void backToChooseResearch() {

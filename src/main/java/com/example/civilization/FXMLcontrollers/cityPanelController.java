@@ -6,7 +6,6 @@ import com.example.civilization.Main;
 import com.example.civilization.Model.City.Citizen;
 import com.example.civilization.Model.City.City;
 import com.example.civilization.Model.Terrain;
-import com.example.civilization.View.GameMenu;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +17,6 @@ import javafx.scene.input.MouseEvent;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.EventListener;
 
 public class cityPanelController {
     @FXML
@@ -147,6 +145,21 @@ public class cityPanelController {
             throw new RuntimeException(e);
         }
         Main.scene.setRoot(root);
+    }
+    public void goToUnits( )
+    {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("FXML/Units.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        UnitsController secController = loader.getController();
+        secController.setData(city);
+        Main.scene.setRoot(root);
+
     }
 
     public void goToMap(MouseEvent mouseEvent) {
