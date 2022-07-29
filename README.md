@@ -1,1 +1,1 @@
-# a game similar to civilization VI
+# A game similar to civilization VI
